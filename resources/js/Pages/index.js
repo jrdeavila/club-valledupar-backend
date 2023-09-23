@@ -1,0 +1,13 @@
+export { default as ConfirmPassword } from "./Auth/ConfirmPassword";
+export { default as ForgotPassword } from "./Auth/ForgotPassword";
+export { default as Login } from "./Auth/Login";
+export { default as Register } from "./Auth/Register";
+export { default as ResetPassword } from "./Auth/ResetPassword";
+export { default as VerifyEmail } from "./Auth/VerifyEmail";
+export { default as Dashboard } from "./Dashboard/Dashboard";
+export * from "./Dashboard/components";
+export { default as Edit } from "./Profile/Edit";
+export { default as DeleteUserForm } from "./Profile/Partials/DeleteUserForm";
+export { default as UpdatePasswordForm } from "./Profile/Partials/UpdatePasswordForm";
+export { default as UpdateProfileInformationForm } from "./Profile/Partials/UpdateProfileInformationForm";
+export { default as Welcome } from "./Welcome";

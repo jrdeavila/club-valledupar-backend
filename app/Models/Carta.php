@@ -18,4 +18,10 @@ class Carta extends Model
     ];
 
     public $timestamps = false;
+
+
+    public function platos()
+    {
+        return $this->hasMany(Plato::class, 'carta_id');
+    }
 }

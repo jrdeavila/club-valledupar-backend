@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 50);
             $table->text('descripcion', 255);
-            $table->decimal('precio', 5, 2);
+            $table->decimal('precio', 10, 0);
             $table->string('imagen', 100);
             $table->boolean('disponibilidad');
             $table->foreignId('carta_id')->constrained('Carta');
