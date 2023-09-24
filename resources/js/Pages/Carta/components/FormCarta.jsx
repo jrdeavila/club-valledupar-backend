@@ -58,7 +58,7 @@ export default function FormCarta({ onClose, carta }) {
                 </div>
 
                 <div className="mt-10">
-                    <button className="btn bg-indigo-500 w-full py-3 rounded-lg text-white text-xl">
+                    <button className="btn bg-primary w-full py-3 rounded-lg text-white text-xl">
                         {processing ? "Registrando..." : "Registrar"}
                     </button>
                 </div>

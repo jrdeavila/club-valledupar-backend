@@ -103,7 +103,7 @@ export default function Carta({ auth, cartas: { data } }) {
         return (
             <button
                 onClick={onClick}
-                className="btn bg-indigo-500 px-3 py-2 text-white rounded-lg text-xl"
+                className="btn bg-primary px-3 py-2 text-white rounded-lg text-xl"
             >
                 <FontAwesomeIcon icon={icon} />
             </button>

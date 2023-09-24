@@ -95,7 +95,7 @@ export default function FormPlato({ onClose, to: carta, plato }) {
                             <input
                                 type="radio"
                                 name="disponible"
-                                className="radio radio-primary"
+                                className="radio text-primary"
                                 checked={data.disponibilidad == true}
                                 onChange={(e) =>
                                     setData("disponibilidad", true)
@@ -109,7 +109,7 @@ export default function FormPlato({ onClose, to: carta, plato }) {
                                 type="radio"
                                 name="disponible"
                                 checked={data.disponibilidad == false}
-                                className="radio radio-primary"
+                                className="radio text-primary"
                                 onChange={(e) =>
                                     setData("disponibilidad", false)
                                 }
@@ -124,7 +124,7 @@ export default function FormPlato({ onClose, to: carta, plato }) {
                 </div>
 
                 <div className="mt-10">
-                    <button className="btn bg-indigo-500 w-full py-3 rounded-lg text-white text-xl">
+                    <button className="btn bg-primary w-full py-3 rounded-lg text-white text-xl">
                         {processing ? "Registrando..." : "Registrar"}
                     </button>
                 </div>
@@ -187,12 +187,12 @@ const ImagePicker = ({ value, onChange }) => {
                 <div className="flex flex-col">
                     <FontAwesomeIcon
                         icon={faUpload}
-                        className="text-9xl text-indigo-400"
+                        className="text-9xl text-primary"
                     />
 
                     <label className="mt-4">
                         <input {...getInputProps()} />
-                        <div className="text-xl text-white bg-indigo-400 px-3 py-2 text-center rounded-lg">
+                        <div className="text-xl text-white bg-primary px-3 py-2 text-center rounded-lg">
                             SELECCIONA
                         </div>
                     </label>

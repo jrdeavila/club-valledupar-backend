@@ -33,17 +33,11 @@ export default function PlatoDetails({ auth, plato: { data }, carta }) {
 
     const handleOnEdit = () => {};
 
-    const ActionButton = ({
-        title,
-        icon,
-        color = "bg-red-300",
-        textColor = "text-white",
-        onClick,
-    }) => {
+    const ActionButton = ({ title, icon, onClick }) => {
         return (
             <button
                 onClick={onClick}
-                className={`btn ${color} px-3 py-2 rounded-lg ${textColor} w-full md:w-auto`}
+                className={`btn bg-primary px-3 py-2 rounded-lg text-white w-full md:w-auto`}
             >
                 <div className="flex items-center justify-center gap-2">
                     <FontAwesomeIcon icon={icon} />
@@ -106,23 +100,18 @@ export default function PlatoDetails({ auth, plato: { data }, carta }) {
                         <ActionButton
                             title="Marcar como no disponible"
                             icon={faEyeSlash}
-                            color="bg-red-400"
                             onClick={handleToggleDisp}
                         />
                     ) : (
                         <ActionButton
                             title="Marcar como disponible"
                             icon={faEye}
-                            color="bg-green-300"
-                            textColor="text-black"
                             onClick={handleToggleDisp}
                         />
                     )}
                     <ActionButton
                         title="Editar Plato"
                         icon={faPencil}
-                        color="bg-indigo-300"
-                        textColor="text-white"
                         onClick={handleOnEdit}
                     />
                 </div>

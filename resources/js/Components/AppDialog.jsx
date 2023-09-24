@@ -12,7 +12,7 @@ export default function AppDialog({ children, onClose, title }) {
                     <button className="btn">
                         <FontAwesomeIcon
                             icon={faClose}
-                            className="mr-2 text-2xl text-indigo-400"
+                            className="mr-2 text-2xl text-primary"
                             onClick={onClose}
                         />
                     </button>

@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-export const DashboardCardItem = ({ title, desc, image, onClick }) => {
+export const DashboardCardItem = ({ title, desc, image, route: routeLink }) => {
     return (
         <div
-            onClick={onClick}
+            onClick={() => {
+                window.location = route(routeLink);
+            }}
             className="bg-white rounded-lg shadow-lg h-72 cursor-pointer select-none transition duration-500 transform hover:scale-105"
         >
             <div

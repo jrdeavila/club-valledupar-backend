@@ -55,7 +55,7 @@ export default function CartaItem({ carta }) {
                                 if (isDeleting) return;
                                 return handleOpenForm;
                             })()}
-                            className="btn bg-indigo-500 flex  rounded-lg text-white w-10 h-10 justify-center items-center"
+                            className="btn bg-primary flex  rounded-lg text-white w-10 h-10 justify-center items-center"
                         >
                             <FontAwesomeIcon
                                 icon={(() => {
