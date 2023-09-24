@@ -1,3 +1,4 @@
+import AppDialog from "@/Components/AppDialog";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
     faClose,
@@ -8,11 +9,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import FormCarta from "./components/FormCarta";
 import CartaItem from "./components/CartaItem";
-import { CartasContext } from "./contexts/Carta";
+import FormCarta from "./components/FormCarta";
 import FormPlato from "./components/FormPlato";
-import AppDialog from "@/Components/AppDialog";
+import { CartasContext } from "./contexts/Carta";
 
 export default function Carta({ auth, cartas: { data } }) {
     const [currentCarta, setCurrentCarta] = useState(null);
