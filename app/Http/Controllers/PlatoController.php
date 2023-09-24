@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePlatoRequest;
+use App\Http\Resources\PlatoResource;
 use App\Models\Carta;
 use App\Models\Plato;
 use App\Utils\ImagePlatoUtils;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class PlatoController extends Controller
 {
+
+
+    public function show(Carta $carta, Plato $plato)
+    {
+        return Inertia::render('Carta/PlatoDetails', [
+            'carta' => $carta,
+            'plato' => new PlatoResource($plato),
+
+        ]);
+    }
 
 
     /**

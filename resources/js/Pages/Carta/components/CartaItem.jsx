@@ -68,7 +68,7 @@ export default function CartaItem({ carta }) {
                     </div>
                 </div>
             </div>{" "}
-            <div className="px-5 flex gap-4 py-5 overflow-x-scroll scroll-m-0">
+            <div className="px-5 gap-4 py-5 overflow-x-scroll no-scrollbar flex">
                 {carta.platos &&
                     carta.platos.map((plato) => (
                         <PlatoItem plato={plato} carta={carta} key={plato.id} />

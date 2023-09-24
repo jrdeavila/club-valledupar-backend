@@ -26,6 +26,10 @@ const PlatoItem = ({ plato, carta }) => {
     const handleOnAction = () => {
         if (isEditing) return handleOnUpdate();
         if (isDeleting) return handleOnDelete();
+        window.location = route("platos.show", {
+            carta: carta,
+            plato: plato,
+        });
     };
     return (
         <DivResponsiveStyled
@@ -54,8 +58,21 @@ const PlatoItem = ({ plato, carta }) => {
                 <div>
                     <p className="text-sm">{plato.descripcion}</p>
                 </div>
-                <div>
+                <div className="flex justify-between">
                     <TextCurrency value={plato.precio} readOnly />
+                    <div
+                        className={`${
+                            plato.disponibilidad
+                                ? "bg-green-300"
+                                : "bg-red-300 text-white"
+                        } px-3 items-center flex rounded-lg`}
+                    >
+                        <div className="text">
+                            {plato.disponibilidad
+                                ? "Disponible"
+                                : "No Disponible"}
+                        </div>
+                    </div>
                 </div>
             </div>
         </DivResponsiveStyled>

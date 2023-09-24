@@ -31,8 +31,18 @@ Route::resource('cartas', App\Http\Controllers\CartaController::class)->middlewa
 ]);
 
 Route::apiResource('cartas.platos', App\Http\Controllers\PlatoController::class)->middleware(['auth', 'verified'])->names("platos")->except([
-    'index', 'show',
+    'index',
 ]);
+
+Route::prefix('cartas')->middleware(['auth', 'verified'])->group(function () {
+    Route::apiResource('.platos', App\Http\Controllers\PlatoController::class)->names("platos")->except([
+        'index',
+    ])->parameters([
+        '' => 'carta',
+        'plato' => 'plato'
+    ]);
+    Route::put('/{carta}/platos/{plato}/disponibilidad', App\Http\Controllers\ChangeDispPlatoController::class)->name('platos.toggle-disp');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
