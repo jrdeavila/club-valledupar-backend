@@ -1,19 +1,24 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const DashboardCardItem = ({ title, desc, icon, color, onClick }) => {
+export const DashboardCardItem = ({ title, desc, image, onClick }) => {
     return (
         <div
             onClick={onClick}
-            className="bg-white rounded-lg shadow-lg p-6 h-40 cursor-pointer select-none transition duration-500 transform hover:scale-105"
+            className="bg-white rounded-lg shadow-lg h-72 cursor-pointer select-none transition duration-500 transform hover:scale-105"
         >
-            <div className="flex items-center mb-4">
-                <FontAwesomeIcon
-                    icon={icon}
-                    className={`text-4xl me-4 text-${color}-400`}
-                />
-                <h2 className="text-3xl font-semibold">{title}</h2>
+            <div
+                className="rounded-t-lg h-40"
+                style={{
+                    backgroundImage: `url(${image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            ></div>
+            <div className="px-4 py-3">
+                <div className="text-3xl font-semibold mb-3">{title}</div>
+                <p className="text-gray-600">{desc}</p>
             </div>
-            <p className="text-gray-600">{desc}</p>
         </div>
     );
 };

@@ -12,7 +12,7 @@ export default function Dashboard({ auth }) {
         {
             title: "Cartas",
             desc: "Administra los platos y bebidas del menu del restaurante",
-            icon: faUtensils,
+            image: "/img/cartas.webp",
             color: "red",
             onClick: () => {
                 window.location.href = route("cartas.index");
@@ -21,8 +21,8 @@ export default function Dashboard({ auth }) {
         {
             title: "Reservaciones",
             desc: "Administra las reservaciones de los clientes y socios",
-            icon: faClock,
             color: "gray",
+            image: "/img/reservaciones.jpg",
             onClick: () => {
                 console.log("click");
             },
@@ -30,8 +30,8 @@ export default function Dashboard({ auth }) {
         {
             title: "Horarios",
             desc: "Administra los horarios de apertura y cierre",
-            icon: faCalendar,
             color: "red",
+            image: "/img/horarios.jpeg",
             onClick: () => {
                 console.log("click");
             },
@@ -39,8 +39,8 @@ export default function Dashboard({ auth }) {
         {
             title: "Pedidos",
             desc: "Administra los pedidos de los clientes",
-            icon: faUtensils,
             color: "green",
+            image: "/img/pedidos.jpg",
             onClick: () => {
                 console.log("click");
             },
@@ -61,7 +61,7 @@ export default function Dashboard({ auth }) {
                 <div className="flex flex-wrap row-container gap-5 justify-center">
                     {cards.map((card, index) => (
                         <div
-                            className=" w-full px-5 md:px-0 md:w-1/4"
+                            className=" w-full px-5 lg:px-0 lg:w-1/3"
                             key={index}
                         >
                             <DashboardCardItem {...card} />
