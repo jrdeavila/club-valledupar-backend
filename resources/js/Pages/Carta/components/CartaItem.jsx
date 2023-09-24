@@ -14,11 +14,15 @@ export default function CartaItem({ carta }) {
         });
     };
     const handleOnUpdate = () => {
-        onEditCarta(carta);
+        onEditCarta({
+            carta,
+        });
     };
 
     const handleOnDelete = () => {
-        onDeleteCarta(carta);
+        onDeleteCarta({
+            carta,
+        });
     };
 
     const handleAction = () => {

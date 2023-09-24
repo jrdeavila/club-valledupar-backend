@@ -12,19 +12,13 @@ import { useDropzone } from "react-dropzone";
 
 export default function FormPlato({ onClose, to: carta, plato }) {
     const { data, setData, post, put, processing, errors } = useForm({
-        nombre: "",
-        descripcion: "",
-        precio: "",
+        nombre: plato?.nombre ?? "",
+        descripcion: plato?.descripcion ?? "",
+        precio: plato?.precio ?? 0.0,
         carta_id: carta.id,
-        imagen: null,
-        disponibilidad: null,
+        imagen: plato?.imagen,
+        disponibilidad: plato?.disponibilidad,
     });
-
-    useEffect(() => {
-        setData({
-            ...(plato ?? {}),
-        });
-    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -51,7 +45,7 @@ export default function FormPlato({ onClose, to: carta, plato }) {
                     <InputError message={errors.imagen} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                    <InputLabel htmlFor="titulo" value="Titulo" />
+                    <InputLabel htmlFor="nombre" value="Nombre" />
                     <TextInput
                         id="nombre"
                         type="text"
@@ -96,7 +90,7 @@ export default function FormPlato({ onClose, to: carta, plato }) {
                         value="Disponibilidad"
                     />
 
-                    <div className=" flex flex-row items-center gap-3 form-control">
+                    <div className="flex flex-row items-center gap-3 form-control">
                         <div className="flex gap-2 items-center">
                             <input
                                 type="radio"

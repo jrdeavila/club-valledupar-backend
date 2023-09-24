@@ -33,7 +33,7 @@ class CreatePlatoRequest extends FormRequest
             'precio' => 'required|numeric|not_in:0',
             'carta_id' => 'required|exists:Carta,id',
             'imagen' => 'required|image|max:2048',
-            "disponibilidad" => "required|boolean", // 
+            "disponibilidad" => "required|boolean",
         ];
     }
 }
