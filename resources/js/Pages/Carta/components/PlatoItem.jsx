@@ -6,7 +6,8 @@ import { CartasContext } from "../contexts/Carta";
 const PlatoItem = ({ plato, carta }) => {
     const formatedURL = plato.imagen.replace(" ", "%20");
     // 16 rem = SM, 20 rem = MD, 24 rem = LG
-    const { onEditPlato } = useContext(CartasContext);
+    const { onEditPlato, onDeletePlato, isDeleting, isEditing } =
+        useContext(CartasContext);
 
     const handleOnUpdate = () => {
         onEditPlato({
@@ -14,9 +15,21 @@ const PlatoItem = ({ plato, carta }) => {
             plato: plato,
         });
     };
+
+    const handleOnDelete = () => {
+        onDeletePlato({
+            carta: carta,
+            plato: plato,
+        });
+    };
+
+    const handleOnAction = () => {
+        if (isEditing) return handleOnUpdate();
+        if (isDeleting) return handleOnDelete();
+    };
     return (
         <DivResponsiveStyled
-            onClick={handleOnUpdate}
+            onClick={handleOnAction}
             className="bg-white shadow-lg rounded-lg w-full h-full select-none transition duration-500 transform hover:scale-105"
         >
             <div

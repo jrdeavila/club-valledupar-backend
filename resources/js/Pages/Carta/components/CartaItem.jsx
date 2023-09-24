@@ -1,8 +1,12 @@
-import { faUtensils } from "@fortawesome/free-solid-svg-icons";
+import {
+    faPencil,
+    faTrash,
+    faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
-import PlatoItem from "./PlatoItem";
+import { useContext } from "react";
 import { CartasContext } from "../contexts/Carta";
+import PlatoItem from "./PlatoItem";
 
 export default function CartaItem({ carta }) {
     const { onEditCarta, onDeleteCarta, isEditing, isDeleting, onEditPlato } =
@@ -14,11 +18,15 @@ export default function CartaItem({ carta }) {
         });
     };
     const handleOnUpdate = () => {
-        onEditCarta(carta);
+        onEditCarta({
+            carta,
+        });
     };
 
     const handleOnDelete = () => {
-        onDeleteCarta(carta);
+        onDeleteCarta({
+            carta,
+        });
     };
 
     const handleAction = () => {
@@ -40,16 +48,24 @@ export default function CartaItem({ carta }) {
                             {carta.descripcion}
                         </p>
                     </div>
-                    {!isDeleting && !isEditing && (
-                        <div className="flex gap-3">
-                            <button
-                                onClick={handleOpenForm}
-                                className="btn bg-indigo-500 flex  rounded-lg text-white w-10 h-10 justify-center items-center"
-                            >
-                                <FontAwesomeIcon icon={faUtensils} />
-                            </button>
-                        </div>
-                    )}
+                    <div className="flex gap-3">
+                        <button
+                            onClick={(() => {
+                                if (isEditing) return;
+                                if (isDeleting) return;
+                                return handleOpenForm;
+                            })()}
+                            className="btn bg-indigo-500 flex  rounded-lg text-white w-10 h-10 justify-center items-center"
+                        >
+                            <FontAwesomeIcon
+                                icon={(() => {
+                                    if (isEditing) return faPencil;
+                                    if (isDeleting) return faTrash;
+                                    return faUtensils;
+                                })()}
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>{" "}
             <div className="px-5 flex gap-4 py-5 overflow-x-scroll scroll-m-0">

@@ -26,8 +26,8 @@ Route::get('/', function () {
 });
 
 
-Route::resource('cartas', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->except([
-    'create', 'edit'
+Route::resource('cartas', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->only([
+    'index', 'store', 'update', 'destroy',
 ]);
 
 Route::apiResource('cartas.platos', App\Http\Controllers\PlatoController::class)->middleware(['auth', 'verified'])->names("platos")->except([

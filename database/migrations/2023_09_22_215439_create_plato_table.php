@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('precio', 10, 0);
             $table->string('imagen', 100);
             $table->boolean('disponibilidad');
-            $table->foreignId('carta_id')->constrained('Carta');
+            $table->foreignId('carta_id')->constrained('Carta')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

@@ -6,12 +6,13 @@ import {
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import FormCarta from "./components/FormCarta";
 import CartaItem from "./components/CartaItem";
 import { CartasContext } from "./contexts/Carta";
 import FormPlato from "./components/FormPlato";
+import AppDialog from "@/Components/AppDialog";
 
 export default function Carta({ auth, cartas: { data } }) {
     const [currentCarta, setCurrentCarta] = useState(null);
@@ -26,7 +27,7 @@ export default function Carta({ auth, cartas: { data } }) {
         if (isDeleting) setIsEditing(false);
     }, [isEditing, isDeleting]);
 
-    const handleOpenFormCarta = (carta) => {
+    const handleOpenFormCarta = ({ carta }) => {
         setCurrentCarta(carta);
         setShowFormCarta(true);
     };
@@ -60,6 +61,44 @@ export default function Carta({ auth, cartas: { data } }) {
         if (isDeleting) setIsDeleting(false);
     };
 
+    const handleOnDelete = ({ carta, plato }) => {
+        setCurrentCarta(carta);
+        setCurrentPlato(plato);
+    };
+
+    const handleCloseDelete = () => {
+        setCurrentCarta(null);
+        setCurrentPlato(null);
+    };
+
+    const handleOnRequestDelete = () => {
+        if (currentCarta && currentPlato) {
+            router.delete(
+                route("platos.destroy", {
+                    carta: currentCarta,
+                    plato: currentPlato,
+                }),
+                {
+                    onSuccess: () => {
+                        console.log("Plato Eliminado");
+                    },
+                }
+            );
+        } else {
+            router.delete(
+                route("cartas.destroy", {
+                    carta: currentCarta,
+                }),
+                {
+                    onSuccess: () => {
+                        console.log("Carta Eliminada");
+                    },
+                }
+            );
+        }
+        setCurrentCarta(null);
+        setCurrentPlato(null);
+    };
     const ActionButton = ({ icon, onClick }) => {
         return (
             <button
@@ -80,6 +119,9 @@ export default function Carta({ auth, cartas: { data } }) {
 
                     onEditCarta: handleOpenFormCarta,
                     onEditPlato: handleOpenFormPlato,
+
+                    onDeleteCarta: handleOnDelete,
+                    onDeletePlato: handleOnDelete,
                 }}
             >
                 <Head title="Cartas" />
@@ -131,7 +173,56 @@ export default function Carta({ auth, cartas: { data } }) {
                         plato={currentPlato}
                     />
                 )}
+
+                {isDeleting && currentCarta && !currentPlato && (
+                    <AlertDeleting
+                        onClose={handleCloseDelete}
+                        onConfirm={handleOnRequestDelete}
+                        title={currentCarta.nombre}
+                        isDeletingCarta
+                    />
+                )}
+                {isDeleting && currentCarta && currentPlato && (
+                    <AlertDeleting
+                        onClose={handleCloseDelete}
+                        onConfirm={handleOnRequestDelete}
+                        title={currentPlato.nombre}
+                    />
+                )}
             </CartasContext.Provider>
         </AuthenticatedLayout>
     );
 }
+
+const AlertDeleting = ({
+    onClose,
+    onConfirm,
+    title,
+    isDeletingCarta = false,
+}) => {
+    return (
+        <AppDialog onClose={onClose} title={`Eliminar ${title}`}>
+            <div className="flex flex-col">
+                <div className="text-xl">
+                    {isDeletingCarta
+                        ? "¿Deseas eliminar esta carta del menu?"
+                        : "¿Deseas eliminar este plato de la carta?"}
+                </div>
+                <div className="flex justify-center mt-4">
+                    <button
+                        onClick={onClose}
+                        className="btn bg-white text-indigo-500 border-2 border-indigo-500 px-4 py-2 rounded-lg text-xl w-full"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        onClick={onConfirm}
+                        className="btn bg-indigo-500 text-white px-4 py-2 rounded-lg text-xl ml-3 w-full"
+                    >
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </AppDialog>
+    );
+};

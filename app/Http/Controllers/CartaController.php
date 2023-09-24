@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCartaRequest;
 use App\Http\Resources\CartaCollection;
 use App\Models\Carta;
+use App\Utils\ImagePlatoUtils;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+
 
 class CartaController extends Controller
 {
@@ -49,8 +51,12 @@ class CartaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Carta $carta)
     {
-        //
+        DB::beginTransaction();
+        $carta->platos->each(fn ($item) => ImagePlatoUtils::deleteImage($item));
+        $carta->delete();
+        DB::commit();
+        return redirect()->route('cartas.index');
     }
 }
