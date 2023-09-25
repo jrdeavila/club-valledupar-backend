@@ -23,6 +23,7 @@ export const dashboardItems = [
         desc: "Administra los horarios de apertura y cierre",
         image: "/img/horarios.jpeg",
         onlyNav: false,
+        route: "horarios.index",
     },
     {
         title: "Pedidos",

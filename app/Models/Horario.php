@@ -16,5 +16,12 @@ class Horario extends Model
     protected $fillable = [
         'fecha_apertura',
         'fecha_cierre',
+        'lunes',
+        'martes',
+        'miercoles',
+        'jueves',
+        'viernes',
+        'sabado',
+        'domingo'
     ];
 }

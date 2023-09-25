@@ -26,24 +26,28 @@ Route::get('/', function () {
 });
 
 
-Route::resource('cartas', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->only([
-    'index', 'store', 'update', 'destroy',
-]);
 
-Route::apiResource('cartas.platos', App\Http\Controllers\PlatoController::class)->middleware(['auth', 'verified'])->names("platos")->except([
-    'index',
-]);
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::prefix('cartas')->middleware(['auth', 'verified'])->group(function () {
-    Route::apiResource('.platos', App\Http\Controllers\PlatoController::class)->names("platos")->except([
-        'index',
-    ])->parameters([
-        '' => 'carta',
-        'plato' => 'plato'
-    ]);
-    Route::put('/{carta}/platos/{plato}/disponibilidad', App\Http\Controllers\ChangeDispPlatoController::class)->name('platos.toggle-disp');
+    Route::prefix('cartas')->group(function () {
+        Route::resource('.', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->only([
+            'index', 'store', 'update', 'destroy',
+        ])->parameter('', 'carta');
+        Route::apiResource('.platos', App\Http\Controllers\PlatoController::class)->names("platos")->except([
+            'index',
+        ])->parameters([
+            '' => 'carta',
+            'plato' => 'plato'
+        ]);
+        Route::put('/{carta}/platos/{plato}/disponibilidad', App\Http\Controllers\ChangeDispPlatoController::class)->name('platos.toggle-disp');
+    });
+
+    Route::prefix('horarios')->group(function () {
+        Route::apiResource('.', App\Http\Controllers\HorarioController::class)->names('horarios')
+            ->parameter('', 'horario')
+            ->except(['show']);
+    });
 });
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
