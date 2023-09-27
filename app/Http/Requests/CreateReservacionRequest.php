@@ -67,7 +67,7 @@ class CreateReservacionRequest extends FormRequest
             $currentTime = new DateTime();
             $inputTime = new DateTime($this->input('fecha_reservacion'));
             [$hours, $minutes] = explode(":", strval($this->input('hora_reservacion')));
-            $inputTime->setTimezone(new DateTimeZone('America/Bogota'));
+            $inputTime->setTimezone(new DateTimeZone(env('APP_TIMEZONE')));
             $inputTime->setTime($hours, $minutes);
 
 

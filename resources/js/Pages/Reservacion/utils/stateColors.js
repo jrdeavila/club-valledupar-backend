@@ -1,7 +1,7 @@
 export const bgByEstado = (estado, tipo) => {
     return {
         pendiente: tipoUsuarioColor(tipo),
-        aceptada: "#b8fd84",
+        aceptada: "#89b965",
         cancelada: "#d26060",
         finalizada: "#83b5ee",
         rechazada: "#919191",
