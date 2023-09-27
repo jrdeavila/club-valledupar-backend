@@ -17,6 +17,7 @@ export const dashboardItems = [
         desc: "Administra las reservaciones de los clientes y socios",
         image: "/img/reservaciones.jpg",
         onlyNav: false,
+        route: "reservaciones.index",
     },
     {
         title: "Horarios",

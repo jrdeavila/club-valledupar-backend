@@ -47,6 +47,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->parameter('', 'horario')
             ->except(['show']);
     });
+
+    Route::prefix('reservaciones')->group(function () {
+        Route::resource('.', App\Http\Controllers\ReservacionController::class)->names('reservaciones')
+            ->parameter('', 'reservacion');
+
+        Route::patch('/{reservacion}', App\Http\Controllers\ChangeStateReservacionController::class)->name('reservaciones.estado');
+    });
 });
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');

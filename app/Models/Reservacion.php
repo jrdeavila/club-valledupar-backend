@@ -11,8 +11,18 @@ class Reservacion extends Model
 
     protected $table = 'Reservacion';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'fecha_reservacion',
         'hora_reservacion',
+        'id_horario',
+        'usuario_id',
+        'estado',
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id', 'Usuario');
+    }
 }

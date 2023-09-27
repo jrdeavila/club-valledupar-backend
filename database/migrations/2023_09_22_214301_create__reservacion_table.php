@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('Reservacion', function (Blueprint $table) {
             $table->id();
-            $table->enum('estado', ['pendiente', 'aceptada', 'cancelada']);
+            $table->enum('estado', ['pendiente', 'aceptada', 'rechazada', 'cancelada', 'finalizada']);
             $table->string('fecha_reservacion');
             $table->string('hora_reservacion');
             $table->foreignId('id_horario')->constrained('Horario');
-            $table->string('usuario_id');
         });
     }
 

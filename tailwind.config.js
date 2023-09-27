@@ -16,10 +16,11 @@ export default {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: "#00a900",
+                primary: "#979797",
                 secondary: "#fed700",
             },
         },
+        buttons: {},
     },
 
     plugins: [forms],

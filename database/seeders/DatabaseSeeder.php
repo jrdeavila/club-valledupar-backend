@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\TipoUsuario;
+use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        TipoUsuario::insert(['nombre' => 'turista'], ['nombre' => 'socio']);
+        TipoUsuario::all()->each(fn ($tipo) => Usuario::factory(4)->create([
+            'tipo_usuario_id' => $tipo->id
+        ]));
     }
 }
