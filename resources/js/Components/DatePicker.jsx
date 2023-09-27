@@ -1,7 +1,9 @@
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import { dayNames } from "@/Pages/Reservacion/models/IndexModels";
 import { TextCapitalize } from "@/Utils/TextCapitalize";
 import { FormatHiAtoHHmm } from "@/Utils/TimeFormat";
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 const DatePicker = ({ onDateChange }) => {
@@ -17,17 +19,19 @@ const DatePicker = ({ onDateChange }) => {
 
         let days = [];
 
+        let year = currentDate.getFullYear();
         for (
             let i = beginDateMonth.getDate();
             i <= endDateMonth.getDate();
             i++
         ) {
-            const date = new Date(currentDate.getFullYear(), month - 1, i);
-            const name = TextCapitalize(
-                date.toLocaleString("es", { weekday: "long" })
-            );
+            const date = new Date(year, month, i);
 
-            days.push({ name, day: i, date });
+            const name = dayNames[date.getDay()];
+
+            const day = i.toString().padStart(2, "0");
+
+            days.push({ name, day: day, date });
         }
 
         setDays(days);
@@ -52,7 +56,6 @@ const DatePicker = ({ onDateChange }) => {
             });
     }
 
-    function onChangeTime() {}
     return (
         <>
             <div className="flex flex-col lg:flex-row gap-3">
