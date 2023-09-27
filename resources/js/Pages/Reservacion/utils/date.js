@@ -1,10 +1,7 @@
 export const getReservacionDate = (reservacion) => {
-    let beginDate = new Date(reservacion.fecha_reservacion);
-    const [hours, minutes] = reservacion.hora_reservacion.split(":");
-    beginDate.setHours(hours);
-    beginDate.setMinutes(minutes);
-    let endDate = new Date(beginDate);
-    endDate.setHours(endDate.getHours() + 1);
-
+    const [year, month, day] = reservacion.fecha_reservacion.split("-");
+    const [hour, minute] = reservacion.hora_reservacion.split(":");
+    const beginDate = new Date(year, month - 1, day, hour, minute);
+    const endDate = new Date(year, month - 1, day, hour, minute + 30);
     return [beginDate, endDate];
 };

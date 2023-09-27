@@ -27,7 +27,7 @@ class CreateReservacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_reservacion' => 'required|date',
+            'fecha_reservacion' => 'required|date|date_format:Y-m-d',
             'hora_reservacion' => 'required|date_format:H:i',
             'id_horario' => 'required|exists:Horario,id',
             'usuario_id' => 'required|exists:Usuario,id',
@@ -63,14 +63,19 @@ class CreateReservacionRequest extends FormRequest
         return $validator->after(function (Validator $validator) {
             // Check if time is after current
 
+
             $currentTime = new DateTime();
-            $inputTime = new DateTime($this->input('fecha_reservacion'), $currentTime->getTimezone());
+            $inputTime = new DateTime($this->input('fecha_reservacion'));
             [$hours, $minutes] = explode(":", strval($this->input('hora_reservacion')));
+            $inputTime->setTimezone(new DateTimeZone('America/Bogota'));
             $inputTime->setTime($hours, $minutes);
+
+
 
             if ($currentTime > $inputTime) {
                 $validator->errors()->add('hora_reservacion', 'La hora de reservación no puede ser menor a la hora actual');
             }
+
 
 
 

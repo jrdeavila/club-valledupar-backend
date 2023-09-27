@@ -5,7 +5,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <Head title="Welcome" />
 
-            <NavBar isAuthenticated />
+            <NavBar isAuthenticated={auth.user} />
         </>
     );
 }

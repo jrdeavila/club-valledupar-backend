@@ -34,7 +34,7 @@ export default function CreateReservacion({
 
 const FormReservacion = ({ usuarios, horarios = [] }) => {
     const { data, setData, errors, post } = useForm({
-        fecha_reservacion: new Date(),
+        fecha_reservacion: null,
         hora_reservacion: null,
         usuario_id: 0,
         id_horario: 0,
@@ -86,11 +86,13 @@ const FormReservacion = ({ usuarios, horarios = [] }) => {
                 <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
                     <div>
                         <DatePicker
-                            value={data.fecha_reservacion}
-                            onDateChange={(e) =>
-                                setData("fecha_reservacion", e)
-                            }
-                            onTimeChange={(e) => setData("hora_reservacion", e)}
+                            onDateChange={({ date, time }) => {
+                                setData({
+                                    ...data,
+                                    fecha_reservacion: date,
+                                    hora_reservacion: time,
+                                });
+                            }}
                         />
                         <div className="flex flex-row gap-x-3">
                             <InputError

@@ -4,8 +4,8 @@ import { TextCapitalize } from "@/Utils/TextCapitalize";
 import { FormatHiAtoHHmm } from "@/Utils/TimeFormat";
 import { useEffect, useState } from "react";
 
-const DatePicker = ({ onTimeChange, onDateChange, value = new Date() }) => {
-    let currentDate = value;
+const DatePicker = ({ onDateChange }) => {
+    let currentDate = new Date();
     const [month, setMonth] = useState(currentDate.getMonth());
     const [days, setDays] = useState([]);
     const [currentDay, setCurrentDay] = useState(currentDate.getDate());
@@ -34,18 +34,25 @@ const DatePicker = ({ onTimeChange, onDateChange, value = new Date() }) => {
     }, [month]);
 
     useEffect(() => {
-        let date = new Date(currentDate.getFullYear(), month, currentDay);
-        onDateChange && onDateChange(date);
-    }, [month, currentDay]);
+        onChangeDate();
+    }, [month, currentDay, time]);
 
-    useEffect(() => {
+    function onChangeDate() {
+        let date = new Date(currentDate.getFullYear(), month, currentDay);
+        // Y-m-d
+        let formated = date.toISOString().split("T")[0];
         if (time === "") {
             let timeStr = currentDate.toLocaleTimeString();
             setTime(FormatHiAtoHHmm(timeStr));
         }
-        onTimeChange && onTimeChange(time);
-    }, [time]);
+        onDateChange &&
+            onDateChange({
+                date: formated,
+                time,
+            });
+    }
 
+    function onChangeTime() {}
     return (
         <>
             <div className="flex flex-col lg:flex-row gap-3">

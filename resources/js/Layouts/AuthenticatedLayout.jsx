@@ -1,38 +1,18 @@
-import { useEffect, useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link, usePage } from "@inertiajs/react";
 import { dashboardItems } from "@/Pages/Dashboard/Models/DashboardItem";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Link } from "@inertiajs/react";
+import { useState } from "react";
+import ErrorLayout from "./ErrorLayout";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const { errors } = usePage().props;
-
-    useEffect(() => {
-        Object.keys(errors).forEach((key) => {
-            toast.error(errors[key], {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                draggable: true,
-                style: {
-                    // Tailwind Font Family
-                    fontFamily: "ui-sans-serif, system-ui, -apple-system",
-                },
-            });
-        });
-    }, [errors]);
-
     return (
-        <div>
-            <ToastContainer />
+        <ErrorLayout>
             <div className="min-h-screen bg-gray-100">
                 <nav className="bg-white border-b border-gray-100">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -206,6 +186,6 @@ export default function Authenticated({ user, header, children }) {
 
                 <main>{children}</main>
             </div>
-        </div>
+        </ErrorLayout>
     );
 }
