@@ -36,6 +36,7 @@ class ReservacionController extends Controller
         return Inertia::render('Reservacion/Create', [
             'usuarios' => new UsuarioCollection(Usuario::all()),
             'horarios' => new HorarioCollection(Horario::orderBy("fecha_apertura", "asc")->get()),
+            'tipos' => TipoUsuario::all(),
         ]);
     }
 
@@ -46,14 +47,6 @@ class ReservacionController extends Controller
     {
         Reservacion::create($request->validated());
         return to_route('reservaciones.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reservacion $reservacion)
-    {
-        //
     }
 
     /**
