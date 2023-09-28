@@ -24,4 +24,14 @@ class Usuario extends Model
     {
         return $this->belongsTo(TipoUsuario::class, 'tipo_usuario_id', 'id', 'TipoUsuario');
     }
+
+    public function reservaciones()
+    {
+        return $this->hasMany(Reservacion::class, 'usuario_id', 'id', 'Reservacion');
+    }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'usuario_id', 'id', 'Pedido');
+    }
 }

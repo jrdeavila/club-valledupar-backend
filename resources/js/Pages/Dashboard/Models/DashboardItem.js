@@ -31,5 +31,6 @@ export const dashboardItems = [
         desc: "Administra los pedidos de los clientes",
         image: "/img/pedidos.jpg",
         onlyNav: false,
+        route: "pedidos.index",
     },
 ];

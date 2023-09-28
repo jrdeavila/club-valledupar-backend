@@ -27,4 +27,9 @@ class DetallePedido extends Model
     {
         return $this->belongsTo(Plato::class);
     }
+
+    public function total()
+    {
+        return $this->cantidad * $this->plato->precio;
+    }
 }

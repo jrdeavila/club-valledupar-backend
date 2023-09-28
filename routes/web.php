@@ -29,38 +29,16 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::prefix('cartas')->group(function () {
-        Route::resource('.', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->only([
-            'index', 'store', 'update', 'destroy',
-        ])->parameter('', 'carta');
-        Route::apiResource('.platos', App\Http\Controllers\PlatoController::class)->names("platos")->except([
-            'index',
-        ])->parameters([
-            '' => 'carta',
-            'plato' => 'plato'
-        ]);
-        Route::put('/{carta}/platos/{plato}/disponibilidad', App\Http\Controllers\ChangeDispPlatoController::class)->name('platos.toggle-disp');
-    });
 
-    Route::prefix('horarios')->group(function () {
-        Route::apiResource('.', App\Http\Controllers\HorarioController::class)->names('horarios')
-            ->parameter('', 'horario')
-            ->except(['show']);
-    });
+    $dir = __DIR__ . "/web";
 
-    Route::prefix('reservaciones')->group(function () {
-        Route::resource('.', App\Http\Controllers\ReservacionController::class)->names('reservaciones')
-            ->parameter('', 'reservacion')
-            ->except(['show', 'edit', 'update']);
+    $files = scandir($dir);
 
-        Route::patch('/{reservacion}', App\Http\Controllers\ChangeStateReservacionController::class)->name('reservaciones.estado');
-    });
-
-    Route::prefix('usuarios')->group(function () {
-        Route::resource('.', App\Http\Controllers\UsuarioController::class)->names('usuarios')
-            ->parameter('', 'usuario')
-            ->except(['show', 'edit', 'update', 'destroy', 'index', 'create']);
-    });
+    foreach ($files as $file) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === "php") {
+            include($dir . "/" . $file);
+        }
+    }
 });
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
