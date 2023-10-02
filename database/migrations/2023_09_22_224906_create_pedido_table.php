@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('Pedido', function (Blueprint $table) {
             $table->id();
-            $table->string('usuario_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->enum('estado', ['pendiente', 'enviado', 'entregado', 'cancelado'])->default('pendiente');
             $table->string('direccion')->nullable();
             $table->timestamps();

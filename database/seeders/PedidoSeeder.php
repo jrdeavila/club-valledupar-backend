@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\DetallePedido;
 use App\Models\Pedido;
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,9 +15,9 @@ class PedidoSeeder extends Seeder
      */
     public function run(): void
     {
-        Usuario::all()->each(function (Usuario $usuario) {
+        User::role(['socio', 'turista'])->get()->each(function (User $usuario) {
             $usuario->pedidos()->save(Pedido::factory()->make([
-                'usuario_id' => $usuario->id,
+                'user_id' => $usuario->id,
             ]));
             $usuario->pedidos()->each(function (Pedido $pedido) {
                 $pedido->detallePedido()->save(DetallePedido::make([

@@ -12,7 +12,7 @@ class Pedido extends Model
     protected $table = 'Pedido';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'estado',
         'direccion',
     ];
@@ -24,6 +24,6 @@ class Pedido extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id', 'id', 'Usuario');
+        return $this->belongsTo(User::class, 'user_id', 'id', 'Usuario');
     }
 }

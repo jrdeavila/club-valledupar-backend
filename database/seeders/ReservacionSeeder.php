@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,9 +13,10 @@ class ReservacionSeeder extends Seeder
      */
     public function run(): void
     {
-        Usuario::all()->each(function (Usuario $user) {
+        // Only Users with role 'socio' or 'turista' can make a reservation
+        User::role(['socio', 'turista'])->get()->each(function (User $user) {
             $user->reservaciones()->saveMany(\App\Models\Reservacion::factory(20)->make([
-                'usuario_id' => $user->id,
+                'user_id' => $user->id,
             ]));
         });
     }

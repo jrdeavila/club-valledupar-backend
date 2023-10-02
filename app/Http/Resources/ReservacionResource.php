@@ -19,8 +19,8 @@ class ReservacionResource extends JsonResource
             'estado' => $this->estado,
             'fecha_reservacion' => $this->fecha_reservacion,
             'hora_reservacion' => $this->hora_reservacion,
-            'usuario' => $this->usuario->nombre . " " . $this->usuario->apellido,
-            'tipo' => $this->usuario->tipo->nombre,
+            'usuario' => $this->usuario->firstname . " " . $this->usuario->lastname,
+            'tipo' => $this->usuario->roles->first()->name,
         ];
     }
 }

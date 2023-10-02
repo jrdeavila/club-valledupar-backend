@@ -46,8 +46,9 @@ export default function Searcheable({
 
     const handleOnSearching = (value) => {
         setText(value);
+
         let filterList = datalist.filter((e) =>
-            e.props.defaultValue.toLowerCase().includes(value.toLowerCase())
+            e.props.text.toLowerCase().includes(value.toLowerCase())
         );
         if (filterList.length > 0 && showDataList) {
             setSearchItems(filterList);

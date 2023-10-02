@@ -22,11 +22,25 @@ class CreateUsuarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'email' => 'required|email|unique:Usuario,email',
-            'telefono' => 'required|string|max:255',
-            "tipo_usuario_id" => "required|exists:TipoUsuario,id"
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:255',
+            "role_id" => "required|exists:roles,id"
+        ];
+    }
+
+
+    public function messages()
+    {
+        return [
+            'firstname.required' => 'El nombre es requerido',
+            'lastname.required' => 'El apellido es requerido',
+            'email.required' => 'El correo es requerido',
+            'phone.required' => 'El teléfono es requerido',
+            'role_id.required' => 'El rol es requerido',
+            'email.unique' => 'El correo ya existe',
+            'role_id.exists' => 'El rol no existe',
         ];
     }
 }

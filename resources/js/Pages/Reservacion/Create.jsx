@@ -1,4 +1,3 @@
-import AppDialog from "@/Components/AppDialog";
 import DatePicker from "@/Components/DatePicker";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -11,14 +10,14 @@ import { faPerson } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import CreateUser from "./components/CreateUser";
 
 export default function CreateReservacion({
     auth: { user },
     usuarios: { data: usuarios },
     horarios: { data: horarios },
-    tipos,
+    tipos: { data: tipos },
 }) {
-    console.log(tipos);
     return (
         <Authenticated user={user}>
             <Head title="Reservaciones" />
@@ -43,8 +42,8 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
     const { data, setData, errors, post } = useForm({
         fecha_reservacion: null,
         hora_reservacion: null,
-        usuario_id: 0,
-        id_horario: 0,
+        user_id: 0,
+        horario_id: 0,
         estado: "pendiente",
     });
 
@@ -77,7 +76,7 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                 );
             });
 
-            if (horario) setData("id_horario", horario?.id);
+            if (horario) setData("horario_id", horario?.id);
         }
     }, [data.hora_reservacion]);
 
@@ -132,7 +131,7 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                             <div className="w-full">
                                 <InputLabel value="Usuario destinatario" />
                                 <Searcheable
-                                    value={data.usuario_id}
+                                    value={data.user_id}
                                     placeholder="Selecionar un usuario"
                                     datalist={usuarios.map((e, i) => (
                                         <SearcheableItem
@@ -159,7 +158,7 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                                         </SearcheableItem>
                                     ))}
                                     onChange={(value) =>
-                                        setData("usuario_id", value)
+                                        setData("user_id", value)
                                     }
                                 />
                             </div>
@@ -173,7 +172,7 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                                 />
                             </button>
                         </div>
-                        <InputError message={errors.usuario_id} />
+                        <InputError message={errors.user_id} />
                     </div>
 
                     <div className="flex-1 flex flex-col">
@@ -183,17 +182,17 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                             {horarios.map((e, i) => (
                                 <div
                                     key={i}
-                                    onClick={() => setData("id_horario", e.id)}
+                                    onClick={() => setData("horario_id", e.id)}
                                 >
                                     <ResumeHorarioItem
                                         horario={e}
-                                        selected={data.id_horario === e.id}
+                                        selected={data.horario_id === e.id}
                                     />
                                 </div>
                             ))}
                         </div>
 
-                        <InputError message={errors.id_horario} />
+                        <InputError message={errors.horario_id} />
                     </div>
 
                     <div className="mb-5">
@@ -242,92 +241,5 @@ const ResumeHorarioItem = ({ horario, selected = false }) => {
                     ))}
             </div>
         </div>
-    );
-};
-
-const CreateUser = ({ tipos, onClose }) => {
-    const { data, setData, errors, post, processing } = useForm({
-        email: "",
-        nombre: "",
-        apellido: "",
-        telefono: "",
-        tipo_usuario_id: 1,
-    });
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("usuarios.store"));
-    };
-
-    return (
-        <AppDialog title="Informacion del usuario" onClose={onClose}>
-            <form onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-3">
-                    <div className="flex-1">
-                        <InputLabel value="Email" />
-                        <TextInput
-                            value={data.email}
-                            onChange={(e) => setData("email", e.target.value)}
-                            className="w-full"
-                        />
-                        <InputError message={errors.email} />
-                    </div>
-
-                    <div className="flex-1 flex flex-row gap-x-3">
-                        <div className="flex-1">
-                            <InputLabel value="Nombres" />
-                            <TextInput
-                                value={data.nombre}
-                                onChange={(e) =>
-                                    setData("nombre", e.target.value)
-                                }
-                                className="w-full"
-                            />
-                            <InputError message={errors.nombre} />
-                        </div>
-                        <div className="flex-1">
-                            <InputLabel value="Apellidos" />
-                            <TextInput
-                                value={data.apellido}
-                                onChange={(e) =>
-                                    setData("apellido", e.target.value)
-                                }
-                                className="w-full "
-                            />
-                            <InputError message={errors.apellido} />
-                        </div>
-                    </div>
-                    <div className="flex-1">
-                        <InputLabel value="Telefono" />
-                        <TextInput
-                            value={data.telefono}
-                            onChange={(e) =>
-                                setData("telefono", e.target.value)
-                            }
-                            className="w-full "
-                        />
-                        <InputError message={errors.telefono} />
-                    </div>
-                    <div className="flex-1">
-                        <InputLabel value="Tipo de Usuario" />
-                        <TextInput
-                            value={TextCapitalize(
-                                tipos.find((e) => e.id === data.tipo_usuario_id)
-                                    ?.nombre
-                            )}
-                            disabled
-                            className="w-full bg-gray-100"
-                        />
-                        <InputError message={errors.tipo_usuario_id} />
-                    </div>
-
-                    <div className="flex-1 mt-3">
-                        <button className="bg-primary w-full py-2 rounded-lg text-white text-xl font-semibold">
-                            {processing ? "Guardando..." : "Guardar"}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </AppDialog>
     );
 };

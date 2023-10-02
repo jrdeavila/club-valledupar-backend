@@ -6,13 +6,13 @@ use App\Http\Requests\CreateReservacionRequest;
 use App\Http\Requests\QueryReservacionesRequest;
 use App\Http\Resources\HorarioCollection;
 use App\Http\Resources\ReservacionCollection;
+use App\Http\Resources\RoleCollection;
 use App\Http\Resources\UsuarioCollection;
 use App\Models\Horario;
 use App\Models\Reservacion;
-use App\Models\TipoUsuario;
-use App\Models\Usuario;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class ReservacionController extends Controller
 {
@@ -24,7 +24,7 @@ class ReservacionController extends Controller
         $models = Reservacion::where($request->validated())->get();
         return Inertia::render('Reservacion/Index', [
             "reservaciones" => new ReservacionCollection($models),
-            'tipos' => TipoUsuario::all(),
+            'tipos' => new RoleCollection(Role::where('name', '!=', 'admin')->get()),
         ]);
     }
 
@@ -34,9 +34,9 @@ class ReservacionController extends Controller
     public function create()
     {
         return Inertia::render('Reservacion/Create', [
-            'usuarios' => new UsuarioCollection(Usuario::all()),
+            'usuarios' => new UsuarioCollection(User::role(['socio', 'turista'])->get()),
             'horarios' => new HorarioCollection(Horario::orderBy("fecha_apertura", "asc")->get()),
-            'tipos' => TipoUsuario::all(),
+            'tipos' => new RoleCollection(Role::where('name', '!=', 'admin')->get()),
         ]);
     }
 

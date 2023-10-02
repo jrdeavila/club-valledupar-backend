@@ -19,7 +19,7 @@ import { TextCapitalize } from "@/Utils/TextCapitalize";
 export default function Reservaciones({
     auth: { user },
     reservaciones: { data: reservaciones },
-    tipos,
+    tipos: { data: tipos },
 }) {
     let localizer = momentLocalizer(moment);
     const menuRef = useRef();

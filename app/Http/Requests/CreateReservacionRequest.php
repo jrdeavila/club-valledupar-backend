@@ -29,8 +29,8 @@ class CreateReservacionRequest extends FormRequest
         return [
             'fecha_reservacion' => 'required|date|date_format:Y-m-d',
             'hora_reservacion' => 'required|date_format:H:i',
-            'id_horario' => 'required|exists:Horario,id',
-            'usuario_id' => 'required|exists:Usuario,id',
+            'horario_id' => 'required|exists:Horario,id',
+            'user_id' => 'required|exists:users,id',
             'estado' => 'required|in:pendiente,aceptada,rechazada,cancelada,finalizada',
 
         ];

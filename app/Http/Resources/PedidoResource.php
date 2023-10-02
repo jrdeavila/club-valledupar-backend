@@ -19,7 +19,7 @@ class PedidoResource extends JsonResource
         })->toArray());
         return [
             'id' => $this->id,
-            'usuario' => $this->usuario->nombre . ' ' . $this->usuario->apellido,
+            'usuario' => $this->usuario->firstname . ' ' . $this->usuario->lastname,
             'detalle' => DetallePedidoResource::collection($this->detallePedido),
             'items' => $this->detallePedido->count(),
             'total' => $total,

@@ -16,13 +16,13 @@ class Reservacion extends Model
     protected $fillable = [
         'fecha_reservacion',
         'hora_reservacion',
-        'id_horario',
-        'usuario_id',
+        'horario_id',
+        'user_id',
         'estado',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id', 'id', 'Usuario');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

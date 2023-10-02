@@ -17,10 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             HorarioSeeder::class,
             AccountSeeder::class,
-            UsuarioSeeder::class,
-            ReservacionSeeder::class,
             CartaSeeder::class,
             PedidoSeeder::class,
+            ReservacionSeeder::class,
         ]);
     }
 }

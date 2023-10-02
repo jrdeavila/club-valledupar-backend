@@ -22,7 +22,7 @@ class ReservacionFactory extends Factory
         return [
             'fecha_reservacion' => $date->format('Y-m-d'),
             'hora_reservacion' => $date->format('H:i'),
-            'id_horario' => $this->faker->numberBetween(1, 2),
+            'horario_id' => $this->faker->numberBetween(1, 2),
             'estado' => $state
         ];
     }
