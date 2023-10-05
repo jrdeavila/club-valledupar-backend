@@ -27,4 +27,59 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+
+    public function render($request, Throwable $exception)
+    {
+
+        // Saber si el error se produjo en una peticion de tipo api
+
+        if ($request->is('api/*')) {
+
+            // Cuando las validaciones fallan
+            if ($exception instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json([
+                    'message' => 'Error de validacion',
+                    'errors' => $exception->errors(),
+                ], 422);
+            }
+
+            // Cuando el usuario no esta autenticado
+            if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+                return response()->json([
+                    'message' => 'No estas autenticado',
+                ], 401);
+            }
+
+
+            // Cuando no encuentra un modelo
+            if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+                return response()->json([
+                    'message' => 'No se encontro el recurso',
+                ], 404);
+            }
+
+            // Cuando no encutra el route
+            if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+                return response()->json([
+                    'message' => 'No se encontro la ruta',
+                ], 404);
+            }
+
+            // Cuando el token es invalido
+            if ($exception instanceof \Laravel\Sanctum\Exceptions\InvalidTokenException) {
+                return response()->json([
+                    'message' => 'El token es invalido',
+                ], 401);
+            }
+
+            // Cuando el token no se encuentra
+            if ($exception instanceof \Laravel\Sanctum\Exceptions\MustBeAuthenticatedException) {
+                return response()->json([
+                    'message' => 'El token no se encuentra',
+                ], 401);
+            }
+        }
+        return parent::render($request, $exception);
+    }
 }

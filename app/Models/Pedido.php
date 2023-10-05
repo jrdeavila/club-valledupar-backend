@@ -14,6 +14,7 @@ class Pedido extends Model
     protected $fillable = [
         'user_id',
         'estado',
+        'es_domicilio',
         'direccion',
     ];
 
@@ -25,5 +26,10 @@ class Pedido extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id', 'id', 'Usuario');
+    }
+
+    public function cancelar()
+    {
+        $this->update(['estado' => 'cancelado']);
     }
 }

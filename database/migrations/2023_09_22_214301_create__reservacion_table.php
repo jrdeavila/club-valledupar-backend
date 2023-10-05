@@ -16,7 +16,6 @@ return new class extends Migration
             $table->enum('estado', ['pendiente', 'aceptada', 'rechazada', 'cancelada', 'finalizada']);
             $table->string('fecha_reservacion');
             $table->string('hora_reservacion');
-            $table->foreignId('horario_id')->constrained('Horario')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->nullOnDelete()->cascadeOnUpdate();
         });
     }

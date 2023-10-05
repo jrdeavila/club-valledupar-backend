@@ -9,11 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ReservacionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         $date = $this->faker->dateTimeBetween('-1 year', '+1 year');
@@ -22,7 +18,6 @@ class ReservacionFactory extends Factory
         return [
             'fecha_reservacion' => $date->format('Y-m-d'),
             'hora_reservacion' => $date->format('H:i'),
-            'horario_id' => $this->faker->numberBetween(1, 2),
             'estado' => $state
         ];
     }

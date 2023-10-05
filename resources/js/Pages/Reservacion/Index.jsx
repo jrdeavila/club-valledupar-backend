@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { dashItems, menuItems } from "./models/IndexModels";
-import { getReservacionDate } from "./utils/date";
+import { getReservationDate } from "./utils/date";
 import {
     bgByEstado,
     textColorByEstado,
@@ -19,7 +19,7 @@ import { TextCapitalize } from "@/Utils/TextCapitalize";
 export default function Reservaciones({
     auth: { user },
     reservaciones: { data: reservaciones },
-    tipos: { data: tipos },
+    tipos,
 }) {
     let localizer = momentLocalizer(moment);
     const menuRef = useRef();
@@ -31,15 +31,20 @@ export default function Reservaciones({
 
     useEffect(() => {
         let events = reservaciones.map((reservacion) => {
-            const [beginDate, endDate] = getReservacionDate(reservacion);
+            const [beginDate, endDate] = getReservationDate(reservacion);
             return {
                 id: reservacion.id,
-                title: reservacion.usuario,
+                title: reservacion.title,
                 start: beginDate,
                 end: endDate,
-                desc: TextCapitalize(reservacion.estado),
-                textColor: textColorByEstado(reservacion.estado),
-                bgColor: bgByEstado(reservacion.estado, reservacion.tipo),
+                desc: reservacion.desc,
+                bgColor: reservacion.color,
+                allDay: true,
+                rrule: {
+                    freq: "daily",
+                    dtstart: beginDate,
+                    until: endDate,
+                },
             };
         });
         setEvents(events);
@@ -194,12 +199,11 @@ export default function Reservaciones({
                                     >
                                         <div
                                             style={{
-                                                backgroundColor:
-                                                    tipoUsuarioColor(e.nombre),
+                                                backgroundColor: e.color,
                                             }}
                                             className="h-5 w-5 rounded-md"
                                         ></div>
-                                        <div>{TextCapitalize(e.nombre)}</div>
+                                        <div>{TextCapitalize(e.name)}</div>
                                     </div>
                                 ))}
                             </div>

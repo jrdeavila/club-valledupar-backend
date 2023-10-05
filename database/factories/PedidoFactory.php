@@ -16,8 +16,10 @@ class PedidoFactory extends Factory
      */
     public function definition(): array
     {
+        $esDomicilio = fake()->boolean();
         return [
-            'direccion' => fake()->address(),
+            'es_domicilio' => $esDomicilio,
+            'direccion' => $esDomicilio ? fake()->address() : null,
         ];
     }
 }

@@ -11,12 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import CreateUser from "./components/CreateUser";
+import TextArea from "@/Components/TextArea";
 
 export default function CreateReservacion({
     auth: { user },
-    usuarios: { data: usuarios },
-    horarios: { data: horarios },
-    tipos: { data: tipos },
+    users: { data: users },
+    insumes,
+    types,
 }) {
     return (
         <Authenticated user={user}>
@@ -28,9 +29,9 @@ export default function CreateReservacion({
             >
                 <div className="m-5 flex justify-center items-center h-full">
                     <FormReservacion
-                        usuarios={usuarios}
-                        horarios={horarios}
-                        tipos={tipos}
+                        users={users}
+                        insumes={insumes}
+                        types={types}
                     />
                 </div>
             </div>
@@ -38,47 +39,18 @@ export default function CreateReservacion({
     );
 }
 
-const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
+const FormReservacion = ({ users, insumes = [], types = [] }) => {
     const { data, setData, errors, post } = useForm({
-        fecha_reservacion: null,
-        hora_reservacion: null,
+        start_date: "",
+        end_date: "",
+        type_reservation_id: 0,
+        insume_area_id: 0,
+        is_ever: false,
+        observations: "",
         user_id: 0,
-        horario_id: 0,
-        estado: "pendiente",
     });
 
     const [showForm, setShowForm] = useState(false);
-
-    // Search the correct horario
-    useEffect(() => {
-        const getDate = (time) => {
-            const [hours, minutes] = time.split(":");
-            let date = new Date();
-
-            date.setHours(hours);
-            date.setMinutes(minutes);
-            return date;
-        };
-        if (
-            data.hora_reservacion != null ||
-            data.hora_reservacion != undefined
-        ) {
-            let horario = horarios.find((horario) => {
-                let beginDate = getDate(
-                    FormatHiAtoHHmm(horario.fecha_apertura)
-                );
-                let endDate = getDate(FormatHiAtoHHmm(horario.fecha_cierre));
-                let date = getDate(data.hora_reservacion);
-
-                return (
-                    beginDate.getTime() <= date.getTime() &&
-                    endDate.getTime() >= date.getTime()
-                );
-            });
-
-            if (horario) setData("horario_id", horario?.id);
-        }
-    }, [data.hora_reservacion]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -101,92 +73,123 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                     Informacion de la reservacion
                 </div>
                 <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-                    <div>
-                        <DatePicker
-                            onDateChange={({ date, time }) => {
-                                setData({
-                                    ...data,
-                                    fecha_reservacion: date,
-                                    hora_reservacion: time,
-                                });
-                            }}
-                        />
-                        <div className="flex flex-row gap-x-3">
-                            <InputError
-                                className="flex-1"
-                                message={errors.fecha_reservacion}
+                    <div className="flex flex-row gap-x-5">
+                        <div className="flex-1">
+                            <InputLabel value="Fecha de inicio" />
+                            <TextInput
+                                value={data.start_date}
+                                type="datetime-local"
+                                className="w-full"
+                                onChange={(e) =>
+                                    setData("start_date", e.target.value)
+                                }
                             />
-                            <InputError
-                                className="flex-1"
-                                message={errors.hora_reservacion}
-                            />
-                            <InputError
-                                className="flex-1"
-                                message={errors.unique_reservacion}
-                            />
+                            <InputError message={errors.start_date} />
                         </div>
-                    </div>
-                    <div className="flex-1">
-                        <div className="flex flex-row gap-3 items-end">
-                            <div className="w-full">
-                                <InputLabel value="Usuario destinatario" />
-                                <Searcheable
-                                    value={data.user_id}
-                                    placeholder="Selecionar un usuario"
-                                    datalist={usuarios.map((e, i) => (
-                                        <SearcheableItem
-                                            value={e.id}
-                                            text={`${e.nombre} ${e.apellido}`}
-                                            index={i}
-                                            key={i}
-                                        >
-                                            <div className="text-gray-600">
-                                                <div className="flex flex-row  justify-between items-center">
-                                                    <div className="flex-1 flex flex-col">
-                                                        <div>
-                                                            {`${e.nombre} ${e.apellido}`}
-                                                        </div>
-                                                        <div className="text-xs">
-                                                            {e.email}
-                                                        </div>
-                                                    </div>
-                                                    <div className="text-sm font-semibold">
-                                                        {TextCapitalize(e.tipo)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </SearcheableItem>
-                                    ))}
-                                    onChange={(value) =>
-                                        setData("user_id", value)
-                                    }
-                                />
-                            </div>
-                            <button
-                                onClick={handleOpenForm}
-                                className="bg-gray-400 h-10 w-10 rounded-lg flex justify-center items-center"
-                            >
-                                <FontAwesomeIcon
-                                    icon={faPerson}
-                                    className="text-2xl text-white"
-                                />
-                            </button>
+                        <div className="flex-1">
+                            <InputLabel value="Fecha de cierre" />
+                            <TextInput
+                                value={data.end_date}
+                                type="datetime-local"
+                                className="w-full"
+                                onChange={(e) =>
+                                    setData("end_date", e.target.value)
+                                }
+                            />
+                            <InputError message={errors.end_date} />
                         </div>
-                        <InputError message={errors.user_id} />
                     </div>
 
+                    <div className="flex flex-row gap-x-3">
+                        <div className="flex-1">
+                            <div className="flex flex-row gap-3 items-end">
+                                <div className="w-full">
+                                    <InputLabel value="Usuario" />
+                                    <Searcheable
+                                        value={data.user_id}
+                                        placeholder="Selecionar el tipo de reservacion"
+                                        datalist={users.map((e, i) => (
+                                            <SearcheableItem
+                                                value={e.id}
+                                                text={`${e.firstname} ${e.lastname}`}
+                                                index={i}
+                                                key={i}
+                                            >
+                                                <div className="text-gray-600">
+                                                    <div className="flex flex-row  justify-between items-center">
+                                                        <div className="flex-1 flex flex-col">
+                                                            <div>{`${e.firstname} ${e.lastname}`}</div>
+                                                            <div className="text-xs flex gap-x-2">
+                                                                <div>
+                                                                    {e.email}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </SearcheableItem>
+                                        ))}
+                                        onChange={(value) =>
+                                            setData("user_id", value)
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <InputError message={errors.user_id} />
+                        </div>
+
+                        <div className="flex-1">
+                            <div className="flex flex-row gap-3 items-end">
+                                <div className="w-full">
+                                    <InputLabel value="Tipo de reservacion" />
+                                    <Searcheable
+                                        value={data.type_reservation_id}
+                                        placeholder="Selecionar el tipo de reservacion"
+                                        datalist={types.map((e, i) => (
+                                            <SearcheableItem
+                                                value={e.id}
+                                                text={e.name}
+                                                index={i}
+                                                key={i}
+                                            >
+                                                <div className="text-gray-600">
+                                                    <div className="flex flex-row  justify-between items-center">
+                                                        <div className="flex-1 flex flex-col">
+                                                            <div>{e.name}</div>
+                                                            <div className="text-xs">
+                                                                {e.desc}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </SearcheableItem>
+                                        ))}
+                                        onChange={(value) =>
+                                            setData(
+                                                "type_reservation_id",
+                                                value
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <InputError message={errors.user_id} />
+                        </div>
+                    </div>
                     <div className="flex-1 flex flex-col">
                         <div>Horarios</div>
 
                         <div className="flex gap-3 px-5 py-3 overflow-x-scroll no-scrollbar">
-                            {horarios.map((e, i) => (
+                            {insumes.map((e, i) => (
                                 <div
                                     key={i}
-                                    onClick={() => setData("horario_id", e.id)}
+                                    onClick={() =>
+                                        setData("insume_area_id", e.id)
+                                    }
                                 >
-                                    <ResumeHorarioItem
-                                        horario={e}
-                                        selected={data.horario_id === e.id}
+                                    <InsumeItem
+                                        item={e}
+                                        selected={data.insume_area_id === e.id}
                                     />
                                 </div>
                             ))}
@@ -196,13 +199,29 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                     </div>
 
                     <div className="mb-5">
-                        <InputLabel value="Estado" />
-                        <TextInput
-                            value={TextCapitalize(data.estado)}
-                            disabled
-                            className="w-full bg-gray-100 border-none"
+                        <div className="flex gap-x-3">
+                            <TextInput
+                                type="checkbox"
+                                checked={data.is_ever}
+                                onChange={(e) =>
+                                    setData("is_ever", e.target.checked)
+                                }
+                            />
+                            <InputLabel value="Repetir todos los dias" />
+                        </div>
+                        <InputError message={errors.is_ever} />
+                    </div>
+
+                    <div>
+                        <InputLabel value="Observaciones" />
+                        <TextArea
+                            className="w-full"
+                            value={data.observations}
+                            onChange={(e) =>
+                                setData("observations", e.target.value)
+                            }
                         />
-                        <InputError message={errors.estado} />
+                        <InputError message={errors.observations} />
                     </div>
 
                     <button className="bg-primary py-2 text-white font-semibold text-xl rounded-lg hover:shadow-md w-full">
@@ -210,12 +229,11 @@ const FormReservacion = ({ usuarios, horarios = [], tipos = [] }) => {
                     </button>
                 </form>
             </div>
-            {showForm && <CreateUser tipos={tipos} onClose={handleCloseForm} />}
         </div>
     );
 };
 
-const ResumeHorarioItem = ({ horario, selected = false }) => {
+const InsumeItem = ({ item, selected = false }) => {
     return (
         <div
             style={{
@@ -227,18 +245,11 @@ const ResumeHorarioItem = ({ horario, selected = false }) => {
             } p-5 rounded-lg flex flex-col justify-center items-center select-none cursor-pointer transition-transform transform duration-300 hover:scale-105 hover:shadow-md`}
         >
             <div className="font-semibold text-gray-600 text md:text-xl">
-                {`${horario.fecha_apertura} - ${horario.fecha_cierre}`}
+                {item.name}
             </div>
 
             <div className="flex flex-row flex-wrap gap-1 mt-2 justify-center">
-                {Object.keys(horario.dias)
-                    .filter((e) => horario.dias[e])
-                    .map((key, i) => (
-                        <div
-                            key={i}
-                            className="text-sm text-gray-500"
-                        >{`${TextCapitalize(key)}, `}</div>
-                    ))}
+                {item.desc}
             </div>
         </div>
     );

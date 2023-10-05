@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware([])->group(function () {
+
+    $dir = __DIR__ . "/api";
+
+    $files = scandir($dir);
+
+    foreach ($files as $file) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === "php") {
+            include($dir . "/" . $file);
+        }
+    }
 });

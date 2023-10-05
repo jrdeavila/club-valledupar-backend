@@ -27,79 +27,53 @@ class CreateReservacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_reservacion' => 'required|date|date_format:Y-m-d',
-            'hora_reservacion' => 'required|date_format:H:i',
-            'horario_id' => 'required|exists:Horario,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'insume_area_id' => 'required|exists:insume_areas,id',
+            'is_ever' => 'required|boolean',
+            'type_reservation_id' => 'required|exists:type_reservations,id',
+            'observations' => 'nullable|string',
             'user_id' => 'required|exists:users,id',
-            'estado' => 'required|in:pendiente,aceptada,rechazada,cancelada,finalizada',
-
         ];
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * @param array<string, mixed> $data
      */
 
-    public function messages(): array
-
+    public function withValidator(Validator $validator): void
     {
-        return [
-            'fecha_reservacion.required' => 'La fecha de reservación es requerida',
-            'fecha_reservacion.date' => 'La fecha de reservación debe ser una fecha válida',
-            'fecha_reservacion.date_format' => 'La fecha de reservación debe ser una fecha válida',
-            'hora_reservacion.required' => 'La hora de reservación es requerida',
-            'hora_reservacion.date_format' => 'La hora de reservación debe ser una hora válida',
-            'id_horario.required' => 'El horario es requerido',
-            'id_horario.exists' => 'El horario seleccionado no existe',
-            'usuario_id.required' => 'El usuario es requerido',
-            'usuario_id.exists' => 'El usuario seleccionado no existe',
+        $validator->after(function ($validator) {
+            $data = $this->all();
+            $start_date = Carbon::parse($data['start_date']);
+            $end_date = Carbon::parse($data['end_date']);
 
-        ];
+            if ($start_date > $end_date) {
+                $validator->errors()->add('end_date', 'La fecha de fin debe ser mayor a la fecha de inicio');
+            }
+        });
     }
 
 
-    public function withValidator(Validator $validator)
+    /**
+     * @return array<string, string>
+     */
+
+    public function messages(): array
     {
-        return $validator->after(function (Validator $validator) {
-            // Check if time is after current
-
-
-            $currentTime = new DateTime();
-            $inputTime = new DateTime($this->input('fecha_reservacion'));
-            [$hours, $minutes] = explode(":", strval($this->input('hora_reservacion')));
-            $inputTime->setTimezone(new DateTimeZone(env('APP_TIMEZONE')));
-            $inputTime->setTime($hours, $minutes);
-
-
-
-            if ($currentTime > $inputTime) {
-                $validator->errors()->add('hora_reservacion', 'La hora de reservación no puede ser menor a la hora actual');
-            }
-
-
-
-
-            $available =  Horario::where(function ($query) {
-
-
-                $dayName = Carbon::now()->locale('es')->dayName;
-                $day = strtr($dayName, [
-                    'lunes' => 'lunes',
-                    'martes' => 'martes',
-                    'miércoles' => 'miercoles',
-                    'jueves' => 'jueves',
-                    'viernes' => 'viernes',
-                    'sábado' => 'sabado',
-                    'domingo' => 'domingo',
-                ]);
-
-                $query->whereTime('fecha_apertura', '<=', $this->input('hora_reservacion'))
-                    ->whereTime('fecha_cierre', '>=', $this->input('hora_reservacion'))
-                    ->where($day, '=', true);
-            })->exists();
-            if (!$available) {
-                $validator->errors()->add('hora_reservacion', 'La hora de reservación no está disponible');
-            }
-        });
+        return [
+            'start_date.required' => 'La fecha de inicio es requerida',
+            'start_date.date' => 'La fecha de inicio debe ser una fecha valida',
+            'end_date.required' => 'La fecha de fin es requerida',
+            'end_date.date' => 'La fecha de fin debe ser una fecha valida',
+            'end_date.after' => 'La fecha de fin debe ser mayor a la fecha de inicio',
+            'insume_area_id.required' => 'El insumo es requerido',
+            'insume_area_id.exists' => 'El insumo no existe',
+            'is_ever.required' => 'El tipo de reserva es requerido',
+            'is_ever.boolean' => 'El tipo de reserva debe ser un booleano',
+            'type_reservation_id.required' => 'El tipo de reserva es requerido',
+            'type_reservation_id.exists' => 'El tipo de reserva no existe',
+            'observations.string' => 'Las observaciones deben ser un texto',
+        ];
     }
 }

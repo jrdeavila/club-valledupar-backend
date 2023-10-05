@@ -7,7 +7,7 @@ import {
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { onUpdateState } from "../services/actions";
-import { getReservacionDate } from "../utils/date";
+import { getReservationDate } from "../utils/date";
 import { bgByEstado } from "../utils/stateColors";
 
 export const dashItems = (reservaciones) => [
@@ -17,7 +17,7 @@ export const dashItems = (reservaciones) => [
         icon: faClock,
         value: reservaciones.filter((e) => {
             let state = e.estado;
-            let [beginDate, endDate] = getReservacionDate(e);
+            let [beginDate, endDate] = getReservationDate(e);
 
             return state == "pendiente" && endDate < new Date();
         }).length,
@@ -30,7 +30,7 @@ export const dashItems = (reservaciones) => [
 
         value: reservaciones.filter((e) => {
             let state = e.estado;
-            let [beginDate, endDate] = getReservacionDate(e);
+            let [beginDate, endDate] = getReservationDate(e);
 
             return state == "finalizada" && endDate >= new Date();
         }).length,
@@ -42,7 +42,7 @@ export const dashItems = (reservaciones) => [
 
         value: reservaciones.filter((e) => {
             let state = e.estado;
-            let [beginDate, endDate] = getReservacionDate(e);
+            let [beginDate, endDate] = getReservationDate(e);
             return state == "cancelada" && endDate >= new Date();
         }).length,
     },
@@ -52,7 +52,7 @@ export const dashItems = (reservaciones) => [
         icon: faCalendarDay,
         value: reservaciones.filter((e) => {
             let state = e.estado;
-            let [beginDate, endDate] = getReservacionDate(e);
+            let [beginDate, endDate] = getReservationDate(e);
             return state == "aceptada" && endDate >= new Date();
         }).length,
     },
