@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/reservations')->group(function () {
-    Route::apiResource('/{user}', App\Http\Controllers\Api\ReservationController::class)->only(['index', 'store']);
+    Route::apiResource('/{user}', App\Http\Controllers\Api\ReservationController::class)
+        ->only(['index', 'store']);
+
+    Route::delete('/{reservation}/{user}', [App\Http\Controllers\Api\ReservationController::class, 'destroy']);
 });
 
 Route::get('/insume-areas', App\Http\Controllers\Api\InsumeAreasController::class);
