@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             CartaSeeder::class,
             PedidoSeeder::class,
             InsumeAreaSeeder::class,
-            ReservationSeeder::class,
         ]);
     }
 }

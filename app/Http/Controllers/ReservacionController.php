@@ -3,20 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateReservacionRequest;
-use App\Http\Requests\QueryReservacionesRequest;
-use App\Http\Resources\HorarioCollection;
 use App\Http\Resources\ReservacionCollection;
-use App\Http\Resources\RoleCollection;
 use App\Http\Resources\UserCollection;
-use App\Http\Resources\UsuarioCollection;
-use App\Models\Horario;
 use App\Models\InsumeArea;
 use App\Models\Reservacion;
 use App\Models\Reservation;
 use App\Models\TypeReservation;
 use App\Models\User;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
 
 class ReservacionController extends Controller
 {
@@ -62,7 +56,7 @@ class ReservacionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservacion $reservacion)
+    public function destroy(Reservation $reservacion)
     {
 
         $reservacion->delete();
