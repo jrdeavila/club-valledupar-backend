@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
@@ -54,6 +55,15 @@ class CreateReservationRequest extends FormRequest
             if ($start_date < $current_date) {
                 $validator->errors()->add('start_date', 'La fecha de reservacion debe ser mayor a la fecha actual');
             }
+
+            Reservation::where(function ($query) {
+                $query->where('is_ever', true);
+            })->where(function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('start_date', [$start_date, $end_date])
+                    ->orWhereBetween('end_date', [$start_date, $end_date]);
+            })->get()->each(function ($reservation) use ($validator) {
+                $validator->errors()->add('start_date', 'La fecha de reservacion ya esta ocupada');
+            });
         });
     }
 
