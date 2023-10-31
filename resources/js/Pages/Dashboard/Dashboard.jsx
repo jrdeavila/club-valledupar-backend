@@ -22,7 +22,7 @@ export default function Dashboard({ auth }) {
                         .filter((e) => !e.onlyNav)
                         .map((card, index) => (
                             <div
-                                className=" w-full px-5 lg:px-0 lg:w-1/3"
+                                className=" w-full px-5 lg:px-0 lg:w-1/3 md:w-2/3"
                                 key={index}
                             >
                                 <DashboardCardItem {...card} />

@@ -49,7 +49,7 @@ export default function Reservaciones({
 
     const EventAgenda = () => {
         return (
-            <div className="relative flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center">
                 <div
                     style={{
                         width: "100%",
