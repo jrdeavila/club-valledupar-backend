@@ -3,9 +3,9 @@ export default function ApplicationLogo(props) {
         <div
             style={{
                 backgroundImage: `url('/img/logos/small-logo.png')`,
-                backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
+                backgroundSize: "contain",
             }}
             {...props}
         ></div>
