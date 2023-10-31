@@ -7,13 +7,13 @@ import styled from "styled-components";
 import ErrorLayout from "./ErrorLayout";
 import { BackgroundContainerStyled, BackgroundStyled } from "./GuestLayout";
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, children }) {
     return (
         <ErrorLayout>
             <BackgroundContainerStyled className="select-none">
                 <BackgroundStyled />
                 <NavigationStyled user={user} />
-                <main className="relative">{children}</main>
+                <ContentStyled>{children}</ContentStyled>
             </BackgroundContainerStyled>
         </ErrorLayout>
     );
@@ -40,7 +40,15 @@ const NavigationStyled = ({ user }) => {
     return (
         <NavStickyStyled className={styles}>
             <NavContentStyled>
-                <ApplicationLogoStyled />
+                <div className="flex items-center">
+                    <ApplicationLogoStyled />
+                    <div className="md:hidden flex flex-col">
+                        <div className=" text-white text-3xl font-bold">
+                            Club Social Valledupar
+                        </div>
+                        <div className="text-white">{user.email}</div>
+                    </div>
+                </div>
                 <div className="hidden md:flex">
                     {dashboardItems.map((item, index) => (
                         <NavLink
@@ -104,6 +112,12 @@ const NavigationStyled = ({ user }) => {
         </NavStickyStyled>
     );
 };
+
+const ContentStyled = styled.div`
+    min-height: calc(100vh - 150px);
+    width: 100%;
+    position: relative;
+`;
 
 const NavContentStyled = styled.div`
     position: absolute;

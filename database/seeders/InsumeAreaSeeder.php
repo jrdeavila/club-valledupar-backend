@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Horario;
 use App\Models\InsumeArea;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,5 +31,27 @@ class InsumeAreaSeeder extends Seeder
             'desc' => 'Puede ser cualquier tipo de insumo para la cancha de tenis',
             'color' => '#ff0000',
         ]);
+
+        InsumeArea::create([
+            'name' => 'Gimnasio',
+            'desc' => 'Puede ser cualquier tipo de insumo para el gimnasio',
+            'color' => '#ffff00',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Billar',
+            'desc' => 'Puede ser cualquier tipo de insumo para el billar',
+            'color' => '#00ffff',
+        ]);
+
+
+        // Asignar horarios a las areas
+        $schedules = Horario::all();
+
+        InsumeArea::all()->each(function ($insumeArea) use ($schedules) {
+            $insumeArea->schedules()->attach(
+                $schedules
+            );
+        });
     }
 }

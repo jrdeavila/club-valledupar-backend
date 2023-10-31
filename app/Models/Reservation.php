@@ -14,7 +14,6 @@ class Reservation extends Model
         'end_date',
         'is_ever',
         'insume_area_id',
-        'type_reservation_id',
         'user_id',
     ];
 
@@ -24,10 +23,6 @@ class Reservation extends Model
         return $this->belongsTo(InsumeArea::class);
     }
 
-    public function typeReservation()
-    {
-        return $this->belongsTo(TypeReservation::class);
-    }
 
     public function observations()
     {

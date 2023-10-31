@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix('horarios')->group(function () {
-    Route::apiResource('.', App\Http\Controllers\HorarioController::class)->names('horarios')
-        ->parameter('', 'horario')
+Route::prefix('insumos')->group(function () {
+    Route::apiResource('.', App\Http\Controllers\InsumeAreaController::class)->names('insumos')
+        ->parameter('', 'insumo')
         ->except(['show']);
 });

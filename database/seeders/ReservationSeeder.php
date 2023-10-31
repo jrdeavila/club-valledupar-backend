@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\InsumeArea;
 use App\Models\Reservation;
 use App\Models\TypeReservation;
+use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,31 +18,25 @@ class ReservationSeeder extends Seeder
      */
     public function run(): void
     {
-        TypeReservation::create([
-            'name' => 'Clases de natación',
-            'desc' => 'Clases de natación',
-        ]);
+        // Registrar reservaciones por cada usuario socio. Agregar Insumo a la reservacion y dos observaciones
+        $users = User::role('socio')->get();
+        $insumes = InsumeArea::all();
 
-        TypeReservation::create([
-            'name' => 'Clases de tenis',
-            'desc' => 'Clases de tenis',
-        ]);
-
-        TypeReservation::create([
-            'name' => 'Clases de futbol',
-            'desc' => 'Clases de futbol',
-        ]);
-
-
-        InsumeArea::all()->each(function ($type) {
-            $type->reservations()->saveMany(
-                Reservation::factory(20)->make([
-                    'insume_area_id' => $type->id,
-                    'type_reservation_id' => 1,
-                ])->each(function (Reservation $reservation) {
-                    $reservation->user()->associate(1);
-                })
-            );
-        });
+        foreach ($users as $user) {
+            $reservation = Reservation::factory(10)->create([
+                'user_id' => $user->id,
+                'insume_area_id' => $insumes->random()->id,
+            ]);
+            $reservation->map(function ($reservation) {
+                $reservation->observations()->create([
+                    'reservation_id' => $reservation->id,
+                    'observation' => 'Observacion 1',
+                ]);
+                $reservation->observations()->create([
+                    'reservation_id' => $reservation->id,
+                    'observation' => 'Observacion 2',
+                ]);
+            });
+        }
     }
 }

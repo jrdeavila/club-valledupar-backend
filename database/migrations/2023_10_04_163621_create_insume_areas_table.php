@@ -17,6 +17,16 @@ return new class extends Migration
             $table->string('desc');
             $table->string('color');
         });
+
+        Schema::create('insume_area_schedule', function (BluePrint $table) {
+            $table->id();
+            $table->foreignId('insume_area_id')->constrained('insume_areas')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('schedule_id')->constrained('Horario')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+        });
     }
 
     /**
@@ -25,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('insume_areas');
+        Schema::dropIfExists('insume_area_schedule');
     }
 };

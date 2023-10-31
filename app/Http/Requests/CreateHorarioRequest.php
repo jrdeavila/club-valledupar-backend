@@ -23,15 +23,20 @@ class CreateHorarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_apertura' => 'required|date_format:H:i',
-            'fecha_cierre' => 'required|date_format:H:i|after:fecha_apertura',
-            'lunes' => 'required|boolean',
-            'martes' => 'required|boolean',
-            'miercoles' => 'required|boolean',
-            'jueves' => 'required|boolean',
-            'viernes' => 'required|boolean',
-            'sabado' => 'required|boolean',
-            'domingo' => 'required|boolean',
+            'insume' => 'required|json',
+            'insume.title' => 'required|string',
+            'insume.description' => 'required|string|max:255',
+            'schedule' => 'required|json',
+            'schedule.fecha_cierre' => 'required|date_format:H:i|after:fecha_apertura',
+            'schedule.fecha_apertura' => 'required|date_format:H:i',
+            'schedule.lunes' => 'required|boolean',
+            'schedule.martes' => 'required|boolean',
+            'schedule.miercoles' => 'required|boolean',
+            'schedule.jueves' => 'required|boolean',
+            'schedule.viernes' => 'required|boolean',
+            'schedule.sabado' => 'required|boolean',
+            'schedule.domingo' => 'required|boolean',
+
 
 
         ];

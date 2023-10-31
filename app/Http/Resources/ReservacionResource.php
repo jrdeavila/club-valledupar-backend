@@ -16,12 +16,14 @@ class ReservacionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->typeReservation->name,
-            'desc' => $this->insumeArea->name,
             'end_date' => $this->end_date,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'color' => $this->insumeArea->color,
+            'user' => $this->user->firstname . ' ' . $this->user->lastname,
+            'observations' => $this->observations->map(function ($observation) {
+                return $observation->observation;
+            }),
         ];
     }
 }

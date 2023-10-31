@@ -18,8 +18,8 @@ export default forwardRef(function TextInput(
             {...props}
             type={type}
             className={
-                "bg-transparent border-none border-0 focus:ring-white focus:ring-2 ring-2 ring-white rounded-md shadow-sm text-white py-3 " +
-                className
+                className +
+                " bg-transparent border-none border-0 focus:ring-white focus:ring-2 ring-2 ring-white rounded-md shadow-sm text-white py-3"
             }
             ref={input}
         />

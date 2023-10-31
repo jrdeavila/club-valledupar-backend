@@ -24,7 +24,7 @@ export const dashboardItems = [
         desc: "Administra los insumos que se utilizan en el club",
         image: "/img/horarios.jpeg",
         onlyNav: false,
-        route: "horarios.index",
+        route: "insumos.index",
     },
     {
         title: "Pedidos",

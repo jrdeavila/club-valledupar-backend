@@ -10,7 +10,7 @@ import CustomCalendar from "./components/CustomCalendar";
 export default function Reservaciones({
     auth: { user },
     reservaciones: { data: reservations },
-    tipos: types,
+    types: { data: types },
 }) {
     const [events, setEvents] = useState([]);
 
@@ -24,11 +24,10 @@ export default function Reservaciones({
             const [beginDate, endDate] = getReservationDate(reservacion);
             return {
                 id: reservacion.id,
-                title: reservacion.title,
+                title: reservacion.user,
                 start: beginDate,
                 end: endDate,
-                desc: reservacion.desc,
-                bgColor: reservacion.color,
+                bgColor: "#1E40AF",
                 allDay: true,
                 rrule: {
                     freq: "daily",
@@ -61,11 +60,12 @@ export default function Reservaciones({
                                 <CalendarTabItem
                                     key={i}
                                     name={e.name}
+                                    count={e.reservations_pending}
                                     onClick={() => handleOnSelectType(e)}
                                 />
                             ))}{" "}
                         </div>{" "}
-                    </div>{" "}
+                    </div>
                     <div className="mx-4">
                         {" "}
                         <CustomCalendar events={events} />{" "}
@@ -99,13 +99,16 @@ export default function Reservaciones({
     );
 }
 
-const CalendarTabItem = ({ name, ...props }) => {
+const CalendarTabItem = ({ name, count, ...props }) => {
     return (
         <div
             {...props}
             className="flex flex-row gap-x-3 items-center justify-center px-3 py-2  backdrop  backdrop-blur-lg  bg-white bg-opacity-25 rounded-lg text-white font-bold text-2xl w-64 hover:scale-110 transform transition duration-300 cursor-pointer text-center"
         >
-            <div>{TextCapitalize(name)}</div>
+            <div className="flex gap-x-3 justify-center items-center">
+                <div>{TextCapitalize(name)}</div>
+                <div>{`(${count})`}</div>
+            </div>
         </div>
     );
 };

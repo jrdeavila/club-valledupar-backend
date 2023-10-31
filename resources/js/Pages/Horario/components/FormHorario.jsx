@@ -1,23 +1,32 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextArea from "@/Components/TextArea";
 import TextInput from "@/Components/TextInput";
 import { TextCapitalize } from "@/Utils/TextCapitalize";
 import { FormatHiAtoHHmm } from "@/Utils/TimeFormat";
 import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-const FormHorario = ({ onClose, horario }) => {
+const FormHorario = ({ onClose, horario: insume }) => {
+    const [tabIndex, setTabIndex] = useState(1);
     const [daySettings, setDaySettings] = useState(0);
     const { data, setData, errors, processing, post, patch } = useForm({
-        fecha_apertura: FormatHiAtoHHmm(horario?.fecha_apertura),
-        fecha_cierre: FormatHiAtoHHmm(horario?.fecha_cierre),
-        lunes: horario?.dia?.lunes ?? false,
-        martes: horario?.dia?.martes ?? false,
-        miercoles: horario?.dia?.miercoles ?? false,
-        jueves: horario?.dia?.jueves ?? false,
-        viernes: horario?.dia?.viernes ?? false,
-        sabado: horario?.dia?.sabado ?? false,
-        domingo: horario?.dia?.domingo ?? false,
+        insume: {
+            title: insume?.insume?.title ?? "",
+            description: insume?.insume?.description ?? "",
+        },
+        schedule: {
+            fecha_apertura: FormatHiAtoHHmm(insume?.fecha_apertura),
+            fecha_cierre: FormatHiAtoHHmm(insume?.fecha_cierre),
+            lunes: insume?.dia?.lunes ?? false,
+            martes: insume?.dia?.martes ?? false,
+            miercoles: insume?.dia?.miercoles ?? false,
+            jueves: insume?.dia?.jueves ?? false,
+            viernes: insume?.dia?.viernes ?? false,
+            sabado: insume?.dia?.sabado ?? false,
+            domingo: insume?.dia?.domingo ?? false,
+        },
     });
 
     const handlerDaySettings = {
@@ -77,8 +86,8 @@ const FormHorario = ({ onClose, horario }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (horario) {
-            patch(route("horarios.update", horario), {
+        if (insume) {
+            patch(route("horarios.update", insume), {
                 onSuccess: () => onClose(),
                 onCancel: (err) => {
                     console.log(err);
@@ -94,124 +103,179 @@ const FormHorario = ({ onClose, horario }) => {
         }
     };
 
+    const errorBox = (
+        <div className="flex flex-col gap-3 p-4">
+            {errors &&
+                Object.keys(errors)
+                    .filter((key) => {
+                        return !["fecha_apertura", "fecha_cierre"].some(
+                            (e) => e == key
+                        );
+                    })
+
+                    .map((e, index) => (
+                        <InputError
+                            key={index}
+                            message={errors[e]}
+                            className="list-item"
+                        />
+                    ))}
+        </div>
+    );
+
+    const customDaySelector = (
+        <div className="flex flex-wrap gap-3 p-4">
+            {Object.keys(data.schedule)
+                .filter((key) => {
+                    return typeof data[key] === "boolean";
+                })
+                .map((e, index) => (
+                    <div key={index} className="flex gap-2 items-center me-3">
+                        <TextInput
+                            type="checkbox"
+                            className="w-6 text-transparent"
+                            {...{
+                                checked: data[e],
+                                onChange: () =>
+                                    setData(`insume.${e}`, !data[e]),
+                            }}
+                        />
+                        <div className="text-white">{TextCapitalize(e)}</div>
+                    </div>
+                ))}
+        </div>
+    );
+
+    const scheduleFields = (
+        <>
+            <div className="mb-3">
+                <InputLabel
+                    value="Fecha de Apertura"
+                    htmlFor="fecha_apertura"
+                />
+
+                <TextInput
+                    value={data.fecha_apertura}
+                    name="fecha_apertura"
+                    type="time"
+                    className="w-full font-bold bg-opacity-40 bg-white"
+                    onChange={(e) => setData("fecha_apertura", e.target.value)}
+                />
+                <InputError message={errors.fecha_apertura} />
+            </div>
+            <div className="mb-3">
+                <InputLabel value="Fecha de Cierre" htmlFor="fecha_cierre" />
+
+                <TextInput
+                    value={data.fecha_cierre}
+                    name="fecha_cierre"
+                    type="time"
+                    className="w-full font-bold bg-opacity-40 bg-white"
+                    onChange={(e) => setData("fecha_cierre", e.target.value)}
+                />
+                <InputError message={errors.fecha_cierre} />
+            </div>
+            <div className="mb-3">
+                <InputLabel
+                    value="Dias en los que aplica"
+                    htmlFor="fecha_apertura"
+                    className="font-bold"
+                />
+
+                <select
+                    className="border-white border-2 focus:border-white focus:ring-white focus:ring-0 bg-opacity-40 bg-white text-white font-bold rounded-md shadow-sm w-full"
+                    onChange={(e) => setDaySettings(e.target.value)}
+                >
+                    {[
+                        "Todos los dias",
+                        "Todos, excepto fin de semana",
+                        "Fin de semana",
+                        "Personalizado",
+                    ].map((e, i) => (
+                        <option
+                            className="text-gray-600 border-b-2 border-white "
+                            key={i}
+                            value={i}
+                        >
+                            {e}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            {daySettings == 3 ? customDaySelector : undefined}
+            <div className="flex gap-2 mt-5">
+                {!processing && (
+                    <PrimaryButton
+                        className="w-full flex justify-center"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onClose();
+                        }}
+                    >
+                        Cancelar
+                    </PrimaryButton>
+                )}
+                <PrimaryButton className="w-full flex justify-center">
+                    {processing ? "Guardando..." : "Guardar"}
+                </PrimaryButton>
+            </div>
+        </>
+    );
+
+    const insumeDataFields = (
+        <>
+            <div className="mb-3">
+                <InputLabel value="Titulo" htmlFor="title" />
+
+                <TextInput
+                    value={data.title}
+                    name="title"
+                    type="text"
+                    className="w-full font-bold bg-opacity-40 bg-white"
+                    onChange={(e) => setData("title", e.target.value)}
+                />
+                <InputError message={errors.description} />
+            </div>
+            <div className="mb-3">
+                <InputLabel value="Descripcion" htmlFor="description" />
+
+                <TextArea
+                    value={data.description}
+                    name="description"
+                    type="text"
+                    rows={5}
+                    className="w-full font-bold bg-opacity-40 bg-white"
+                    onChange={(e) => setData("description", e.target.value)}
+                />
+                <InputError message={errors.description} />
+            </div>
+        </>
+    );
+    const tabStyle = (index) =>
+        `flex-1 flex justify-center items-center text-white font-bold text-xl hover:bg-white hover:bg-opacity-40 ${
+            tabIndex === index ? "border-b-2 border-white" : ""
+        }`;
+
+    const tabContent = (index) => ({
+        onClick: () => setTabIndex(index),
+        className: tabStyle(index),
+    });
+
+    const tabViews = (index) =>
+        ({
+            1: insumeDataFields,
+            2: scheduleFields,
+        }[index]);
     return (
         <div className="flex flex-row w-full">
             <form onSubmit={handleSubmit} className="p-4 w-full">
-                <div className="mb-3">
-                    <InputLabel
-                        value="Fecha de Apertura"
-                        htmlFor="fecha_apertura"
-                    />
+                <div className="flex h-10 mb-4 transform transition-transform duration-300">
+                    <div {...tabContent(1)}>Descripcion</div>
+                    <div {...tabContent(2)}>Disponbilidad</div>
+                </div>
 
-                    <TextInput
-                        value={data.fecha_apertura}
-                        name="fecha_apertura"
-                        type="time"
-                        className="w-full"
-                        onChange={(e) =>
-                            setData("fecha_apertura", e.target.value)
-                        }
-                    />
-                    <InputError message={errors.fecha_apertura} />
-                </div>
-                <div className="mb-3">
-                    <InputLabel
-                        value="Fecha de Cierre"
-                        htmlFor="fecha_cierre"
-                    />
-
-                    <TextInput
-                        value={data.fecha_cierre}
-                        name="fecha_cierre"
-                        type="time"
-                        className="w-full"
-                        onChange={(e) =>
-                            setData("fecha_cierre", e.target.value)
-                        }
-                    />
-                    <InputError message={errors.fecha_cierre} />
-                </div>
-                <div className="mb-3">
-                    <InputLabel
-                        value="Dias en los que aplica"
-                        htmlFor="fecha_apertura"
-                    />
-
-                    <select
-                        className="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm w-full"
-                        onChange={(e) => setDaySettings(e.target.value)}
-                    >
-                        {[
-                            "Todos los dias",
-                            "Todos, excepto fin de semana",
-                            "Fin de semana",
-                            "Personalizado",
-                        ].map((e, i) => (
-                            <option key={i} value={i}>
-                                {e}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                {daySettings == 3 ? (
-                    <div className="flex flex-wrap gap-3 p-4">
-                        {Object.keys(data)
-                            .filter((key) => {
-                                return typeof data[key] === "boolean";
-                            })
-                            .map((e, index) => (
-                                <div
-                                    key={index}
-                                    className="flex gap-2 items-center me-3"
-                                >
-                                    <TextInput
-                                        type="checkbox"
-                                        {...{
-                                            checked: data[e],
-                                            onChange: () =>
-                                                setData(e, !data[e]),
-                                        }}
-                                    />
-                                    <div className="text">
-                                        {TextCapitalize(e)}
-                                    </div>
-                                </div>
-                            ))}
-                    </div>
-                ) : undefined}
-                <div className="flex flex-col gap-3 p-4">
-                    {errors &&
-                        Object.keys(errors)
-                            .filter((key) => {
-                                return !["fecha_apertura", "fecha_cierre"].some(
-                                    (e) => e == key
-                                );
-                            })
-
-                            .map((e, index) => (
-                                <InputError
-                                    key={index}
-                                    message={errors[e]}
-                                    className="list-item"
-                                />
-                            ))}
-                </div>
-                <div className="flex gap-2 mt-5">
-                    {!processing && (
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                onClose();
-                            }}
-                            className="btn bg-white border-primary border-2 text-primary rounded-lg px-3 py-2 flex-1 font-semibold"
-                        >
-                            Cancelar
-                        </button>
-                    )}
-                    <button className="btn bg-primary text-white rounded-lg px-3 py-2 flex-1 font-semibold">
-                        {processing ? "Guardando..." : "Guardar"}
-                    </button>
-                </div>
+                {errorBox}
+                {tabViews(tabIndex)}
             </form>
         </div>
     );

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api;
+namespace App\Http\Resources;
 
-use App\Http\Resources\HorarioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InsumeAreaResource extends JsonResource
+class InsumeAreaResume extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +17,7 @@ class InsumeAreaResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'desc' => $this->desc,
-            'color' => $this->color,
-            'schedules' => HorarioResource::collection($this->schedules),
+            'reservations_pending' => $this->getReservationsPending(),
         ];
     }
 }
