@@ -28,7 +28,7 @@ const NavigationStyled = ({ user }) => {
             <BlurredNavBgStyled />
             <NavContentStyled>
                 <ApplicationLogoStyled />
-                <div className="hidden  md:flex">
+                <div className="hidden md:flex">
                     {dashboardItems.map((item, index) => (
                         <NavLink
                             key={index}
@@ -68,10 +68,10 @@ const NavigationStyled = ({ user }) => {
                                 </span>
                             </Dropdown.Trigger>
 
-                            <Dropdown.Content contentClasses="bg-transparent backdrop backdrop-blur">
+                            <Dropdown.Content contentClasses="bg-white bg-opacity-25 backdrop backdrop-blur-lg z-50">
                                 <Dropdown.Link
                                     href={route("profile.edit")}
-                                    className="text-white hover:bg-opacity-5 hover:rounded-md"
+                                    className="text-white hover:bg-opacity-5 hover:rounded-md font-bold"
                                 >
                                     Profile
                                 </Dropdown.Link>
@@ -79,7 +79,7 @@ const NavigationStyled = ({ user }) => {
                                     href={route("logout")}
                                     method="post"
                                     as="button"
-                                    className="text-white hover:bg-opacity-5 hover:rounded-md"
+                                    className="text-white hover:bg-opacity-5 hover:rounded-md font-bold"
                                 >
                                     Log Out
                                 </Dropdown.Link>

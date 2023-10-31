@@ -20,8 +20,8 @@ export const dashboardItems = [
         route: "reservaciones.index",
     },
     {
-        title: "Horarios",
-        desc: "Administra los horarios de apertura y cierre",
+        title: "Insumos",
+        desc: "Administra los insumos que se utilizan en el club",
         image: "/img/horarios.jpeg",
         onlyNav: false,
         route: "horarios.index",

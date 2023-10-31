@@ -10,6 +10,7 @@ use App\Models\Reservacion;
 use App\Models\Reservation;
 use App\Models\TypeReservation;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ReservacionController extends Controller
@@ -17,9 +18,10 @@ class ReservacionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models = Reservation::all();
+        $type = TypeReservation::find($request->type);
+        $models = Reservation::where('insume_area_id', $type?->id)->get();
         return Inertia::render('Reservacion/Index', [
             "reservaciones" => new ReservacionCollection($models),
             'tipos' => InsumeArea::all(),
