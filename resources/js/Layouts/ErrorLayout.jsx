@@ -23,7 +23,11 @@ const ErrorLayout = ({ children }) => {
     }, [errors]);
     return (
         <div>
-            <ToastContainer />
+            <ToastContainer
+                style={{
+                    zIndex: 100001,
+                }}
+            />
             {children}
         </div>
     );

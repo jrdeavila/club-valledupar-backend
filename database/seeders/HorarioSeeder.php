@@ -21,8 +21,8 @@ class HorarioSeeder extends Seeder
             'miercoles' => true,
             'jueves' => true,
             'viernes' => true,
-            'sabado' => true,
-            'domingo' => true,
+            'sabado' => false,
+            'domingo' => false,
         ]);
 
         Horario::create([
@@ -33,8 +33,8 @@ class HorarioSeeder extends Seeder
             'miercoles' => true,
             'jueves' => true,
             'viernes' => true,
-            'sabado' => true,
-            'domingo' => true,
+            'sabado' => false,
+            'domingo' => false,
         ]);
     }
 }

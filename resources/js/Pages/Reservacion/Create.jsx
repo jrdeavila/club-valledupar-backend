@@ -39,8 +39,8 @@ export default function CreateReservacion({
     );
 }
 
-const FormReservacion = ({ users, insumes = [], types = [] }) => {
-    const { data, setData, errors, post } = useForm({
+export const formreservacion = ({ users, insumes = [], types = [] }) => {
+    const { data, setdata, errors, post } = useform({
         start_date: "",
         end_date: "",
         type_reservation_id: 0,
@@ -50,76 +50,76 @@ const FormReservacion = ({ users, insumes = [], types = [] }) => {
         user_id: 0,
     });
 
-    const [showForm, setShowForm] = useState(false);
+    const [showform, setshowform] = usestate(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handlesubmit = (e) => {
+        e.preventdefault();
         post(route("reservaciones.store"));
     };
 
-    const handleOpenForm = (e) => {
-        e.preventDefault();
-        setShowForm(true);
+    const handleopenform = (e) => {
+        e.preventdefault();
+        setshowform(true);
     };
 
-    const handleCloseForm = () => {
-        setShowForm(false);
+    const handlecloseform = () => {
+        setshowform(false);
     };
 
     return (
-        <div className="w-full lg:w-2/3 bg-white rounded-lg p-5 select-none">
-            <div className="flex flex-col gap-y-3">
-                <div className="text-xl text-gray-400 font-semibold">
-                    Informacion de la reservacion
+        <div classname="w-full lg:w-2/3 bg-white rounded-lg p-5 select-none">
+            <div classname="flex flex-col gap-y-3">
+                <div classname="text-xl text-gray-400 font-semibold">
+                    informacion de la reservacion
                 </div>
-                <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-                    <div className="flex flex-row gap-x-5">
-                        <div className="flex-1">
-                            <InputLabel value="Fecha de inicio" />
-                            <TextInput
+                <form classname="flex flex-col gap-y-3" onsubmit={handlesubmit}>
+                    <div classname="flex flex-row gap-x-5">
+                        <div classname="flex-1">
+                            <inputlabel value="fecha de inicio" />
+                            <textinput
                                 value={data.start_date}
                                 type="datetime-local"
-                                className="w-full"
-                                onChange={(e) =>
-                                    setData("start_date", e.target.value)
+                                classname="w-full"
+                                onchange={(e) =>
+                                    setdata("start_date", e.target.value)
                                 }
                             />
-                            <InputError message={errors.start_date} />
+                            <inputerror message={errors.start_date} />
                         </div>
-                        <div className="flex-1">
-                            <InputLabel value="Fecha de cierre" />
-                            <TextInput
+                        <div classname="flex-1">
+                            <inputlabel value="fecha de cierre" />
+                            <textinput
                                 value={data.end_date}
                                 type="datetime-local"
-                                className="w-full"
-                                onChange={(e) =>
-                                    setData("end_date", e.target.value)
+                                classname="w-full"
+                                onchange={(e) =>
+                                    setdata("end_date", e.target.value)
                                 }
                             />
-                            <InputError message={errors.end_date} />
+                            <inputerror message={errors.end_date} />
                         </div>
                     </div>
 
-                    <div className="flex flex-row gap-x-3">
-                        <div className="flex-1">
-                            <div className="flex flex-row gap-3 items-end">
-                                <div className="w-full">
-                                    <InputLabel value="Usuario" />
-                                    <Searcheable
+                    <div classname="flex flex-row gap-x-3">
+                        <div classname="flex-1">
+                            <div classname="flex flex-row gap-3 items-end">
+                                <div classname="w-full">
+                                    <inputlabel value="usuario" />
+                                    <searcheable
                                         value={data.user_id}
-                                        placeholder="Selecionar el tipo de reservacion"
+                                        placeholder="selecionar el tipo de reservacion"
                                         datalist={users.map((e, i) => (
-                                            <SearcheableItem
+                                            <searcheableitem
                                                 value={e.id}
                                                 text={`${e.firstname} ${e.lastname}`}
                                                 index={i}
                                                 key={i}
                                             >
-                                                <div className="text-gray-600">
-                                                    <div className="flex flex-row  justify-between items-center">
-                                                        <div className="flex-1 flex flex-col">
+                                                <div classname="text-gray-600">
+                                                    <div classname="flex flex-row  justify-between items-center">
+                                                        <div classname="flex-1 flex flex-col">
                                                             <div>{`${e.firstname} ${e.lastname}`}</div>
-                                                            <div className="text-xs flex gap-x-2">
+                                                            <div classname="text-xs flex gap-x-2">
                                                                 <div>
                                                                     {e.email}
                                                                 </div>
@@ -127,45 +127,45 @@ const FormReservacion = ({ users, insumes = [], types = [] }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </SearcheableItem>
+                                            </searcheableitem>
                                         ))}
-                                        onChange={(value) =>
-                                            setData("user_id", value)
+                                        onchange={(value) =>
+                                            setdata("user_id", value)
                                         }
                                     />
                                 </div>
                             </div>
-                            <InputError message={errors.user_id} />
+                            <inputerror message={errors.user_id} />
                         </div>
 
-                        <div className="flex-1">
-                            <div className="flex flex-row gap-3 items-end">
-                                <div className="w-full">
-                                    <InputLabel value="Tipo de reservacion" />
-                                    <Searcheable
+                        <div classname="flex-1">
+                            <div classname="flex flex-row gap-3 items-end">
+                                <div classname="w-full">
+                                    <inputlabel value="tipo de reservacion" />
+                                    <searcheable
                                         value={data.type_reservation_id}
-                                        placeholder="Selecionar el tipo de reservacion"
+                                        placeholder="selecionar el tipo de reservacion"
                                         datalist={types.map((e, i) => (
-                                            <SearcheableItem
+                                            <searcheableitem
                                                 value={e.id}
                                                 text={e.name}
                                                 index={i}
                                                 key={i}
                                             >
-                                                <div className="text-gray-600">
-                                                    <div className="flex flex-row  justify-between items-center">
-                                                        <div className="flex-1 flex flex-col">
+                                                <div classname="text-gray-600">
+                                                    <div classname="flex flex-row  justify-between items-center">
+                                                        <div classname="flex-1 flex flex-col">
                                                             <div>{e.name}</div>
-                                                            <div className="text-xs">
+                                                            <div classname="text-xs">
                                                                 {e.desc}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </SearcheableItem>
+                                            </searcheableitem>
                                         ))}
-                                        onChange={(value) =>
-                                            setData(
+                                        onchange={(value) =>
+                                            setdata(
                                                 "type_reservation_id",
                                                 value
                                             )
@@ -173,21 +173,21 @@ const FormReservacion = ({ users, insumes = [], types = [] }) => {
                                     />
                                 </div>
                             </div>
-                            <InputError message={errors.user_id} />
+                            <inputerror message={errors.user_id} />
                         </div>
                     </div>
-                    <div className="flex-1 flex flex-col">
-                        <div>Horarios</div>
+                    <div classname="flex-1 flex flex-col">
+                        <div>horarios</div>
 
-                        <div className="flex gap-3 px-5 py-3 overflow-x-scroll no-scrollbar">
+                        <div classname="flex gap-3 px-5 py-3 overflow-x-scroll no-scrollbar">
                             {insumes.map((e, i) => (
                                 <div
                                     key={i}
-                                    onClick={() =>
-                                        setData("insume_area_id", e.id)
+                                    onclick={() =>
+                                        setdata("insume_area_id", e.id)
                                     }
                                 >
-                                    <InsumeItem
+                                    <insumeitem
                                         item={e}
                                         selected={data.insume_area_id === e.id}
                                     />
@@ -195,37 +195,37 @@ const FormReservacion = ({ users, insumes = [], types = [] }) => {
                             ))}
                         </div>
 
-                        <InputError message={errors.horario_id} />
+                        <inputerror message={errors.horario_id} />
                     </div>
 
-                    <div className="mb-5">
-                        <div className="flex gap-x-3">
-                            <TextInput
+                    <div classname="mb-5">
+                        <div classname="flex gap-x-3">
+                            <textinput
                                 type="checkbox"
                                 checked={data.is_ever}
-                                onChange={(e) =>
-                                    setData("is_ever", e.target.checked)
+                                onchange={(e) =>
+                                    setdata("is_ever", e.target.checked)
                                 }
                             />
-                            <InputLabel value="Repetir todos los dias" />
+                            <inputlabel value="repetir todos los dias" />
                         </div>
-                        <InputError message={errors.is_ever} />
+                        <inputerror message={errors.is_ever} />
                     </div>
 
                     <div>
-                        <InputLabel value="Observaciones" />
-                        <TextArea
-                            className="w-full"
+                        <inputlabel value="observaciones" />
+                        <textarea
+                            classname="w-full"
                             value={data.observations}
-                            onChange={(e) =>
-                                setData("observations", e.target.value)
+                            onchange={(e) =>
+                                setdata("observations", e.target.value)
                             }
                         />
-                        <InputError message={errors.observations} />
+                        <inputerror message={errors.observations} />
                     </div>
 
-                    <button className="bg-primary py-2 text-white font-semibold text-xl rounded-lg hover:shadow-md w-full">
-                        Agendar Reservacion
+                    <button classname="bg-primary py-2 text-white font-semibold text-xl rounded-lg hover:shadow-md w-full">
+                        agendar reservacion
                     </button>
                 </form>
             </div>
@@ -233,22 +233,22 @@ const FormReservacion = ({ users, insumes = [], types = [] }) => {
     );
 };
 
-const InsumeItem = ({ item, selected = false }) => {
+const insumeitem = ({ item, selected = false }) => {
     return (
         <div
             style={{
-                minWidth: "16rem",
+                minwidth: "16rem",
                 height: "10rem",
             }}
-            className={` ${
+            classname={` ${
                 !selected ? "bg-gray-100" : "bg-green-100"
             } p-5 rounded-lg flex flex-col justify-center items-center select-none cursor-pointer transition-transform transform duration-300 hover:scale-105 hover:shadow-md`}
         >
-            <div className="font-semibold text-gray-600 text md:text-xl">
+            <div classname="font-semibold text-gray-600 text md:text-xl">
                 {item.name}
             </div>
 
-            <div className="flex flex-row flex-wrap gap-1 mt-2 justify-center">
+            <div classname="flex flex-row flex-wrap gap-1 mt-2 justify-center">
                 {item.desc}
             </div>
         </div>

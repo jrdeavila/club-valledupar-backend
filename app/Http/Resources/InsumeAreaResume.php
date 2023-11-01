@@ -18,6 +18,7 @@ class InsumeAreaResume extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'reservations_pending' => $this->getReservationsPending(),
+            'schedules' => $this->schedules,
         ];
     }
 }

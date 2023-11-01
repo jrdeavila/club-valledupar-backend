@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getReservationDate = (reservacion) => {
     const beginDate = getDateFromString(reservacion.start_date);
     const endDate = getDateFromString(reservacion.end_date);
@@ -6,9 +8,5 @@ export const getReservationDate = (reservacion) => {
 };
 
 const getDateFromString = (hdateString) => {
-    const [date, time] = hdateString.split(" ");
-    const [year, month, day] = date.split("-");
-    const [hour, minute] = time.split(":");
-
-    return new Date(year, month - 1, day, hour, minute);
+    return moment(hdateString, "YYYY-MM-DD HH:mm:ss");
 };

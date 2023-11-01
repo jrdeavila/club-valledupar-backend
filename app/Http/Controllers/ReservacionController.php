@@ -28,21 +28,12 @@ class ReservacionController extends Controller
         return Inertia::render('Reservacion/Index', [
             "reservaciones" => new ReservacionCollection($models),
             'types' => InsumeAreaResume::collection(InsumeArea::all()),
-
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('Reservacion/Create', [
             'users' => new UserCollection(User::role(['socio', 'turista'])->get()),
-            'insumes' => InsumeArea::all(),
-            'types' => TypeReservation::all(),
+
         ]);
     }
+
+
 
     /**
      * Store a newly created resource in storage.
