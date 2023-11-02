@@ -17,15 +17,19 @@ class AccountSeeder extends Seeder
     {
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'socio']);
-        Role::create(['name' => 'turista']);
 
 
 
 
         $user = User::create([
-            'firstname' => 'Jose',
-            'lastname' => 'De Avila',
-            'phone' => '304 224 3098',
+            'name' => 'Jose Ricardo De Avila',
+            'phone' => '5898575',
+            'number_phone' => '300 000 0000',
+            'address' => 'Calle 1 # 1 - 1',
+            'gender' => 'M',
+            'state' => 'A',
+            'state_partner' => 'A',
+            'action' => '0000',
             'email' => 'jose.deavila1003@gmail.com',
             'password' => bcrypt('@JOseRIcardo1003'),
             'email_verified_at' => now(),
@@ -33,14 +37,5 @@ class AccountSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
-
-
-        User::factory(10)->create()->each(function (User $usuario) {
-            $usuario->assignRole('socio');
-        });
-
-        User::factory(10)->create()->each(function (User $usuario) {
-            $usuario->assignRole('turista');
-        });
     }
 }

@@ -28,7 +28,7 @@ class ReservacionController extends Controller
         return Inertia::render('Reservacion/Index', [
             "reservaciones" => new ReservacionCollection($models),
             'types' => InsumeAreaResume::collection(InsumeArea::all()),
-            'users' => new UserCollection(User::role(['socio', 'turista'])->get()),
+            'users' => new UserCollection(User::role(['socio'])->get()),
 
         ]);
     }

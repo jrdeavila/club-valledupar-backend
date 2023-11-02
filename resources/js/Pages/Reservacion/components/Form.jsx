@@ -37,14 +37,14 @@ export const FormReservacion = ({ users, types = [], start, end }) => {
                                 datalist={users.map((e, i) => (
                                     <SearcheableItem
                                         value={e.id}
-                                        text={`${e.firstname} ${e.lastname}`}
+                                        text={e.name}
                                         index={i}
                                         key={i}
                                     >
                                         <div className="text-gray-600">
                                             <div className="flex flex-row  justify-between items-center">
                                                 <div className="flex-1 flex flex-col">
-                                                    <div>{`${e.firstname} ${e.lastname}`}</div>
+                                                    <div>{e.name}</div>
                                                     <div className="text-xs flex gap-x-2">
                                                         <div>{e.email}</div>
                                                     </div>

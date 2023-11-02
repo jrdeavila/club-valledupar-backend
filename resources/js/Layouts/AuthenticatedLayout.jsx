@@ -71,7 +71,7 @@ const NavigationStyled = ({ user }) => {
                                         type="button"
                                         className="inline-flex items-center  border-transparent text-sm leading-4 font-bold rounded-md text-white hover:scale-105 focus:outline-none transition ease-in-out duration-150 me-10"
                                     >
-                                        {`${user.firstname} ${user.lastname}`}
+                                        {`${user.name}`}
 
                                         <svg
                                             className="ml-2 -mr-0.5 h-4 w-4"
