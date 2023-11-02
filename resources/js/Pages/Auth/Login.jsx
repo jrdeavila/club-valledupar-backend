@@ -50,7 +50,7 @@ export default function Login({ status, canResetPassword }) {
                             type="email"
                             name="email"
                             value={data.email}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full bg-white bg-opacity-50 border-0  focus:ring-0 focus:border-white caret-gray-100 text-3xl text-white rounded-lg font-bold py-3"
                             autoComplete="username"
                             isFocused={true}
                             onChange={(e) => setData("email", e.target.value)}
@@ -67,7 +67,7 @@ export default function Login({ status, canResetPassword }) {
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full bg-white bg-opacity-50 border-0  focus:ring-0 focus:border-white caret-gray-100 text-3xl text-white rounded-lg py-3"
                             autoComplete="current-password"
                             onChange={(e) =>
                                 setData("password", e.target.value)

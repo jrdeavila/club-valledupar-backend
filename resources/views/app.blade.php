@@ -14,12 +14,12 @@
 
     <!-- Scripts -->
     @routes
-    @viteReactRefresh
+    {{-- @viteReactRefresh
     @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-    @inertiaHead
+    @inertiaHead --}}
 
-    {{-- <link rel="stylesheet" href="/build/assets/app-0d4d1725.css"> --}}
-    {{-- <script type="module" src="/assets/app-450549a5.js"></script> --}}
+    <link rel="stylesheet" href="/build/assets/app-e0c830d8.css">
+    <script type="module" src="/build/assets/pp-e54d1953.js"></script>
 </head>
 
 <body class="font-sans antialiased">
