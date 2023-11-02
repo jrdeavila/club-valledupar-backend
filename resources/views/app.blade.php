@@ -19,7 +19,7 @@
     @inertiaHead --}}
 
     <link rel="stylesheet" href="/build/assets/app-e0c830d8.css">
-    <script type="module" src="/build/assets/pp-e54d1953.js"></script>
+    <script type="module" src="/build/assets/app-e54d1953.js"></script>
 </head>
 
 <body class="font-sans antialiased">
