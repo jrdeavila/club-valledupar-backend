@@ -13,6 +13,7 @@ class Reservation extends Model
         'start_date',
         'end_date',
         'is_ever',
+        'is_all_day',
         'insume_area_id',
         'user_id',
     ];
