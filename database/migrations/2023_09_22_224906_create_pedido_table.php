@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('Pedido', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->enum('estado', ['pendiente', 'enviado', 'entregado', 'cancelado'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'comandado', 'enviado', 'entregado', 'cancelado'])->default('pendiente');
             $table->string('direccion')->nullable();
-            $table->boolean('es_domicilio');
+            $table->enum('tipo', ['domicilio', 'club', 'reservacion']);
             $table->timestamps();
         });
     }

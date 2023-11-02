@@ -7,7 +7,7 @@ Route::prefix('cartas')->group(function () {
         'index', 'store', 'update', 'destroy',
     ])->parameter('', 'carta');
     Route::apiResource('.platos', App\Http\Controllers\PlatoController::class)->names("platos")->except([
-        'index',
+        'index', 'show'
     ])->parameters([
         '' => 'carta',
         'plato' => 'plato'

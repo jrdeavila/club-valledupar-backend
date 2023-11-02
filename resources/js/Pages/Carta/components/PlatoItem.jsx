@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const PlatoItem = ({ plato, carta }) => {
-    const formatedURL = plato.imagen.replace(" ", "%20");
+    const formatedURL = plato.imagen?.replace(" ", "%20");
     // 16 rem = SM, 20 rem = MD, 24 rem = LG
     const { onEditPlato, onDeletePlato, isDeleting, isEditing } =
         useContext(CartasContext);
@@ -28,10 +28,6 @@ const PlatoItem = ({ plato, carta }) => {
     const handleOnAction = () => {
         if (isEditing) return handleOnUpdate();
         if (isDeleting) return handleOnDelete();
-        window.location = route("platos.show", {
-            carta: carta,
-            plato: plato,
-        });
     };
     return (
         <DivResponsiveStyled
@@ -47,7 +43,7 @@ const PlatoItem = ({ plato, carta }) => {
                 }}
                 className="rounded-t-lg flex justify-center items-center border-b-2 border-gray-300"
             >
-                {!plato.image && (
+                {!!!formatedURL && (
                     <FontAwesomeIcon
                         icon={faImage}
                         className="text-9xl text-white"
@@ -62,10 +58,14 @@ const PlatoItem = ({ plato, carta }) => {
                 className="p-4 flex flex-col justify-between"
             >
                 <div>
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-xl text-white font-bold">
                         {plato.nombre}
                     </p>
                     <p className="text-sm text-white">{plato.descripcion}</p>
+                    <div className="flex flex-row gap-x-3">
+                        <p className="text-white">Cod.</p>
+                        <p className="text-white font-bold">{plato.codigo}</p>
+                    </div>
                 </div>
                 <div className="flex justify-between">
                     <TextCurrency value={plato.precio} readOnly />

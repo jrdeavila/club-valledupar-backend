@@ -16,11 +16,12 @@ class PlatoResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'codigo' => $this->codigo,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
             // Image URL
-            'imagen' => asset("storage/platos/{$this->imagen}"),
+            'imagen' => $this->imagen ?  asset("storage/platos/{$this->imagen}") : null,
             "disponibilidad" => $this->disponibilidad,
         ];
     }

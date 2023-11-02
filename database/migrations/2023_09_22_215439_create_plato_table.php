@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('Plato', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo')->unique();
             $table->string('nombre', 50);
             $table->text('descripcion', 255);
             $table->decimal('precio', 10, 0);

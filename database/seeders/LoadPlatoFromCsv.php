@@ -81,6 +81,7 @@ class LoadPlatoFromCsv extends Seeder
     private function getPlatoData(array $data): array
     {
         return [
+            'codigo' => $data['codproducto'],
             'nombre' => $data['descripcion'],
             'descripcion' => $data['descripcion'],
             'precio' => $data['vventa'],

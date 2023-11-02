@@ -11,7 +11,7 @@ abstract class ImagePlatoUtils
 {
     public static function putImagen(Carta $carta, UploadedFile $image): string
     {
-        $imageName = $carta->id . "-" . $carta->platos->last()->id . "." . $image->extension();
+        $imageName = $carta->id . "-" . $carta->platos->last()->id . ".jpg";
         $image->storeAs('public/platos', $imageName);
         return $imageName;
     }

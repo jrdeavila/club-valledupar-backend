@@ -15,15 +15,6 @@ class PlatoController extends Controller
 {
 
 
-    public function show(Carta $carta, Plato $plato)
-    {
-        return Inertia::render('Carta/PlatoDetails', [
-            'carta' => $carta,
-            'plato' => new PlatoResource($plato),
-
-        ]);
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -49,7 +40,10 @@ class PlatoController extends Controller
         DB::beginTransaction();
         if ($carta->platos->contains($plato->id)) {
             $plato->update($request->all());
-            ImagePlatoUtils::putImagen($carta, $request->file('imagen'));
+            $imageName = ImagePlatoUtils::putImagen($carta, $request->file('imagen'));
+            $plato->update([
+                'imagen' => $imageName
+            ]);
             DB::commit();
             return redirect()->route('cartas.index');
         } else {

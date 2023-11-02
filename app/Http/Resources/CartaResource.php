@@ -18,7 +18,7 @@ class CartaResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'platos' => new PlatoCollection($this->platos),
+            'platos' => new PlatoCollection($this->platos()->orderBy('nombre', 'ASC')->get()),
         ];
     }
 }
