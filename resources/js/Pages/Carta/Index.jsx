@@ -125,8 +125,10 @@ export default function Carta({ auth, cartas: { data } }) {
                 }}
             >
                 <Head title="Cartas" />
-                <div className="w-full h-20 bg-white flex items-center justify-between px-5">
-                    <div className="text-2xl">Control de Cartas</div>
+                <div className="w-full h-20 bg-white bg-opacity-30 backdrop-blur-lg flex items-center justify-between px-5">
+                    <div className="text-2xl text-white font-bold">
+                        Control de Cartas
+                    </div>
                     <div className="  flex items-center gap-2">
                         {isEditing || isDeleting ? (
                             <ActionButton

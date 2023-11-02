@@ -39,12 +39,14 @@ export default function CartaItem({ carta }) {
         <>
             <div
                 onClick={handleAction}
-                className="w-full p-4 bg-white mb-3 select-none"
+                className="w-full p-4 bg-white bg-opacity-30 backdrop-blur-lg mb-3 select-none"
             >
                 <div className="flex justify-between  items-center">
                     <div className="flex flex-col gap-2">
-                        <p className="text-2xl">{carta.nombre}</p>
-                        <p className="text-md text-gray-400 hidden lg:block">
+                        <p className="text-3xl text-white font-bold">
+                            {carta.nombre}
+                        </p>
+                        <p className="text-md text-white hidden lg:block">
                             {carta.descripcion}
                         </p>
                     </div>

@@ -2,6 +2,8 @@ import TextCurrency from "@/Components/TextCurrency";
 import { useContext } from "react";
 import { styled } from "styled-components";
 import { CartasContext } from "../contexts/Carta";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const PlatoItem = ({ plato, carta }) => {
     const formatedURL = plato.imagen.replace(" ", "%20");
@@ -34,7 +36,7 @@ const PlatoItem = ({ plato, carta }) => {
     return (
         <DivResponsiveStyled
             onClick={handleOnAction}
-            className="bg-white shadow-lg rounded-lg w-full h-full select-none transition duration-500 transform hover:scale-105"
+            className="bg-white bg-opacity-50 backdrop-blur-lg shadow-lg rounded-lg w-full h-full select-none transition duration-500 transform hover:scale-105"
         >
             <div
                 style={{
@@ -43,20 +45,27 @@ const PlatoItem = ({ plato, carta }) => {
                     backgroundPosition: "center",
                     height: "12rem",
                 }}
-                className="rounded-t-lg"
-            ></div>
+                className="rounded-t-lg flex justify-center items-center border-b-2 border-gray-300"
+            >
+                {!plato.image && (
+                    <FontAwesomeIcon
+                        icon={faImage}
+                        className="text-9xl text-white"
+                    />
+                )}
+            </div>
 
             <div
                 style={{
                     minHeight: "10rem",
                 }}
-                className="p-4 flex flex-col h justify-between"
+                className="p-4 flex flex-col justify-between"
             >
                 <div>
-                    <p className="text-xl">{plato.nombre}</p>
-                </div>
-                <div>
-                    <p className="text-sm">{plato.descripcion}</p>
+                    <p className="text-2xl text-white font-bold">
+                        {plato.nombre}
+                    </p>
+                    <p className="text-sm text-white">{plato.descripcion}</p>
                 </div>
                 <div className="flex justify-between">
                     <TextCurrency value={plato.precio} readOnly />
