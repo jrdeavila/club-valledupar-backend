@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
     let localizer = momentLocalizer(moment);
+    const [view, setView] = useState("week");
 
     const dayStyleGetter = (slot) => {
         let isBlocked =
@@ -99,6 +100,8 @@ const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
             selectable
             // Select Range Dates
             onSelectSlot={handleOnSelectDate}
+            view={view}
+            onView={(view) => setView(view)}
             messages={{
                 next: "Sig",
                 previous: "Ant",

@@ -66,6 +66,17 @@ class CreateReservacionRequest extends FormRequest
             if ($reservations->count() > 0 && $data['is_all_day']) {
                 $validator->errors()->add('is_all_day', 'Ya existe una reservacion para este dia');
             }
+
+            // Reservaciones que se cruzan
+
+            $reservations = Reservation::where('insume_area_id', $data['insume_area_id'])
+                ->where('start_date', '<=', $start_date->format('Y-m-d H:i:s'))
+                ->orWhere('end_date', '>=', $end_date->format('Y-m-d H:i:s'))
+                ->get();
+
+            if ($reservations->count() > 0) {
+                $validator->errors()->add('start_date', 'Ya existe una reservacion para este horario');
+            }
         });
     }
 

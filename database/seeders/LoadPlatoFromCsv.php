@@ -14,7 +14,7 @@ class LoadPlatoFromCsv extends Seeder
      */
     public function run(): void
     {
-        $file = fopen('database/seeders/platos.csv', 'r');
+        $file = fopen('database/seeders/csv/platos.csv', 'r');
 
         $headers = fgetcsv($file, null, ",");
 
