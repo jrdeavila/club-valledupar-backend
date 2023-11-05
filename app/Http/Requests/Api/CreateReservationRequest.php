@@ -29,9 +29,8 @@ class CreateReservationRequest extends FormRequest
             'end_date' => 'required|date|after:start_date',
             'insume_area_id' => 'required|exists:insume_areas,id',
             'is_ever' => 'required|boolean',
-            'type_reservation_id' => 'required|exists:type_reservations,id',
-            'observations' => 'nullable|array',
-            'observations.*' => 'string',
+            'is_all_day' => 'required|boolean',
+            'observations' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
         ];
     }
@@ -85,10 +84,10 @@ class CreateReservationRequest extends FormRequest
             'insume_area_id.exists' => 'El insumo no existe',
             'is_ever.required' => 'El tipo de reserva es requerido',
             'is_ever.boolean' => 'El tipo de reserva debe ser un booleano',
-            'type_reservation_id.required' => 'El tipo de reserva es requerido',
-            'type_reservation_id.exists' => 'El tipo de reserva no existe',
-            'observations.array' => 'Las observaciones deben ser un arreglo',
-            'observations.*.string' => 'Las observaciones deben ser un arreglo de cadenas',
+            "is_all_day.required" => "El tipo de reserva es requerido",
+            "is_all_day.boolean" => "El tipo de reserva debe ser un booleano",
+            "observations.required" => "Las observaciones son requeridas",
+            "observations.string" => "Las observaciones deben ser un texto",
 
         ];
     }

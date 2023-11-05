@@ -27,15 +27,10 @@ class ReservationController extends Controller
     public function store(CreateReservationRequest $request, User $user)
     {
         DB::beginTransaction();
-        $reservation =          $user->reservations()->create($request->validated());
-        if (isset($request->observations)) {
-            foreach ($request->observations  as $observation) {
-                $reservation->observations()->create([
-                    'observation' => $observation,
-                ]);
-            }
-        }
-
+        $reservation = $user->reservations()->create($request->validated());
+        $reservation->observations()->create([
+            'observation' => $request->observations
+        ]);
         DB::commit();
 
         return new ReservationResource($reservation);
