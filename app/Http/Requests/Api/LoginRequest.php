@@ -88,4 +88,30 @@ class LoginRequest extends FormRequest
             'password.min' => 'La contraseña debe tener al menos 8 caracteres',
         ];
     }
+
+    /**
+     * With Validator
+     *  @param \Illuminate\Contracts\Validation\Validator $validator
+     *  @return void
+     */
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            // Validate if password is correct only if email is valid
+            if ($validator->errors()->has('email')) {
+                return;
+            }
+            if (auth()->attempt(['email' => $this->email, 'password' => $this->password]) === false) {
+                $validator->errors()->add('password', 'La contraseña es incorrecta');
+                return;
+            }
+
+            // Check if user is partner
+            if (!auth()->user()->isPartner) {
+                $validator->errors()->add('email', 'Debe ser un socio para iniciar sesión en esta aplicación');
+                return;
+            }
+        });
+    }
 }

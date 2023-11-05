@@ -41,7 +41,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -59,7 +59,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +80,26 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            // Validate if password is correct only if email is valid
+            if ($validator->errors()->has('email')) {
+                return;
+            }
+            if (auth()->attempt(['email' => $this->email, 'password' => $this->password]) === false) {
+                $validator->errors()->add('password', 'La contraseña es incorrecta');
+                return;
+            }
+
+            // Check if user is partner
+            if (!auth()->user()->isAdmin) {
+                $validator->errors()->add('email', 'Debe ser un socio para iniciar sesión en esta aplicación');
+                return;
+            }
+        });
     }
 }
