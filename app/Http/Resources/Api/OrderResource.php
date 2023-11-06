@@ -19,9 +19,9 @@ class OrderResource extends JsonResource
             'partner' => UserResource::make($this->usuario),
             'products' => OrderProductResource::collection($this->detallePedido),
             'status' => $this->estado,
-            'is_domicile' => $this->es_domicilio,
             'address' => $this->direccion,
             'created_at' => $this->created_at,
+            'type' => $this->tipo,
         ];
     }
 }

@@ -19,7 +19,7 @@ class MenuItemResource extends JsonResource
             'name' => $this->nombre,
             'description' => $this->descripcion,
             'price' => $this->precio,
-            'image' => $this->image != null ? asset("storage/platos/{$this->imagen}") : null,
+            'image' => $this->imagen != null ? asset("storage/platos/{$this->imagen}") : null,
         ];
     }
 }

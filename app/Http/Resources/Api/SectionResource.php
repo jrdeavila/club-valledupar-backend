@@ -18,7 +18,9 @@ class SectionResource extends JsonResource
             'id' => $this->id,
             'name' => $this->nombre,
             'description' => $this->descripcion,
-            'menu_items' => new MenuItemCollection($this->platos),
+            'menu_items' => new MenuItemCollection($this->platos()->orderBy('nombre')->get()),
+            'is_accompaniment' => $this->is_accompaniment,
+            'accompanying' => $this->accompanying,
         ];
     }
 }

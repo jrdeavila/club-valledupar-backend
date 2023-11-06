@@ -31,8 +31,8 @@ class CreateOrderRequest extends FormRequest
             'products.*.quantity' => 'required|numeric|min:1',
             'products.*.product' => 'required|numeric|exists:Plato,id',
             'status' => 'required|in:pendiente,enviado,cancelado,entregado',
-            'is_domicile' => 'required|boolean',
-            'address' => 'required_if:is_domicile,true',
+            'type' => 'required|in:domicilio,club,reservacion',
+            'address' => 'required_if:type,domicilio',
         ];
     }
 
@@ -57,8 +57,7 @@ class CreateOrderRequest extends FormRequest
             'products.*.product_id.exists' => 'La referencia del producto debe existir en la base de datos',
             'status.required' => 'El estado de la orden es requerido',
             'status.in' => 'El estado debe ser uno de los siguientes valores: pendiente, enviado, cancelado, entregado',
-            'is_domicile.required' => 'Debe especificar si la orden es un domicilio o no',
-            'is_domicile.boolean' => 'Debe especificar si la orden es un domicilio o no',
+            'type.required' => 'El tipo de orden es requerido',
             'address.required_if' => 'El campo dirección es requerido si la orden es un domicilio',
         ];
     }

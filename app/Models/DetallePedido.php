@@ -32,4 +32,9 @@ class DetallePedido extends Model
     {
         return $this->cantidad * $this->plato->precio;
     }
+
+    public function observation()
+    {
+        return $this->hasOne(OrderDetailObservation::class, 'order_details_id', 'id', 'order_detail_observations');
+    }
 }

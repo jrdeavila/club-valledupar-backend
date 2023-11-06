@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Carta', function (Blueprint $table) {
+        Schema::create('order_detail_observations', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->boolean('is_accompaniment')->default(false);
-            $table->boolean('accompanying')->default(false);
+            $table->foreignId('order_details_id')->constrained('DetallePedido');
+            $table->string('observation');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Carta');
+        Schema::dropIfExists('order_detail_observations');
     }
 };

@@ -46,7 +46,7 @@ class OrderController extends Controller
         $pedido = Pedido::create([
             'user_id' => $request->partner,
             'estado' => $request->status,
-            'es_domicilio' => $request->is_domicile,
+            'tipo' => $request->type,
             'direccion' => $request->address,
         ]);
         return $pedido;
