@@ -12,7 +12,7 @@ class RequestNewDocument extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->isPartner;
+        return auth('api')->check() && auth('api')->user()->isPartner;
     }
 
     /**

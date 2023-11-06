@@ -13,12 +13,12 @@ class DocumentRequestController extends Controller
 {
     public function index()
     {
-        return new DocumentRequestCollection(auth()->user()->documentRequests);
+        return new DocumentRequestCollection(auth('api')->user()->documentRequests);
     }
 
     public function store(RequestNewDocument $request)
     {
-        $user = User::find(auth()->id());
+        $user = User::find(auth('api')->id());
         $documentRequest = $user->documentRequests()->create([
             'document_request_type_id' => $request->document_request_type_id,
         ]);
