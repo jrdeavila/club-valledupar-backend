@@ -10,6 +10,7 @@ class OrderDetailObservation extends Model
     use HasFactory;
 
     protected $table = 'order_detail_observations';
+    public $timestamps = false;
 
     protected $fillable = [
         'order_details_id',

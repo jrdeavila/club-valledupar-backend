@@ -18,6 +18,7 @@ class OrderProductResource extends JsonResource
             'id' => $this->id,
             'quantity' => $this->cantidad,
             'product' => MenuItemResource::make($this->plato),
+            'observation' => $this->observation?->observation ?? null,
         ];
     }
 }

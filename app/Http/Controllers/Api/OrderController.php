@@ -56,11 +56,18 @@ class OrderController extends Controller
     {
         $products = $request->products;
         foreach ($products as $product) {
-            DetallePedido::create([
+            $detail =             DetallePedido::create([
                 'pedido_id' => $pedido->id,
                 'plato_id' => $product['product'],
                 'cantidad' => $product['quantity'],
             ]);
+
+            if ($product['observation']) {
+                $detail->observation()->create([
+                    'order_details_id' => $detail->id,
+                    'observation' => $product['observation'],
+                ]);
+            }
         }
     }
 }
