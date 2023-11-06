@@ -18,6 +18,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->name(),
+            'action' => fake()->numberBetween(1000, 9999),
+            'gender' => fake()->randomElement(['M', 'F']),
+            'state' => fake()->randomElement(['A', 'I']),
+            'state_partner' => fake()->randomElement(['A', 'I']),
+            'address' => fake()->address(),
+            'number_phone' => fake()->phoneNumber(), // 'phone' => fake()->phoneNumber(),
+            'active' => true,
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => null,

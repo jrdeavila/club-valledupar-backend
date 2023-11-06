@@ -20,9 +20,7 @@ class DatabaseSeeder extends Seeder
             LoadPlatoFromCsv::class,
             HorarioSeeder::class,
             InsumeAreaSeeder::class,
-            // CartaSeeder::class,
-            // PedidoSeeder::class,
-            // ReservationSeeder::class,
+            DocumentTypeSeeder::class,
         ]);
     }
 }
