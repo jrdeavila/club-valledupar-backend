@@ -1,10 +1,38 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { TextCurrencyFormat } from "@/Utils/TextCurrency";
+import {
+    faChevronLeft,
+    faChevronRight,
+    faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, router } from "@inertiajs/react";
-import { colorByEstado } from "./utils/stateColors";
-import moment from "moment";
+import { useState } from "react";
+import OrderItem from "./components/OrderItem";
 
-export default function ({ auth: { user }, pedidos: { data: pedidos } }) {
+export default function ({ auth: { user }, pedidos }) {
+    console.log(pedidos);
+    const {
+        data,
+        meta: { links },
+        links: { first, last },
+    } = pedidos;
+
+    const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("name");
+
+    const handleOnSearch = () => {
+        if (search.length > 0) {
+            router.replace(
+                route("pedidos.index", {
+                    filter: filter,
+                    search: search,
+                })
+            );
+        } else {
+            router.replace(route("pedidos.index"));
+        }
+    };
+
     return (
         <Authenticated
             user={user}
@@ -12,186 +40,89 @@ export default function ({ auth: { user }, pedidos: { data: pedidos } }) {
         >
             <Head title="Pedidos" />
 
+            <div className="flex flex-row gap-x-3 items-center justify-center mx-20">
+                <TableButton icon={faChevronLeft} link={first} />
+                {links.map((e, i) => {
+                    if (
+                        e.label !== "pagination.previous" &&
+                        e.label !== "pagination.next"
+                    ) {
+                        return (
+                            <TableButton key={i} link={e.url} label={e.label} />
+                        );
+                    }
+                })}
+                <TableButton icon={faChevronRight} link={last} />
+                <div className="flex-grow"></div>
+                <div className="text-2xl font-bold text-white">Buscar por:</div>
+                <select
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="text-xl bg-white bg-opacity-40 border-none focus:outline-none focus:ring-0 rounded-lg text-white font-bold"
+                >
+                    {Object.keys(filters).map((key, i) => (
+                        <option key={i} value={key} className="text-black">
+                            {filters[key].label}
+                        </option>
+                    ))}
+                </select>
+                <input
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="text-xl placeholder:text-xl focus:outline-none focus:ring-0 focus:border-gray-300 border-none rounded-lg"
+                    placeholder={filters[filter].placeholder}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            handleOnSearch();
+                        }
+                    }}
+                />
+                <FontAwesomeIcon
+                    icon={faSearch}
+                    className="cursor-pointer text-2xl bg-white bg-opacity-40 rounded-lg p-2 text-white"
+                    onClick={handleOnSearch}
+                />
+            </div>
+
             <div className="flex flex-col gap-y-5 p-5 justify-center items-center">
-                {pedidos.map((e, i) => (
-                    <PedidoItem key={i} pedido={e} />
+                {data.map((e, i) => (
+                    <OrderItem key={i} pedido={e} />
                 ))}
             </div>
         </Authenticated>
     );
 }
 
-const PedidoItem = ({ pedido }) => {
-    const handleActionByEstado = (estado) => {
-        const onChangeEstado = (estado) => {
-            router.patch(route("pedidos.estado", pedido), {
-                estado: estado,
-            });
-        };
-        return {
-            pendiente: () => {
-                onChangeEstado("enviado");
-            },
-            enviado: () => {
-                onChangeEstado("entregado");
-            },
-            cancelado: () => {
-                onChangeEstado("cancelado");
-            },
-            entregado: undefined,
-        }[estado];
-    };
+const TableButton = ({ icon, link, label }) => (
+    <div
+        onClick={() => {
+            link && router.replace(link);
+        }}
+        className={`px-5 py-4 rounded-lg cursor-pointer ${
+            link ? "bg-white bg-opacity-40" : "bg-gray-100 bg-opacity-20"
+        }`}
+    >
+        {label ? (
+            <div className="text-white font-bold">{label}</div>
+        ) : (
+            <FontAwesomeIcon icon={icon} className="text-white" />
+        )}
+    </div>
+);
 
-    const Table = () => {
-        return (
-            <table className="table table-fixed w-full">
-                <thead className="mb-2">
-                    <tr className="text-gray-400">
-                        <th>
-                            <div className="bg-gray-50 text-start px-3 py-2">
-                                DESCRIPCION
-                            </div>
-                        </th>
-                        <th>
-                            <div className="bg-gray-50 text-start px-3 py-2">
-                                CANTIDAD
-                            </div>
-                        </th>
-                        <th>
-                            <div className="bg-gray-50 text-start px-3 py-2">
-                                PRECIO
-                            </div>
-                        </th>
-                        <th>
-                            <div className="bg-gray-50 text-start px-3 py-2">
-                                TOTAL
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pedido.detalle.map((e, i) => (
-                        <tr key={i}>
-                            <td className="px-3 py-2 text-gray-500">
-                                {e.plato}
-                            </td>
-                            <td className="px-3 py-2 text-gray-500">
-                                {e.cantidad}
-                            </td>
-                            <td className="px-3 py-2 text-gray-500">
-                                {TextCurrencyFormat(e.precio)}
-                            </td>
-                            <td className="px-3 py-2 text-gray-500">
-                                {TextCurrencyFormat(e.total)}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        );
-    };
-
-    const Actions = () => {
-        const SendActions = ({ estado }) =>
-            ({
-                pendiente: (
-                    <button
-                        onClick={handleActionByEstado(estado)}
-                        style={{
-                            backgroundColor: colorByEstado("pendiente"),
-                        }}
-                        className=" px-5 py-2 text-white rounded-lg font-semibold"
-                    >
-                        ENVIAR
-                    </button>
-                ),
-                enviado: (
-                    <button
-                        onClick={handleActionByEstado(estado)}
-                        style={{
-                            backgroundColor: colorByEstado("entregado"),
-                        }}
-                        className=" px-5 py-2 text-white rounded-lg font-semibold"
-                    >
-                        ENTREGADO
-                    </button>
-                ),
-
-                entregado: undefined,
-                cancelado: undefined,
-            }[estado]);
-
-        const CancelActions = ({ estado }) =>
-            ({
-                pendiente: (
-                    <button
-                        onClick={handleActionByEstado("cancelado")}
-                        className="bg-red-400 px-5 py-2 text-white rounded-lg font-semibold"
-                    >
-                        CANCELAR
-                    </button>
-                ),
-                enviado: undefined,
-                entregado: undefined,
-                cancelado: undefined,
-            }[estado]);
-        return (
-            <div className="flex flex-col gap-y-4">
-                <SendActions estado={pedido.estado} />
-                <CancelActions estado={pedido.estado} />
-            </div>
-        );
-    };
-    let createdAt = moment(pedido.fecha_creacion).format("Y-m-dddd, H:m A");
-    return (
-        <div className="bg-white shadow-lg rounded-lg w-1/2 flex flex-col gap-y-5 select-none">
-            <div className="px-8 py-3 flex flex-row justify-between bg-gray-50 rounded-t-lg">
-                <div className="flex flex-col">
-                    <div className=" text-gray-400 font-semibold">USUARIO</div>
-                    <div>{pedido.usuario}</div>
-                </div>
-
-                <div className="flex flex-col">
-                    <div className=" text-gray-400 font-semibold">
-                        SOLICITADO
-                    </div>
-                    <div>{createdAt}</div>
-                </div>
-
-                <div
-                    style={{
-                        backgroundColor: colorByEstado(pedido.estado),
-                    }}
-                    className="text-white rounded-lg px-5 py-1 flex items-center font-bold"
-                >
-                    {pedido.estado.toUpperCase()}
-                </div>
-            </div>
-            <div className="px-8">
-                <div className="text-gray-500 font-semibold mb-4">
-                    DETALLE DE PEDIDO
-                </div>
-                <div className="flex gap-x-5">
-                    <div className="flex-auto">
-                        <Table />
-                    </div>
-                    <div className="w-1/4">
-                        <Actions />
-                    </div>
-                </div>
-            </div>
-            <div className="px-8 py-3 flex flex-row justify-between bg-gray-50 rounded-b-lg">
-                <div className="flex flex-col">
-                    <div className=" text-gray-400 font-semibold">
-                        DIRECCION
-                    </div>
-                    <div className="text-ellipsis">{pedido.direccion}</div>
-                </div>
-                <div className="flex flex-col">
-                    <div className=" text-gray-400 font-semibold">TOTAL</div>
-                    <div>{TextCurrencyFormat(pedido.total)}</div>
-                </div>
-            </div>
-        </div>
-    );
+const filters = {
+    name: {
+        label: "Nombre",
+        placeholder: "Juan Camilo Perez...",
+    },
+    email: {
+        label: "Correo",
+        placeholder: "example@mail.com",
+    },
+    number_phone: {
+        label: "Telefono Movil",
+        placeholder: "300 000 0000",
+    },
+    action: {
+        label: "Accion",
+        placeholder: "0000",
+    },
 };

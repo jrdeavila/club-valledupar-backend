@@ -16,7 +16,6 @@ export default function Partner({ auth: { user }, partners }) {
     const [filter, setFilter] = useState("name");
 
     const handleOnSearch = () => {
-        console.log(search);
         if (search.length > 0) {
             router.replace(`/partner?search=${search}&filter=${filter}`);
         } else {
@@ -52,7 +51,12 @@ export default function Partner({ auth: { user }, partners }) {
                             <input
                                 onChange={(e) => setSearch(e.target.value)}
                                 className="text-xl placeholder:text-xl focus:outline-none focus:ring-0 focus:border-gray-300 border-b-2 border-gray-300 border-t-0 border-l-0 border-r-0"
-                                placeholder="Cod. Accion, Nombre, Apellido, Correo"
+                                placeholder={filters[filter].placeholder}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleOnSearch();
+                                    }
+                                }}
                             />
                             <FontAwesomeIcon
                                 icon={faSearch}

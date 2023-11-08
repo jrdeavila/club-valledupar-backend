@@ -19,6 +19,7 @@ class DetallePedidoResource extends JsonResource
             'plato' => $this->plato->nombre,
             'precio' => $this->plato->precio,
             'cantidad' => $this->cantidad,
+            'observation' => $this->observation?->observation ?? null,
             'total' => $this->total(),
         ];
     }
