@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('document_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_request_type_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('document_request_type_id')->constrained()->nullOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained()->nullOnDelete()
+                ->cascadeOnUpdate();
             $table->enum("status", ["pending", "approved", "rejected"])->default("pending");
             $table->timestamps();
         });
