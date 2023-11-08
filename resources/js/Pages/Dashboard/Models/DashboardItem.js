@@ -1,9 +1,22 @@
 export const dashboardItems = [
     {
         title: "Dashboard",
-
         onlyNav: true,
         route: "dashboard",
+    },
+    {
+        title: "Socios",
+        desc: "Administra el estado de los socios del club",
+        image: "/img/socios.jpg",
+        onlyNav: false,
+        route: "partner.index",
+    },
+    {
+        title: "Solicitudes",
+        desc: "Administra las solicitudes de documentos de los socios",
+        image: "/img/documentos.jpg",
+        onlyNav: false,
+        route: "document-request.index",
     },
     {
         title: "Cartas",
