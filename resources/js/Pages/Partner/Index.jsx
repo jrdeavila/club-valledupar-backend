@@ -17,9 +17,14 @@ export default function Partner({ auth: { user }, partners }) {
 
     const handleOnSearch = () => {
         if (search.length > 0) {
-            router.replace(`/partner?search=${search}&filter=${filter}`);
+            router.get(
+                route("partner.index", {
+                    filter: filter,
+                    search: search,
+                })
+            );
         } else {
-            router.replace("/partner");
+            router.get(route("partner.index"));
         }
     };
 

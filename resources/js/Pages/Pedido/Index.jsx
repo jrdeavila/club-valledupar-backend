@@ -1,37 +1,44 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import {
-    faChevronLeft,
-    faChevronRight,
-    faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { TextCurrencyFormat } from "@/Utils/TextCurrency";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, router } from "@inertiajs/react";
-import { useState } from "react";
-import OrderItem from "./components/OrderItem";
+import { useCallback, useState } from "react";
+import OrderMenuSettings from "./components/OrderMenuSettings";
+import { filters, statusMapLabel, typeMapLabel } from "./utils/maps";
+import { useEffect } from "react";
 
 export default function ({ auth: { user }, pedidos }) {
-    console.log(pedidos);
-    const {
-        data,
-        meta: { links },
-        links: { first, last },
-    } = pedidos;
+    const { data } = pedidos;
+
+    // ------------------------------------------------
 
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("name");
 
-    const handleOnSearch = () => {
+    // ------------------------------------------------
+
+    useEffect(() => {
+        const query = window.location.search;
+        const params = new URLSearchParams(query);
+        setSearch(params.get("search") || "");
+        setFilter(params.get("filter") || "name");
+    }, []);
+
+    // ------------------------------------------------
+
+    const handleOnSearch = useCallback(() => {
         if (search.length > 0) {
-            router.replace(
+            router.get(
                 route("pedidos.index", {
                     filter: filter,
                     search: search,
                 })
             );
         } else {
-            router.replace(route("pedidos.index"));
+            router.get(route("pedidos.index"));
         }
-    };
+    }, [search, filter]);
 
     return (
         <Authenticated
@@ -39,90 +46,125 @@ export default function ({ auth: { user }, pedidos }) {
             header={<div className="text-2xl">Pedidos</div>}
         >
             <Head title="Pedidos" />
+            <div className="flex flex-col gap-y-5 bg-white rounded-lg mx-20 p-5">
+                <div className="flex flex-row gap-x-3 items-center justify-center mx-10">
+                    <div className="text-3xl font-bold">Pedidos</div>
+                    <div className="flex-grow"></div>
+                    <div className="text-2xl font-bold">Buscar por:</div>
+                    <select
+                        value={filter}
+                        onChange={(e) => {
+                            setSearch("");
+                            setFilter(e.target.value);
+                        }}
+                        className="text-xl bg-gray-400 bg-opacity-40 border-none focus:outline-none focus:ring-0 rounded-lg text-white font-bold"
+                    >
+                        {Object.keys(filters).map((key, i) => (
+                            <option key={i} value={key} className="text-black">
+                                {filters[key].label}
+                            </option>
+                        ))}
+                    </select>
+                    {filter === "status" ? (
+                        <select
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="text-xl bg-gray-400 bg-opacity-40 border-none focus:outline-none focus:ring-0 rounded-lg text-white font-bold"
+                        >
+                            {Object.keys(filters[filter].options).map(
+                                (key, i) => (
+                                    <option
+                                        key={i}
+                                        value={key}
+                                        className="text-black"
+                                    >
+                                        {filters[filter].options[key]}
+                                    </option>
+                                )
+                            )}
+                        </select>
+                    ) : (
+                        <input
+                            type="text"
+                            value={search}
+                            placeholder={filters[filter].placeholder}
+                            className="text-xl bg-gray-400 bg-opacity-40 border-none focus:outline-none focus:ring-0 rounded-lg text-white font-bold"
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleOnSearch();
+                                }
+                            }}
+                        />
+                    )}
+                    <FontAwesomeIcon
+                        icon={faSearch}
+                        className="cursor-pointer text-2xl p-2"
+                        onClick={handleOnSearch}
+                    />
+                </div>
 
-            <div className="flex flex-row gap-x-3 items-center justify-center mx-20">
-                <TableButton icon={faChevronLeft} link={first} />
-                {links.map((e, i) => {
-                    if (
-                        e.label !== "pagination.previous" &&
-                        e.label !== "pagination.next"
-                    ) {
-                        return (
-                            <TableButton key={i} link={e.url} label={e.label} />
-                        );
-                    }
-                })}
-                <TableButton icon={faChevronRight} link={last} />
-                <div className="flex-grow"></div>
-                <div className="text-2xl font-bold text-white">Buscar por:</div>
-                <select
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="text-xl bg-white bg-opacity-40 border-none focus:outline-none focus:ring-0 rounded-lg text-white font-bold"
-                >
-                    {Object.keys(filters).map((key, i) => (
-                        <option key={i} value={key} className="text-black">
-                            {filters[key].label}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="text-xl placeholder:text-xl focus:outline-none focus:ring-0 focus:border-gray-300 border-none rounded-lg"
-                    placeholder={filters[filter].placeholder}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            handleOnSearch();
-                        }
-                    }}
-                />
-                <FontAwesomeIcon
-                    icon={faSearch}
-                    className="cursor-pointer text-2xl bg-white bg-opacity-40 rounded-lg p-2 text-white"
-                    onClick={handleOnSearch}
-                />
-            </div>
+                <table className="table table-auto w-full">
+                    <thead className="bg-gray-300">
+                        <tr>
+                            <th className="border-2 border-white p-4 text-white text-xl pl-3 text-start">
+                                # Accion
+                            </th>
+                            <th
+                                className="border-2 border-white p-4 text-white text-xl text-start"
+                                colSpan={2}
+                            >
+                                Nombre
+                            </th>
+                            <th
+                                className="border-2 border-white p-4 text-white text-xl text-start"
+                                colSpan={2}
+                            >
+                                Tipo
+                            </th>
+                            <th className="border-2 border-white p-4 text-white text-xl text-start">
+                                Total
+                            </th>
+                            <th className="border-2 border-white p-4 text-white text-xl text-start">
+                                Estado
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((order, i) => (
+                            <tr
+                                key={i}
+                                className="hover:bg-gray-100 cursor-pointer"
+                            >
+                                <td className="py-2 pl-3">{order.accion}</td>
+                                <td className="py-2" colSpan={2}>
+                                    <div className="flex items-center justify-start gap-x-3">
+                                        <div>{order.usuario}</div>
+                                    </div>
+                                </td>
+                                <td className="py-2" colSpan={2}>
+                                    {typeMapLabel(order.tipo)}
+                                    {order.direccion}
+                                </td>
 
-            <div className="flex flex-col gap-y-5 p-5 justify-center items-center">
-                {data.map((e, i) => (
-                    <OrderItem key={i} pedido={e} />
-                ))}
+                                <td className="py-2">
+                                    {TextCurrencyFormat(order.total)}
+                                </td>
+                                <td className="py-2 pe-3">
+                                    <div className="relative flex flex-row gap-x-2 items-center">
+                                        {statusMapLabel(order.estado).icon}
+                                        <strong>
+                                            {statusMapLabel(order.estado).label}
+                                        </strong>
+                                        <div className="flex-grow"></div>
+                                        <OrderMenuSettings order={order} />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </Authenticated>
     );
 }
-
-const TableButton = ({ icon, link, label }) => (
-    <div
-        onClick={() => {
-            link && router.replace(link);
-        }}
-        className={`px-5 py-4 rounded-lg cursor-pointer ${
-            link ? "bg-white bg-opacity-40" : "bg-gray-100 bg-opacity-20"
-        }`}
-    >
-        {label ? (
-            <div className="text-white font-bold">{label}</div>
-        ) : (
-            <FontAwesomeIcon icon={icon} className="text-white" />
-        )}
-    </div>
-);
-
-const filters = {
-    name: {
-        label: "Nombre",
-        placeholder: "Juan Camilo Perez...",
-    },
-    email: {
-        label: "Correo",
-        placeholder: "example@mail.com",
-    },
-    number_phone: {
-        label: "Telefono Movil",
-        placeholder: "300 000 0000",
-    },
-    action: {
-        label: "Accion",
-        placeholder: "0000",
-    },
-};

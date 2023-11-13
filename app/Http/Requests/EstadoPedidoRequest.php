@@ -23,7 +23,7 @@ class EstadoPedidoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'estado' => 'required|in:enviado,entregado,cancelado',
+            'estado' => 'required|in:enviado,comandado,entregado,cancelado',
         ];
     }
 

@@ -90,7 +90,7 @@ const OrderItem = ({ pedido }) => {
                         COMANDA
                     </button>
                 ),
-                enviado: (
+                comandado: (
                     <button
                         onClick={handleActionByEstado(estado)}
                         style={{
@@ -100,11 +100,11 @@ const OrderItem = ({ pedido }) => {
                     >
                         {pedido.tipo === "domicilio"
                             ? "ENVIAR A DOMICILIO"
-                            : "ENTREGAR EN MESA"}
+                            : "ENVIAR PEDIDO"}
                     </button>
                 ),
 
-                comandado: (
+                enviado: (
                     <button
                         onClick={handleActionByEstado(estado)}
                         style={{
@@ -112,7 +112,7 @@ const OrderItem = ({ pedido }) => {
                         }}
                         className=" px-5 py-2 text-white rounded-lg font-semibold"
                     >
-                        ENVIAR COMANDA
+                        FINALIZAR PEDIDO
                     </button>
                 ),
 
