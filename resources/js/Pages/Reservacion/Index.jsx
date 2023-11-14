@@ -11,7 +11,7 @@ import { getReservationDate } from "./utils/date";
 import { FormReservacion } from "./components/Form";
 
 export default function Reservaciones({
-    auth: { user },
+    auth: { user, roles },
     reservaciones: { data: reservations },
     types: { data: types },
     users: { data: users },
@@ -94,6 +94,7 @@ export default function Reservaciones({
     return (
         <Authenticated
             user={user}
+            roles={roles}
             header={
                 <div className="flex justify-between items-center select-none">
                     <div className="font-semibold text-2xl text-gray-800 leading-tight">

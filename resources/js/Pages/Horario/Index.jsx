@@ -1,7 +1,5 @@
 import AppDialog from "@/Components/AppDialog";
-import { FloatingButton } from "@/Components/FloatingButton";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 import { AlertDeleting } from "./components/Alerts";
@@ -13,19 +11,9 @@ export default function Horarios({ auth, areas: { data: areas } }) {
     const [showAlertDelete, setShowAlertDelete] = useState(false);
     const [currentHorario, setCurrentHorario] = useState(null);
 
-    const handleOpenForm = ({ item }) => {
-        setCurrentHorario(item);
-        setShowForm(true);
-    };
-
     const handleCloseForm = () => {
         setCurrentHorario(null);
         setShowForm(false);
-    };
-
-    const handleOnDelete = ({ item }) => {
-        setShowAlertDelete(true);
-        setCurrentHorario(item);
     };
 
     const handleOnCancelDelete = () => {
@@ -42,7 +30,7 @@ export default function Horarios({ auth, areas: { data: areas } }) {
     };
 
     return (
-        <Authenticated user={auth.user}>
+        <Authenticated user={auth.user} roles={auth.roles}>
             <Head title="Insumos" />
             <div
                 style={{

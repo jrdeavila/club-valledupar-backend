@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('cartas')->group(function () {
+Route::prefix('cartas')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::resource('.', App\Http\Controllers\CartaController::class)->middleware(['auth', 'verified'])->names("cartas")->only([
         'index', 'store', 'update', 'destroy',
     ])->parameter('', 'carta');

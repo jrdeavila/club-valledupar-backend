@@ -1,25 +1,25 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
-import { dashboardItems } from "@/Pages/Dashboard/Models/DashboardItem";
+import { dashboardItems, xor } from "@/Pages/Dashboard/Models/DashboardItem";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ErrorLayout from "./ErrorLayout";
 import { BackgroundContainerStyled, BackgroundStyled } from "./GuestLayout";
 
-export default function Authenticated({ user, children }) {
+export default function Authenticated({ user, children, roles }) {
     return (
         <ErrorLayout>
             <BackgroundContainerStyled className="select-none">
                 <BackgroundStyled />
-                <NavigationStyled user={user} />
+                <NavigationStyled user={user} roles={roles} />
                 <ContentStyled>{children}</ContentStyled>
             </BackgroundContainerStyled>
         </ErrorLayout>
     );
 }
 
-const NavigationStyled = ({ user }) => {
+const NavigationStyled = ({ user, roles }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const handleScroll = () => {
         if (window.scrollY > 0) {
@@ -50,17 +50,23 @@ const NavigationStyled = ({ user }) => {
                     </div>
                 </div>
                 <div className="hidden md:flex">
-                    {dashboardItems.map((item, index) => (
-                        <NavLink
-                            key={index}
-                            href={item.route ? route(item.route) : "#"}
-                            active={
-                                item.route ? route().current(item.route) : false
-                            }
-                        >
-                            {item.title}
-                        </NavLink>
-                    ))}
+                    {dashboardItems
+                        .filter((e) => {
+                            return e.roles.some((role) => roles.includes(role));
+                        })
+                        .map((item, index) => (
+                            <NavLink
+                                key={index}
+                                href={item.route ? route(item.route) : "#"}
+                                active={
+                                    item.route
+                                        ? route().current(item.route)
+                                        : false
+                                }
+                            >
+                                {item.title}
+                            </NavLink>
+                        ))}
                 </div>
                 <div className="hidden md:flex sm:items-center sm:ml-6">
                     <div className="relative">

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Partner({ auth: { user }, partners }) {
+export default function Partner({ auth: { user, roles }, partners }) {
     const { data, current_page, first_page_url, last_page_url, links } =
         partners;
 
@@ -29,7 +29,7 @@ export default function Partner({ auth: { user }, partners }) {
     };
 
     return (
-        <Authenticated user={user}>
+        <Authenticated user={user} roles={roles}>
             <Head title="Socios" />
             <div className="mx-10 bg-white rounded-md">
                 <div className="p-5">

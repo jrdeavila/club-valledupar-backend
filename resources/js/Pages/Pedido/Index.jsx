@@ -8,7 +8,7 @@ import OrderMenuSettings from "./components/OrderMenuSettings";
 import { filters, statusMapLabel, typeMapLabel } from "./utils/maps";
 import { useEffect } from "react";
 
-export default function ({ auth: { user }, pedidos }) {
+export default function ({ auth: { user, roles }, pedidos }) {
     const { data } = pedidos;
 
     // ------------------------------------------------
@@ -43,6 +43,7 @@ export default function ({ auth: { user }, pedidos }) {
     return (
         <Authenticated
             user={user}
+            roles={roles}
             header={<div className="text-2xl">Pedidos</div>}
         >
             <Head title="Pedidos" />

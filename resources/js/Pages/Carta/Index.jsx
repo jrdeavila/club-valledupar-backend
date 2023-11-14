@@ -111,7 +111,7 @@ export default function Carta({ auth, cartas: { data } }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout user={auth.user} roles={auth.roles}>
             <CartasContext.Provider
                 value={{
                     isEditing: isEditing,

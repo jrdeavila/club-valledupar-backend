@@ -2,12 +2,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { Head } from "@inertiajs/react";
 import { DashboardCardItem } from "./components/DashboardCardItem";
-import { dashboardItems } from "./Models/DashboardItem";
+import { dashboardItems, xor } from "./Models/DashboardItem";
 
 export default function Dashboard({ auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
+            roles={auth.roles}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
                     Dashboard
@@ -19,6 +20,9 @@ export default function Dashboard({ auth }) {
             <div className="py-12">
                 <div className="flex flex-wrap row-container gap-5 justify-center">
                     {dashboardItems
+                        .filter((e) =>
+                            e.roles?.some((role) => auth.roles.includes(role))
+                        )
                         .filter((e) => !e.onlyNav)
                         .map((card, index) => (
                             <div

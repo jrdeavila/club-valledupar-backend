@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function DocumentRequest({ auth: { user }, documents }) {
+export default function DocumentRequest({ auth: { user, roles }, documents }) {
     const [filter, setFilter] = useState("name");
     const [search, setSearch] = useState("");
 
@@ -44,7 +44,7 @@ export default function DocumentRequest({ auth: { user }, documents }) {
         );
     };
     return (
-        <Authenticated user={user}>
+        <Authenticated user={user} roles={roles}>
             <Head title="Solicitudes de documentos" />
             <div className="mx-10 bg-white rounded-md">
                 <div className="p-5">
