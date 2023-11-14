@@ -1,15 +1,17 @@
+import AppDialog from "@/Components/AppDialog";
+import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
 import TextArea from "@/Components/TextArea";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import AppDialog from "@/Components/AppDialog";
-import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function FormCarta({ onClose, carta }) {
     const { data, setData, post, put, processing, errors } = useForm({
         nombre: carta?.nombre || "",
         descripcion: carta?.descripcion || "",
+        is_accompaniment: carta?.is_accompaniment || false,
+        accompanying: carta?.accompanying || false,
     });
 
     const handleSubmit = (e) => {
@@ -56,6 +58,35 @@ export default function FormCarta({ onClose, carta }) {
                         onChange={(e) => setData("descripcion", e.target.value)}
                     />
                     <InputError message={errors.descripcion} className="mt-2" />
+                </div>
+                <div className="mt-4">
+                    <div className="flex flex-row gap-x-3 items-center">
+                        <Checkbox
+                            className="h-5 w-5"
+                            value={data.is_accompaniment}
+                            onChange={(e) =>
+                                setData("is_accompaniment", e.target.checked)
+                            }
+                        />
+                        <p className="text-white font-bold text-xl">
+                            ¿Es Acompañamiento?
+                        </p>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <div className="flex flex-row gap-x-3 items-center">
+                        <Checkbox
+                            className="h-5 w-5"
+                            value={data.accompanying}
+                            onChange={(e) =>
+                                setData("accompanying", e.target.checked)
+                            }
+                        />
+                        <p className="text-white font-bold text-xl">
+                            ¿Es un menu que incluye acompañamiento?
+                        </p>
+                    </div>
                 </div>
 
                 <div className="mt-10 flex flex-row justify-end">

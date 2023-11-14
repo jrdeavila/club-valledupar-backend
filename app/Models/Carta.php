@@ -15,6 +15,8 @@ class Carta extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
+        'is_accompaniment',
+        'accompanying'
     ];
 
     public $timestamps = false;
