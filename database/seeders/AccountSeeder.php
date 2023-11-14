@@ -17,6 +17,7 @@ class AccountSeeder extends Seeder
     {
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'socio']);
+        Role::create(['name' => 'chef']);
 
 
 
@@ -36,6 +37,24 @@ class AccountSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        $chef = User::create([
+            'name' => 'Jose Ricardo De Avila',
+            'phone' => '5898575',
+            'number_phone' => '300 000 0000',
+            'address' => 'Calle 1 # 1 - 1',
+            'gender' => 'M',
+            'state' => 'A',
+            'state_partner' => 'A',
+            'action' => '0000',
+            'email' => 'chef@example.com',
+            'password' => bcrypt('@JOseRIcardo1003'),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+        ]);
+
+
+
         $user->assignRole('admin');
+        $chef->assignRole('chef');
     }
 }

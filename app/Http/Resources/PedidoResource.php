@@ -28,6 +28,7 @@ class PedidoResource extends JsonResource
             'estado' => $this->estado,
             'tipo' => $this->tipo,
             'fecha_creacion' => $this->created_at,
+            'fecha_actualizacion' => $this->updated_at,
         ];
     }
 }

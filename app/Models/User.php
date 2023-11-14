@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasRole('socio');
     }
 
+    public function getIsChefAttribute()
+    {
+        return $this->hasRole('chef');
+    }
+
 
     public function reservations()
     {

@@ -41,9 +41,16 @@ export const dashboardItems = [
     },
     {
         title: "Pedidos",
-        desc: "Administra los pedidos de los clientes",
+        desc: "Administra los pedidos de los socios",
         image: "/img/pedidos.jpg",
         onlyNav: false,
         route: "pedidos.index",
+    },
+    {
+        title: "Comanda",
+        desc: "Visualiza en tiempo real los pedidos de los socios",
+        image: "/img/comanda.webp",
+        onlyNav: false,
+        route: "chef.orders.index",
     },
 ];

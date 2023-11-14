@@ -33,6 +33,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if (pathinfo($file, PATHINFO_EXTENSION) === "php") {
             include($dir . "/" . $file);
         }
+        // If is a directory
+        if (is_dir($dir . "/" . $file) && $file != "." && $file != "..") {
+            $dirname = $file;
+            Route::prefix($dirname)->group(function () use ($dir, $file) {
+                $subdir = scandir($dir . "/" . $file);
+                foreach ($subdir as $subfile) {
+                    if (pathinfo($subfile, PATHINFO_EXTENSION) === "php") {
+                        include($dir . "/" . $file . "/" . $subfile);
+                    }
+                }
+            });
+        }
     }
 });
 Route::get('/dashboard', function () {
