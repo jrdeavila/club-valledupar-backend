@@ -13,8 +13,10 @@ class DocumentTypeSeeder extends Seeder
     public function run(): void
     {
         $documentTypes = [
-            'Estado de Cuenta',
-            'Certificación de Socio',
+            'Ficha de canje',
+            'Inscripcion a futbol',
+            'Inscripcion a natacion',
+            'Inscripcion a tenis',
         ];
 
         foreach ($documentTypes as $documentType) {

@@ -22,6 +22,7 @@ class DocumentRequestController extends Controller
         $documentRequest = $user->documentRequests()->create([
             'document_request_type_id' => $request->document_request_type_id,
         ]);
+        $documentRequest->status = 'pending';
 
         return new DocumentRequestResource($documentRequest);
     }

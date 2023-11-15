@@ -224,7 +224,7 @@ const statusBeatifulStyle = {
         ),
     },
     approved: {
-        label: "Aprovado",
+        label: "Aprobado",
         icon: (
             <div className="h-7 w-8 rounded-full bg-green-300 flex items-center justify-center">
                 <FontAwesomeIcon icon={faCheck} />
