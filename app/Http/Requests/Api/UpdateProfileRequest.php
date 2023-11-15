@@ -59,5 +59,6 @@ class UpdateProfileRequest extends FormRequest
         $user->address = $this->address;
         $user->first_access = false;
         $user->save();
+        return $user;
     }
 }

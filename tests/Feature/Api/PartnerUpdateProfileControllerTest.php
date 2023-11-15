@@ -19,16 +19,29 @@ class PartnerUpdateProfileControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($role);
 
-        $response = $this->actingAs($user, 'api')->json('PUT', route('api.profile.update'), [
+        $data =  [
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
-        ]);
+        ];
+
+        $response = $this->actingAs($user, 'api')->json('PUT', route('api.profile.update'), $data);
 
         $response->assertStatus(200);
         $response->assertJson([
-            'message' => 'Perfil actualizado correctamente',
+            'data' => [
+                'id' => $user->id,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'address' =>  $data['address'],
+                'first_login' => false,
+                'state' => $user->state,
+                'number_phone' => $user->number_phone,
+                'state' => $user->state,
+                'state_partner' => $user->state_partner,
+            ]
         ]);
     }
 
