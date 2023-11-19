@@ -25,7 +25,7 @@ export const statusMapLabel = (status) => {
             ),
         },
         enviado: {
-            label: "Enviado",
+            label: "Entregado a mecero",
             icon: (
                 <div className="h-7 w-8 rounded-full bg-blue-300 flex items-center justify-center">
                     <FontAwesomeIcon icon={faLocationArrow} />
@@ -41,7 +41,7 @@ export const statusMapLabel = (status) => {
             ),
         },
         entregado: {
-            label: "Entregado",
+            label: "Entregado a mecero",
             icon: (
                 <div className="h-7 w-8 rounded-full bg-green-300 flex items-center justify-center">
                     <FontAwesomeIcon icon={faCheck} />

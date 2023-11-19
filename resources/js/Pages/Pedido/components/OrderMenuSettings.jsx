@@ -18,20 +18,16 @@ export default function OrderMenuSettings({ order }) {
             onClick: () => handleActionByState("ver"),
         },
         {
-            label: "Enviar a comanda",
+            label: "Comandar Pedido",
             icon: <FontAwesomeIcon icon={faUtensils} />,
             onClick: () => handleActionByState("comandado"),
         },
         {
-            label: "Enviar pedido",
+            label: "Entregar a mecero",
             icon: <FontAwesomeIcon icon={faLocationArrow} />,
-            onClick: () => handleActionByState("enviado"),
-        },
-        {
-            label: "Pedido entregado",
-            icon: <FontAwesomeIcon icon={faCheck} />,
             onClick: () => handleActionByState("entregado"),
         },
+
         {
             label: "Pedido cancelado",
             icon: <FontAwesomeIcon icon={faTrash} />,

@@ -1,4 +1,5 @@
 import moment from "moment";
+import "moment/locale/es";
 
 export const FormatHiAtoHHmm = (value) => {
     if (value === null || value === undefined) return undefined;
@@ -7,7 +8,6 @@ export const FormatHiAtoHHmm = (value) => {
 
 export const FormatTimeAgo = (value) => {
     if (value === null || value === undefined) return undefined;
-    // en español
     moment.locale("es");
     return moment(value).fromNow();
 };

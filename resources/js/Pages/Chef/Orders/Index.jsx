@@ -137,9 +137,7 @@ const OrderItem = ({ order, selected }) => {
         },
     }[order.estado];
     // -------------------------------------------------
-    const handleSendToTable = () => {
-        router.put(route("chef.orders.sendToTable", order.id));
-    };
+
     const handleFinishOrder = () => {
         router.put(route("chef.orders.finishOrder", order.id));
     };
@@ -184,17 +182,13 @@ const OrderItem = ({ order, selected }) => {
                     </div>
                     <div className="absolute bottom-2 right-2">
                         <div
-                            onClick={
-                                order.estado === "comandado"
-                                    ? handleSendToTable
-                                    : handleFinishOrder
-                            }
+                            onClick={handleFinishOrder}
                             className={`${color.button} px-3 py-1 rounded-lg cursor-pointer hover:scale-105 transform transition-transform duration-300`}
                         >
                             <p className={`${color.text} uppercase font-bold`}>
                                 {order.estado === "comandado"
-                                    ? "Enviar a mesa"
-                                    : "Finalizar pedido"}
+                                    ? "Entregar a mecero"
+                                    : "Pedido entregado"}
                             </p>
                         </div>
                     </div>
