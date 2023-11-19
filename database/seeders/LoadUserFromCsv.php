@@ -29,6 +29,8 @@ class LoadUserFromCsv extends Seeder
             'Estado',
             'Estadosocio',
             'Celular',
+            'Parentesco',
+            'Idcliente'
         ];
 
         // Get the index of the allowed headers
@@ -97,6 +99,8 @@ class LoadUserFromCsv extends Seeder
             'Estadosocio' => 'state_partner',
             'Email' => 'email',
             'Celular' => 'number_phone',
+            'Parentesco' => 'relationship',
+            'Idcliente' => 'dni'
         ];
 
         $newRow = [];

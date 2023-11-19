@@ -11,7 +11,6 @@ import { useState } from "react";
 export default function Partner({ auth: { user, roles }, partners }) {
     const { data, current_page, first_page_url, last_page_url, links } =
         partners;
-
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("name");
 
@@ -92,7 +91,7 @@ export default function Partner({ auth: { user, roles }, partners }) {
                                     Telefono Movil
                                 </th>
                                 <th className="border-2 border-white p-4 text-white text-xl text-start">
-                                    Genero
+                                    Parentesco
                                 </th>
                                 <th className="border-2 border-white p-4 text-white text-xl text-start">
                                     Acciones
@@ -122,7 +121,7 @@ export default function Partner({ auth: { user, roles }, partners }) {
                                         {partner.number_phone}
                                     </td>
                                     <td className="py-2">
-                                        {genderBeatifulStyle(partner.gender)}
+                                        {partner.relationship}
                                     </td>
 
                                     <td className="py-2">
