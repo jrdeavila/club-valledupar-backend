@@ -38,8 +38,8 @@ export const dashboardItems = [
         roles: ["admin"],
     },
     {
-        title: "Insumos",
-        desc: "Administra los insumos que se utilizan en el club",
+        title: "Areas",
+        desc: "Administra las areas que se utilizan en el club",
         image: "/img/horarios.jpeg",
         onlyNav: false,
         route: "insumos.index",
