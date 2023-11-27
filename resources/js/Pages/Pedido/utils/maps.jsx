@@ -48,6 +48,14 @@ export const statusMapLabel = (status) => {
                 </div>
             ),
         },
+        cancelado: {
+            label: "Cancelado",
+            icon: (
+                <div className="h-7 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+                    <FontAwesomeIcon icon={faCheck} />
+                </div>
+            ),
+        },
     }[status];
 };
 

@@ -187,7 +187,9 @@ const OrderItem = ({ order, selected }) => {
                         >
                             <p className={`${color.text} uppercase font-bold`}>
                                 {order.estado === "comandado"
-                                    ? "Entregar a mecero"
+                                    ? order.tipo === "domicilio"
+                                        ? "Entregar a domiciliario"
+                                        : "Entregar a mesero"
                                     : "Pedido entregado"}
                             </p>
                         </div>
