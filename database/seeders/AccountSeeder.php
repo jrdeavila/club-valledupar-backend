@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class AccountSeeder extends Seeder
@@ -16,45 +18,25 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         Role::create(['name' => 'admin']);
-        Role::create(['name' => 'socio']);
+        Role::create(['name' => 'socio', 'guard_name' => 'web']);
         Role::create(['name' => 'chef']);
+        Role::create(['name' => 'mesero']);
+        Role::create(['name' => 'recepcionista']);
 
 
 
 
-        $user = User::create([
-            'name' => 'Jose Ricardo De Avila',
-            'phone' => '5898575',
-            'number_phone' => '300 000 0000',
-            'address' => 'Calle 1 # 1 - 1',
-            'gender' => 'M',
-            'state' => 'A',
-            'state_partner' => 'A',
-            'action' => '0000',
-            'email' => 'jose.deavila1003@gmail.com',
-            'password' => bcrypt('@JOseRIcardo1003'),
-            'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
-        ]);
 
-        $chef = User::create([
-            'name' => 'Jose Ricardo De Avila',
-            'phone' => '5898575',
-            'number_phone' => '300 000 0000',
-            'address' => 'Calle 1 # 1 - 1',
-            'gender' => 'M',
-            'state' => 'A',
-            'state_partner' => 'A',
-            'action' => '0000',
-            'email' => 'chef@example.com',
-            'password' => bcrypt('@JOseRIcardo1003'),
-            'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
+        $employee = Employee::create([
+            'name' => 'Super Admin',
+            'email' => 'super@admin.com',
+            'phone' => '1234567890',
+            'dni' => '1234567890',
+            'address' => 'Cra A # 20B - 42, Valledupar',
+            'password' => bcrypt('password'),
         ]);
 
 
-
-        $user->assignRole('admin');
-        $chef->assignRole('chef');
+        $employee->assignRole('admin');
     }
 }

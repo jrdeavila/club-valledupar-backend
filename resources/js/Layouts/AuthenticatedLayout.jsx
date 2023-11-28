@@ -1,7 +1,7 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
-import { dashboardItems, xor } from "@/Pages/Dashboard/Models/DashboardItem";
+import { dashboardItems } from "@/Pages/Dashboard/Models/DashboardItem";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ErrorLayout from "./ErrorLayout";

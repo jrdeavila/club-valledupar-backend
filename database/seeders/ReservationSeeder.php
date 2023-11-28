@@ -4,11 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\InsumeArea;
 use App\Models\Reservation;
-use App\Models\TypeReservation;
 use App\Models\User;
-use Carbon\Carbon;
 use DateTime;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReservationSeeder extends Seeder

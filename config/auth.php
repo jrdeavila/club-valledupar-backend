@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'web-employees',
+        'passwords' => 'employees',
     ],
 
     /*
@@ -39,6 +39,10 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'web-employees' => [
+            'driver' => 'session',
+            'provider' => 'employees',
         ],
         'api' => [
             'driver' => 'sanctum',
@@ -68,6 +72,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
+        ]
 
 
 
@@ -103,6 +112,11 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'employees' => [
+            'provider' => 'employees',
+            'expire' => 60,
+            'throttle' => 60,
+        ]
     ],
 
     /*

@@ -51,7 +51,7 @@ export const dashboardItems = [
         image: "/img/pedidos.jpg",
         onlyNav: false,
         route: "pedidos.index",
-        roles: ["admin"],
+        roles: ["admin", "mesero"],
     },
     {
         title: "Comanda",
@@ -60,6 +60,14 @@ export const dashboardItems = [
         onlyNav: false,
         route: "chef.orders.index",
         roles: ["chef"],
+    },
+    {
+        title: "Personal de trabajo",
+        desc: "Administra el personal de trabajo del club",
+        image: "/img/personal.jpg",
+        onlyNav: false,
+        route: "personal.index",
+        roles: ["admin"],
     },
 ];
 

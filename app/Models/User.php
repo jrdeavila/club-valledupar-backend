@@ -52,20 +52,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getIsAdminAttribute()
-    {
-        return $this->hasRole('admin');
-    }
-
     public function getIsPartnerAttribute()
     {
         return $this->hasRole('socio');
     }
 
-    public function getIsChefAttribute()
-    {
-        return $this->hasRole('chef');
-    }
+
 
 
     public function reservations()
