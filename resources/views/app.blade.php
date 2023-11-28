@@ -12,14 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
 
-    <!-- Scripts -->
-    @routes
-    @viteReactRefresh
-    @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-    @inertiaHead
-
-    {{-- <link rel="stylesheet" href="/build/assets/app-e0c830d8.css"> --}}
-    {{-- <script type="module" src="/build/assets/app-e54d1953.js"></script> --}}
+@routes
+    <link rel="stylesheet" href="/build/assets/app-ce950ba4.css">
+    <script type="module" src="/build/assets/app-a8aaf93f.js"></script> 
 </head>
 
 <body class="font-sans antialiased">
