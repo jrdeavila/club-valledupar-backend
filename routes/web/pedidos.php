@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('pedidos')->group(function () {
+Route::middleware(['can:manage orders'])->prefix('pedidos')->group(function () {
     Route::resource('.', App\Http\Controllers\PedidoController::class)->names('pedidos')
         ->parameter('', 'pedido')
         ->except(['edit', 'update', 'destroy', 'create', 'store']);

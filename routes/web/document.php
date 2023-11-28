@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('solicitudes-de-documentos')->group(function () {
+Route::middleware([
+    'can:manage documents',
+])->prefix('solicitudes-de-documentos')->group(function () {
     Route::resource('.', App\Http\Controllers\DocumentRequestController::class)->names('document-request')
         ->parameter('', 'document')->only(['index']);
 

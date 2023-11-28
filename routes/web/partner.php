@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('socios')->group(function () {
+Route::middleware([
+    'can:manage partners',
+])->prefix('socios')->group(function () {
     Route::resource('.', App\Http\Controllers\PartnerController::class)->names('partner')
         ->parameter('', 'partner')
         ->only(['index']);

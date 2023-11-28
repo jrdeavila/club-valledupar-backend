@@ -1,8 +1,11 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import {
+    faLock,
     faLongArrowAltLeft,
     faLongArrowAltRight,
     faPlus,
+    faTrash,
+    faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
 import { Head, router, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
@@ -38,13 +41,6 @@ export default function Index({ auth, personal, roles }) {
                         Informacion sobre los empleados
                     </div>
                     <div className="flex-grow"></div>
-
-                    <PrimaryButton>
-                        <div className="flex flex-row gap-x-3 items-center bg-gray-300 px-5 py-3 rounded-md ">
-                            <FontAwesomeIcon icon={faPlus} />
-                            <p>Nuevo Empleado</p>
-                        </div>
-                    </PrimaryButton>
                 </div>
                 <table className="table table-auto w-full">
                     <thead className="bg-gray-300">
@@ -85,26 +81,49 @@ export default function Index({ auth, personal, roles }) {
                                     <div className="flex flex-row gap-x-3 justify-center">
                                         <ActionButton
                                             label={
-                                                employee.activate
+                                                employee.active
                                                     ? "Desactivar"
                                                     : "Activar"
                                             }
                                             color={
-                                                employee.activate
+                                                employee.active
                                                     ? "bg-red-300"
                                                     : "bg-green-300"
                                             }
+                                            icon={
+                                                <FontAwesomeIcon
+                                                    icon={
+                                                        employee.active
+                                                            ? faLock
+                                                            : faUnlock
+                                                    }
+                                                />
+                                            }
                                             onClick={() => {
-                                                router.delete(
+                                                router.put(
                                                     route("personal.toggle", {
                                                         employee: employee.id,
-                                                    })
+                                                    }),
+                                                    {
+                                                        onSuccess: () => {
+                                                            router.get(
+                                                                route(
+                                                                    "personal.index"
+                                                                )
+                                                            );
+                                                        },
+                                                    }
                                                 );
                                             }}
                                         />
                                         <ActionButton
                                             label="Eliminar"
                                             color="bg-gray-300"
+                                            icon={
+                                                <FontAwesomeIcon
+                                                    icon={faTrash}
+                                                />
+                                            }
                                             onClick={() => {
                                                 router.delete(
                                                     route("personal.destroy", {
@@ -254,7 +273,9 @@ const EmployeeForm = ({ roles }) => {
                             )} - ${value.slice(6, 10)}`;
                         }}
                         value={data.phone}
-                        onChange={(e) => setData("phone", e.target.value)}
+                        onValueChange={(value) =>
+                            setData("phone", value.formattedValue)
+                        }
                     />
 
                     <InputError message={errors.name} className="mt-2" />
@@ -297,7 +318,7 @@ const EmployeeForm = ({ roles }) => {
                             )} ${value.slice(7, 10)}`;
                         }}
                         placeholder="1000 123 123"
-                        onChange={(e) => setData("dni", e.target.value)}
+                        onValueChange={(e) => setData("dni", e.value)}
                     />
                     <InputError message={errors.dni} className="mt-2" />
                 </div>

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/reservations')->group(function () {
+Route::middleware([
+    'can:manage reservations',
+])->prefix('/reservations')->group(function () {
     Route::apiResource('/{user}', App\Http\Controllers\Api\ReservationController::class)
         ->only(['index', 'store']);
 

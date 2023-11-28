@@ -33,7 +33,7 @@ class ManagePersonalController extends Controller
         $employee->active = !$employee->active;
         $employee->save();
 
-        return to_route('personal.index');
+        return redirect()->back();
     }
 
     public function store(CreateEmployeeRequest $request)
@@ -47,13 +47,12 @@ class ManagePersonalController extends Controller
         $employee->assignRole($request->role);
 
 
-        return to_route('personal.index');
+        return redirect()->back();
     }
 
     public function destroy(Employee $employee)
     {
         $employee->delete();
-
-        return to_route('personal.index');
+        return redirect()->back();
     }
 }
