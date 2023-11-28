@@ -34,7 +34,7 @@ class LoginRequest extends FormRequest
 
     public function authenticate()
     {
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::guard('web')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -102,13 +102,13 @@ class LoginRequest extends FormRequest
             if ($validator->errors()->has('email')) {
                 return;
             }
-            if (auth()->attempt(['email' => $this->email, 'password' => $this->password]) === false) {
+            if (auth('web')->attempt(['email' => $this->email, 'password' => $this->password]) === false) {
                 $validator->errors()->add('password', 'La contraseña es incorrecta');
                 return;
             }
 
             // Check if user is partner
-            if (!auth()->user()->isPartner) {
+            if (!auth('web')->user()->isPartner) {
                 $validator->errors()->add('email', 'Debe ser un socio para iniciar sesión en esta aplicación');
                 return;
             }

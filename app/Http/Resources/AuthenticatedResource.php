@@ -15,7 +15,7 @@ class AuthenticatedResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $currentToken = $request->user()->createToken('authToken')->plainTextToken;
+        $currentToken = auth('web')->user()->createToken('authToken')->plainTextToken;
 
 
         return [
