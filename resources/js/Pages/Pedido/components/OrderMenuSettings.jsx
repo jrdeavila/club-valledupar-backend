@@ -23,7 +23,7 @@ export default function OrderMenuSettings({ order }) {
             onClick: () => handleActionByState("comandado"),
         },
         {
-            label: "Entregar a mecero",
+            label: "Entregar a mesero",
             icon: <FontAwesomeIcon icon={faLocationArrow} />,
             onClick: () => handleActionByState("entregado"),
         },
