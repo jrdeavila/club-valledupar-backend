@@ -22,6 +22,12 @@ class AccountSeeder extends Seeder
         $chef =  Role::create(['name' => 'chef']);
         $mesero = Role::create(['name' => 'mesero']);
         $recepsionista = Role::create(['name' => 'recepcionista']);
+        $domi = Role::create(['name' => 'domiciliario']);
+        $eventos = Role::create(['name' => 'eventos']);
+        $atencion = Role::create(['name' => 'atencion']);
+        $callcenter = Role::create(['name' => 'callcenter']);
+        $barman = Role::create(['name' => 'barman']);
+
 
         // ------------------- Permissions -------------------
 
@@ -52,74 +58,54 @@ class AccountSeeder extends Seeder
 
         // ------------------- Assign permissions -------------------
 
-        // -------------- Assign permissions to mesero --------------
 
         $mesero->givePermissionTo([
             'manage orders',
         ]);
 
-        // -------------- Assign permissions to chef --------------
 
         $chef->givePermissionTo([
             'manage orders',
         ]);
 
-        // -------------- Assign permissions to recepcionista --------------
 
         $recepsionista->givePermissionTo([
-            'manage orders',
             'manage reservations',
-            'manage documents',
-            'manage partners',
         ]);
 
+        $domi->givePermissionTo([
+            'manage orders',
+        ]);
 
-        // ------------------- Create employees -------------------
+        $atencion->givePermissionTo([
+            'manage partners',
+            'manage documents',
+        ]);
 
+        $eventos->givePermissionTo([
+            'manage reservations',
+            'manage orders',
+        ]);
+
+        $callcenter->givePermissionTo([
+            'manage orders',
+        ]);
+
+        $barman->givePermissionTo([
+            'manage orders',
+        ]);
+
+        // --------------------- Admin ---------------------
 
         $admin = Employee::create([
-            'name' => 'Super Admin',
-            'email' => 'super@admin.com',
-            'phone' => '1234567890',
-            'dni' => '1234567890',
-            'address' => 'Cra A # 20B - 42, Valledupar',
+            'name' => 'admin',
+            'email' => 'super-admin@gmail.com',
+            'phone' => '123456789',
+            'address' => 'Calle 123',
+            'dni' => '123456789',
             'password' => bcrypt('password'),
         ]);
-
 
         $admin->assignRole('admin');
-
-        $mesero = Employee::create([
-            'name' => 'Mesero',
-            'email' => 'mesero@gmail.com',
-            'phone' => '1234567890',
-            'dni' => '1234567890',
-            'address' => 'Cra A # 20B - 42, Valledupar',
-            'password' => bcrypt('password'),
-        ]);
-
-        $mesero->assignRole('mesero');
-
-        $chef = Employee::create([
-            'name' => 'Chef',
-            'email' => 'chef@gmail.com',
-            'phone' => '1234567890',
-            'dni' => '1234567890',
-            'address' => 'Cra A # 20B - 42, Valledupar',
-            'password' => bcrypt('password'),
-        ]);
-
-        $chef->assignRole('chef');
-
-        $recepcionista = Employee::create([
-            'name' => 'Recepcionista',
-            'email' => 'recepsionista@gmail.com',
-            'phone' => '1234567890',
-            'dni' => '1234567890',
-            'address' => 'Cra A # 20B - 42, Valledupar',
-            'password' => bcrypt('password'),
-        ]);
-
-        $recepcionista->assignRole('recepcionista');
     }
 }

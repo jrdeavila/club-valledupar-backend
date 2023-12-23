@@ -11,7 +11,7 @@ export const dashboardItems = [
         image: "/img/socios.jpg",
         onlyNav: false,
         route: "partner.index",
-        roles: ["admin", "recepcionista"],
+        roles: ["admin", "recepcionista", "atencion"],
     },
     {
         title: "Solicitudes",
@@ -19,7 +19,7 @@ export const dashboardItems = [
         image: "/img/documentos.jpg",
         onlyNav: false,
         route: "document-request.index",
-        roles: ["admin", "recepcionista"],
+        roles: ["admin", "atencion"],
     },
     {
         title: "Cartas",
@@ -27,7 +27,7 @@ export const dashboardItems = [
         image: "/img/cartas.webp",
         onlyNav: false,
         route: "cartas.index",
-        roles: ["admin", "recepionista"],
+        roles: ["admin", "chef"],
     },
     {
         title: "Reservaciones",
@@ -35,7 +35,7 @@ export const dashboardItems = [
         image: "/img/reservaciones.jpg",
         onlyNav: false,
         route: "reservaciones.index",
-        roles: ["admin", "recepcionista"],
+        roles: ["admin", "recepcionista", "eventos"],
     },
     {
         title: "Areas",
@@ -43,7 +43,7 @@ export const dashboardItems = [
         image: "/img/horarios.jpeg",
         onlyNav: false,
         route: "insumos.index",
-        roles: ["admin", "recepcionista"],
+        roles: ["admin", "eventos"],
     },
     {
         title: "Pedidos",
@@ -51,7 +51,7 @@ export const dashboardItems = [
         image: "/img/pedidos.jpg",
         onlyNav: false,
         route: "pedidos.index",
-        roles: ["admin", "mesero", "recepcionista"],
+        roles: ["admin", "mesero", "domiciliario", "chef", "callcenter"],
     },
     {
         title: "Comanda",
@@ -59,7 +59,7 @@ export const dashboardItems = [
         image: "/img/comanda.webp",
         onlyNav: false,
         route: "chef.orders.index",
-        roles: ["chef"],
+        roles: ["chef", "barman"],
     },
     {
         title: "Personal de trabajo",

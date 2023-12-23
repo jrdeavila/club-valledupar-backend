@@ -12,10 +12,9 @@ class ManagePersonalController extends Controller
 {
     public function index()
     {
-        $personal = Employee::role([
-            'chef',
-            'mesero',
-            'recepcionista',
+        // All Roles except admin
+        $personal = Employee::whereNotIn('id', [
+            auth()->id(),
         ])->with('roles')->paginate(10);
         $roles = Role::whereNotIn('guard_name', [
             'web',

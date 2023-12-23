@@ -12,9 +12,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
 
-@routes
-    <link rel="stylesheet" href="/build/assets/app-ce950ba4.css">
-    <script type="module" src="/build/assets/app-a8aaf93f.js"></script> 
+    @routes
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx', 'resources/css/app.css'])
+    {{-- <link rel="stylesheet" href="/build/assets/app-ce950ba4.css"> --}}
+    {{-- <script type="module" src="/build/assets/app-a8aaf93f.js"></link>  --}}
 </head>
 
 <body class="font-sans antialiased">

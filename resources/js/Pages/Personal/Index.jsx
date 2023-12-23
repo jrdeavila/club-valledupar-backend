@@ -378,4 +378,9 @@ const roleMapBeautifulLabel = (role) =>
         mesero: "Mesero",
         recepcionista: "Recepsionista",
         chef: "Chef",
+        domiciliario: "Domiciliario",
+        atencion: "Atencion a socios",
+        eventos: "Gestion de eventos",
+        callcenter: "Call Center",
+        barman: "Bar Man",
     }[role]);
