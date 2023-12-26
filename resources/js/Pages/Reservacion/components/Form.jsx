@@ -14,7 +14,6 @@ export const FormReservacion = ({ users, types = [], start, end }) => {
         start_date: start,
         end_date: end,
         insume_area_id: 0,
-        is_ever: false,
         is_all_day: false,
         observations: "",
         user_id: 0,
@@ -122,22 +121,6 @@ export const FormReservacion = ({ users, types = [], start, end }) => {
                         <InputError message={errors.observations} />
                     </div>
 
-                    <div className="mb-5">
-                        <div className="flex gap-x-3 items-center">
-                            <TextInput
-                                type="checkbox"
-                                className="w-6 text-transparent"
-                                checked={data.is_ever}
-                                onChange={(e) =>
-                                    setData("is_ever", e.target.checked)
-                                }
-                            />
-                            <div className="text-white font-bold text-xl">
-                                Repetir todos los dias
-                            </div>
-                        </div>
-                        <InputError message={errors.is_ever} />
-                    </div>
                     <div className="mb-5">
                         <div className="flex gap-x-3 items-center">
                             <TextInput

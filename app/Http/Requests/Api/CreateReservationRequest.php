@@ -28,7 +28,6 @@ class CreateReservationRequest extends FormRequest
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'insume_area_id' => 'required|exists:insume_areas,id',
-            'is_ever' => 'required|boolean',
             'is_all_day' => 'required|boolean',
             'observations' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
@@ -55,9 +54,7 @@ class CreateReservationRequest extends FormRequest
                 $validator->errors()->add('start_date', 'La fecha de reservacion debe ser mayor a la fecha actual');
             }
 
-            Reservation::where(function ($query) {
-                $query->where('is_ever', true);
-            })->where(function ($query) use ($start_date, $end_date) {
+            Reservation::where(function ($query) use ($start_date, $end_date) {
                 $query->whereBetween('start_date', [$start_date, $end_date])
                     ->orWhereBetween('end_date', [$start_date, $end_date]);
             })->get()->each(function ($reservation) use ($validator) {
@@ -82,8 +79,6 @@ class CreateReservationRequest extends FormRequest
             'end_date.after' => 'La fecha de fin debe ser mayor a la fecha de inicio',
             'insume_area_id.required' => 'El insumo es requerido',
             'insume_area_id.exists' => 'El insumo no existe',
-            'is_ever.required' => 'El tipo de reserva es requerido',
-            'is_ever.boolean' => 'El tipo de reserva debe ser un booleano',
             "is_all_day.required" => "El tipo de reserva es requerido",
             "is_all_day.boolean" => "El tipo de reserva debe ser un booleano",
             "observations.required" => "Las observaciones son requeridas",

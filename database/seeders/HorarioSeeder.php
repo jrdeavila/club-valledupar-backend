@@ -14,20 +14,8 @@ class HorarioSeeder extends Seeder
     public function run(): void
     {
         Horario::create([
-            'fecha_apertura' => '08:00',
-            'fecha_cierre' => '14:00',
-            'lunes' => true,
-            'martes' => true,
-            'miercoles' => true,
-            'jueves' => true,
-            'viernes' => true,
-            'sabado' => false,
-            'domingo' => false,
-        ]);
-
-        Horario::create([
-            'fecha_apertura' => '18:00',
-            'fecha_cierre' => '23:00',
+            'fecha_apertura' => '00:00',
+            'fecha_cierre' => '24:00',
             'lunes' => true,
             'martes' => true,
             'miercoles' => true,

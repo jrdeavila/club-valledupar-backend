@@ -38,9 +38,52 @@ class InsumeAreaSeeder extends Seeder
             'color' => '#ffff00',
         ]);
 
+
         InsumeArea::create([
-            'name' => 'Billar',
-            'desc' => 'Puede ser cualquier tipo de insumo para el billar',
+            'name' => 'Salon Cayenas',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon cayenas',
+            'color' => '#ff00ff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Trinitaria',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#00ffff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Canaguate',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#ff00ff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Fundadores',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#00ffff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Confidencias',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#ff00ff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Sierra Nevada',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#00ffff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Orquideas',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
+            'color' => '#ff00ff',
+        ]);
+
+        InsumeArea::create([
+            'name' => 'Salon Grill',
+            'desc' => 'Puede ser cualquier tipo de insumo para el salon orquideas',
             'color' => '#00ffff',
         ]);
 

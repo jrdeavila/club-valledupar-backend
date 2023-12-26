@@ -2,7 +2,6 @@ import AppDialog from "@/Components/AppDialog";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { TextCapitalize } from "@/Utils/TextCapitalize";
 import { Head, router } from "@inertiajs/react";
-import moment from "moment";
 import "moment/locale/es.js";
 import { useEffect, useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -46,7 +45,6 @@ export default function Reservaciones({
                 title: reservacion.user,
                 start: beginDate.toDate(),
                 end: endDate.toDate(),
-                allDay: reservacion.is_all_day,
             };
         });
     };
@@ -73,7 +71,7 @@ export default function Reservaciones({
                                 <CalendarTabItem
                                     key={i}
                                     name={e.name}
-                                    select={e.id === getTypeId()}
+                                    select={e.id == getTypeId()}
                                     count={e.reservations_pending}
                                     onClick={() => handleOnSelectType(e)}
                                 />
@@ -135,8 +133,12 @@ const CalendarTabItem = ({ name, select = true, count, ...props }) => {
         <div
             {...props}
             className={`${
-                select ? "bg-opacity-100" : "text-white  bg-opacity-25"
-            } flex flex-row gap-x-3 items-center justify-center px-3 py-2  backdrop  backdrop-blur-lg  bg-white rounded-lg font-bold text-2xl w-64 hover:scale-110 transform transition duration-300 cursor-pointer text-center`}
+                select
+                    ? "bg-blue-300 text-white"
+                    : count > 0
+                    ? "bg-white text-red-500"
+                    : "bg-white"
+            } flex flex-row gap-x-3 items-center justify-center px-3 py-2 rounded-lg font-bold text-xl w-64 hover:scale-110 transform transition duration-300 cursor-pointer text-center`}
         >
             <div className="flex gap-x-3 justify-center items-center">
                 <div>{TextCapitalize(name)}</div>

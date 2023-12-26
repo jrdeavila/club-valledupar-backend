@@ -8,7 +8,6 @@ import styled from "styled-components";
 const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
     let localizer = momentLocalizer(moment);
     const [view, setView] = useState("week");
-
     const dayStyleGetter = (slot) => {
         let isBlocked =
             !checkIfInsideScheduleDays(slot) ||
@@ -21,6 +20,8 @@ const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
             },
         };
     };
+
+    // -------------------------- Helpers --------------------------
 
     const checkIfInsideScheduleDays = (slot) => {
         if (schedules.length === 0) return false;
@@ -68,6 +69,9 @@ const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
 
         return isAllowedHour;
     };
+
+    // -------------------------- Handlers --------------------------
+
     const handleOnSelectDate = (slot) => {
         let data = [
             moment(slot.start).add(1, "minute"),
@@ -86,6 +90,8 @@ const CustomCalendar = ({ events = [], schedules = [], onSelectSlot }) => {
             alert("Rango no permitido, verifique las fechas");
         }
     };
+
+    // ----------------------------- Render -----------------------------
     return (
         <StyledCalendar
             localizer={localizer}

@@ -31,7 +31,6 @@ class CreateReservacionRequest extends FormRequest
             'start_date' => 'required|date|after:now',
             'end_date' => 'required|date|after:start_date',
             'insume_area_id' => 'required|exists:insume_areas,id',
-            'is_ever' => 'required|boolean',
             'is_all_day' => 'required|boolean',
             'observations' => 'nullable|string',
             'user_id' => 'required|exists:users,id',
@@ -53,9 +52,6 @@ class CreateReservacionRequest extends FormRequest
                 $validator->errors()->add('end_date', 'La hora de fin debe ser mayor a la hora de inicio');
             }
 
-            if ($data['is_ever'] && $data['is_all_day']) {
-                $validator->errors()->add('is_all_day', 'No puede ser todo el dia si es para siempre');
-            }
 
             // Reservaciones para el mismo dia
             $reservations = Reservation::where('insume_area_id', $data['insume_area_id'])

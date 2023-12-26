@@ -20,7 +20,7 @@ class ReservacionResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'color' => $this->insumeArea->color,
-            'user' => $this->user->firstname . ' ' . $this->user->lastname,
+            'user' => $this->user->name,
             'observations' => $this->observations->map(function ($observation) {
                 return $observation->observation;
             }),

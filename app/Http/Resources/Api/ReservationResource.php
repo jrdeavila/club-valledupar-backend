@@ -19,7 +19,6 @@ class ReservationResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'insume_area' => $this->insumeArea,
-            'is_ever' => $this->is_ever,
             "is_all_day" => $this->is_all_day,
             'observations' => $this->observations()->first()->observation,
             'user' => new UserResource($this->user),

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->boolean('is_ever');
             $table->boolean('is_all_day');
             $table->foreignId('insume_area_id')->constrained('insume_areas')
                 ->onUpdate('cascade')
